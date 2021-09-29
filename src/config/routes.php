@@ -5,5 +5,4 @@ return [
         'path' => '/',
         'handler' => 'Nofw\Controllers\BasicController::index',
     ],
-
 ];

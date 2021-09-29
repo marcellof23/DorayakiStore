@@ -16,31 +16,4 @@ class UserController extends AbstractController
         $this->model = $model;
         $this->view = $view;
     }
-
-    public function register(ServerRequestInterface $request, array $args): ResponseInterface
-    {
-        $success = null;
-        if ($request->getMethod() == 'POST') {
-            $success = $this->model->register(
-                $request->getParsedBody()['name'],
-                $request->getParsedBody()['email'],
-                $request->getParsedBody()['password']
-            );
-        }
-        return $this->page('register', ['success' => $success]);
-    }
-
-    public function login(ServerRequestInterface $request, array $args): ResponseInterface
-    {
-        $success = null;
-        if ($request->getMethod() == 'POST') {
-            $email = $request->getParsedBody()['email'];
-            $password = $request->getParsedBody()['password'];
-            $success = $this->model->verifyLogin($email, $password);
-            JWTHelper::setTokenCookie($this->config->getApiKey(), [], $email);
-        }
-        return $this->page('login', ['success' => $success]);
-
-    }
-
 }
