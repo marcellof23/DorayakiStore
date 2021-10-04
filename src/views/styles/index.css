@@ -1,0 +1,140 @@
+:root {
+	--white: #ffffff;
+	--white-secondary : #ececec;
+  --black: #3d3d3d;
+	--gray: #8A8F9C;
+	--primary : #e98438;
+	--red : #FF4E3A;
+	--green : #3aff65; 
+
+	--padding-small : 10px;
+	--padding-med : 20px;
+	--padding-large : 50px;
+	--padding-xlarge : 100px;
+
+	--border-radius-large : 48px;
+	--border-radius-med : 16px;
+	--border-radius-small : 12px;
+	--border-radius-circle : 50%;
+
+	--line_height : 133%;
+	--responsive_line_height : 120%;
+
+	--h1_size : 76px;
+	--h2_size : 56px;
+	--h3_size : 44px;
+	--h4_size : 32px;
+	--h5_size : 24px;
+	--p_size : 18px;
+	--small_size : 14px;
+
+	--responsive_h1_size : 34px;
+	--responsive_h2_size : 29px;
+	--responsive_h3_size : 24px;
+	--responsive_h4_size : 20px;
+	--responsive_h5_size : 16px;
+	--responsive_p_size : 14px;
+	--responsive_small_size : 11px;
+
+	--h1_weight : 800;
+	--h2_weight : 800;
+	--h3_weight : 600;
+	--h4_weight : 600;
+	--h5_weight : 500;
+	--p_weight : 400;
+	--small_weight : 200;
+
+	--family_primary : "Poppins";
+	--family_secondary : "Nunito Sans";
+}
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400');
+
+*{
+  margin : 0;
+  padding : 0;
+  box-sizing: border-box;
+  font-family: Montserrat;
+  color : var(--black);
+}
+
+img{
+  width: 100%;
+	height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+a{
+  text-decoration: none;
+}
+
+p{
+	margin-bottom: 0;
+}
+
+h1,h2,h3,h4,h5,h6,p,small{
+	line-height: var(--line_height);
+}
+
+h1{
+	font-size: var(--h1_size);
+	font-weight: var(--h1_weight);
+	font-family: var(--family_primary);
+}
+
+h2{
+	font-size: var(--h2_size);
+	font-weight: var(--h2_weight);
+	font-family: var(--family_primary);
+}
+
+h3{
+	font-size: var(--h3_size);
+	font-weight: var(--h3_weight);
+	font-family: var(--family_primary);
+}
+
+h4{
+	font-size: var(--h4_size);
+	font-weight: var(--h4_weight);
+	font-family: var(--family_primary);
+}
+
+h5{
+	font-size: var(--h5_size);
+	font-weight: var(--h5_weight);
+	font-family: var(--family_primary);
+}
+
+p{
+	font-size: var(--p_size);
+	font-weight: var(--p_weight);
+	font-family: var(--family_primary);
+}
+
+small{
+	font-size: var(--small_size);
+	font-weight: var(--small_weight);
+	font-family: var(--family_primary);
+}
+
+input{
+  padding : var(--padding-small);
+  border-radius: var(--border-radius-small);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height : 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+}
