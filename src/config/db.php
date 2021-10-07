@@ -3,7 +3,7 @@ class MyDB extends SQLite3
 {
     public function __construct()
     {
-        $this->open('test.db');
+        $this->open('db/data.db');
     }
 }
 $db = new MyDB();
