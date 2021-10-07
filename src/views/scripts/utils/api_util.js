@@ -54,10 +54,11 @@ const buildQuery = (object = {}, fields = [], page = 0) => {
 };
 
 const redirect = (url, duration = 0) => {
+	url = url[0] === "/" ? constructURL(url) : url;
 	setTimeout(() => {
 		window.location.href = url;
 	}, duration);
-};
+};;
 
 const openTab = (url) => {
 	window.open(url, "_newtab");

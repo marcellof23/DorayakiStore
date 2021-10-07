@@ -10,51 +10,67 @@ class AXOIS {
 		return `${this.baseUrl}${route}`;
 	}
 
+	obj_to_formdata(obj = {}) {
+		const data = new FormData();
+		for (const [key, value] of Object.entries(obj)) {
+			data.append(key, value);
+		}
+		return data;
+	}
+
+	compose_request(url, method, data) {
+		return new Promise(function (resolve, reject) {
+			const req = new XMLHttpRequest();
+			req.open(method, url);
+
+			req.onload = function () {
+				if (req.status >= 200 && req.status < 300) {
+					resolve(req.response);
+				} else {
+					reject({status: req.status, statusText: req.statusText});
+				}
+			};
+
+			req.onerror = function () {
+				reject({
+					status: req.status,
+					statusText: req.statusText,
+				});
+			};
+
+			if (method !== "GET") {
+				req.send(data);
+			} else {
+				req.send();
+			}
+		});
+	}
+
 	async get(route) {
 		const url = this.set_url(route);
-		return await $.ajax({
-			type: "GET",
-			url,
-		});
+		return await this.compose_request(url, "GET");
 	}
 
-	async post(route, body) {
+	async post(route, payload) {
 		const url = this.set_url(route);
-		return await $.ajax({
-			type: "POST",
-			url,
-			data: body,
-		});
+		const data = this.obj_to_formdata(payload);
+		return await this.compose_request(url, "POST", data);
 	}
 
-	async put(route, body) {
+	async put(route, payload) {
 		const url = this.set_url(route);
-		return await $.ajax({
-			type: "PUT",
-			url,
-			data: body,
-		});
+		const data = this.obj_to_formdata(payload);
+		return await this.compose_request(url, "PUT", data);
 	}
 
-	async delete(route, body) {
+	async delete(route, payload) {
 		const url = this.set_url(route);
-		return await $.ajax({
-			type: "DELETE",
-			url,
-			data: body,
-		});
+		const data = this.obj_to_formdata(payload);
+		return await this.compose_request(url, "DELETE", data);
 	}
 }
 
 const axois = new AXOIS();
-
-// usage example
-
-// GET
-// const res = await axois.get("todos/1");
-
-// POST
-// const res = await axois.post("posts",{title : "food", body : "bambang", userId : 1});
 
 // WORKING EXAMPLE DOWN HERE
 

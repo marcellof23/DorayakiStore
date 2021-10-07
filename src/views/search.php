@@ -18,6 +18,6 @@
 	<h1>HAI PEGE!!!!!!</h1>
 </body>
 <script>
-
+	generateNavbar();
 </script>
 </html>

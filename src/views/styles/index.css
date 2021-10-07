@@ -1,11 +1,12 @@
 :root {
-	--white: #ffffff;
-	--white-secondary : #ececec;
-  --black: #3d3d3d;
-	--gray: #8A8F9C;
-	--primary : #e98438;
-	--red : #FF4E3A;
-	--green : #3aff65; 
+	--white: #F3F4F3;
+	--white-secondary : #EAEAEA;
+  --black: #12130F;
+	--black-secondary: #555555;
+	--primary : #546B5C;
+	--secondary : #92AC97;
+
+	--breakpoint : 768px;
 
 	--padding-small : 10px;
 	--padding-med : 20px;
