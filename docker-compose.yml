@@ -2,8 +2,8 @@ version: "3.1"
 services:
   yoshiyaki:
     container_name: yoshiyaki
-    depends_on:
-      - sqlite
+    # depends_on:
+    #   - sqlite
     build:
       context: .
       dockerfile: Dockerfile
