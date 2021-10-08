@@ -1,0 +1,7 @@
+#home, #search, #history{
+	padding : var(--padding-med) var(--padding-large);
+}
+
+#history .history-container > * {
+	margin-bottom : var(--padding-small);
+}

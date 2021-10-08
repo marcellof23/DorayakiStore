@@ -1,0 +1,27 @@
+.history-card{
+	width : 100%;
+	height : 15vh;
+	overflow: hidden;
+	display: grid;
+	background-color: var(--white-secondary);
+	padding : var(--padding-small);
+	border-radius: var(--border-radius-small);
+	grid-template-columns: 10vh 1fr;
+	gap : var(--padding-small);
+}
+
+.history-img{
+	border-radius: var(--border-radius-small);
+}
+
+.history-time{
+	color : var(--primary);
+}
+
+.history-title, .history-amount{
+	color : var(--secondary);
+}
+
+.history-amount{
+	font-family: var(--family_secondary);
+}

@@ -18,7 +18,7 @@
 	--border-radius-small : 12px;
 	--border-radius-circle : 50%;
 
-	--line_height : 133%;
+	--line_height : 125%;
 	--responsive_line_height : 120%;
 
 	--h1_size : 76px;
@@ -29,13 +29,13 @@
 	--p_size : 18px;
 	--small_size : 14px;
 
-	--responsive_h1_size : 34px;
-	--responsive_h2_size : 29px;
-	--responsive_h3_size : 24px;
-	--responsive_h4_size : 20px;
-	--responsive_h5_size : 16px;
-	--responsive_p_size : 14px;
-	--responsive_small_size : 11px;
+	--mobile_h1_size : 36px;
+	--mobile_h2_size : 30px;
+	--mobile_h3_size : 23px;
+	--mobile_h4_size : 18px;
+	--mobile_h5_size : 15px;
+	--mobile_p_size : 12px;
+	--mobile_small_size : 8px;
 
 	--h1_weight : 800;
 	--h2_weight : 800;
@@ -43,7 +43,7 @@
 	--h4_weight : 600;
 	--h5_weight : 500;
 	--p_weight : 400;
-	--small_weight : 200;
+	--small_weight : 400;
 
 	--family_primary : "Poppins";
 	--family_secondary : "Nunito Sans";
@@ -81,50 +81,79 @@ h1,h2,h3,h4,h5,h6,p,small{
 }
 
 h1{
-	font-size: var(--h1_size);
+	font-size: var(--mobile_h1_size);
 	font-weight: var(--h1_weight);
 	font-family: var(--family_primary);
 }
 
 h2{
-	font-size: var(--h2_size);
+	font-size: var(--mobile_h2_size);
 	font-weight: var(--h2_weight);
 	font-family: var(--family_primary);
 }
 
 h3{
-	font-size: var(--h3_size);
+	font-size: var(--mobile_h3_size);
 	font-weight: var(--h3_weight);
 	font-family: var(--family_primary);
 }
 
 h4{
-	font-size: var(--h4_size);
+	font-size: var(--mobile_h4_size);
 	font-weight: var(--h4_weight);
 	font-family: var(--family_primary);
 }
 
 h5{
-	font-size: var(--h5_size);
+	font-size: var(--mobile_h5_size);
 	font-weight: var(--h5_weight);
 	font-family: var(--family_primary);
 }
 
 p{
-	font-size: var(--p_size);
+	font-size: var(--mobile_p_size);
 	font-weight: var(--p_weight);
 	font-family: var(--family_primary);
 }
 
 small{
-	font-size: var(--small_size);
+	font-size: var(--mobile_small_size);
 	font-weight: var(--small_weight);
 	font-family: var(--family_primary);
+}
+
+@media only screen and (min-width: 768px){
+	h1{
+		font-size: var(--h1_size);
+	}
+	h2{
+		font-size: var(--h2_size);
+	}
+	h3{
+		font-size: var(--h3_size);
+	}
+	h4{
+		font-size: var(--h4_size);
+	}
+	h5{
+		font-size: var(--h5_size);
+	}
+	h6{
+		font-size: var(--h6_size);
+	}
+	p{
+		font-size: var(--p_size);
+	}
+	small{
+		font-size: var(--small_size);
+	}	
 }
 
 input{
   padding : var(--padding-small);
   border-radius: var(--border-radius-small);
+	border : none;
+	background-color: var(--white-secondary);
 }
 
 ::-webkit-scrollbar {
