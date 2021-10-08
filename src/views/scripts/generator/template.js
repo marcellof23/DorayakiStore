@@ -14,7 +14,6 @@ function generateHeader(user) {
 }
 
 function generateNavbar() {
-	const target = document.getElementById("nav");
 	const navigation = [
 		{path: "/search", icon: "search"},
 		{path: "/home", icon: "home"},
@@ -34,5 +33,9 @@ function generateNavbar() {
 		</div>`;
 	});
 
-	target.innerHTML = `<nav class="navigation">${Navs}</nav>`;
+	return `<nav class="navigation">${Navs.join("")}</nav>`;
+}
+
+function pageTitle(title) {
+	return `<h2 class="page-title">${title}</h2>`;
 }
