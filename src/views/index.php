@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div id="nav"></div>
-	<h1>HAI PEGE!!!!!!</h1>
+	<h1>HAI PEGES!!!!!!</h1>
 </body>
 <script>
 
