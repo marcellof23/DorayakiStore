@@ -1,15 +1,21 @@
 <?php
+
+include "../config/db.php";
+
 class DorayakiModel
 {
+    private $table = 'Dorayakis';
     private $db;
 
-    public function __construct(SQLite3 $db) {
-        $this->db = $db;
+    public function __construct()
+    {
+        $this->db = new Database();
     }
 
-    public static function create_database(SQLite3 $db): void {
+    public static function createDorayakiDatabase(SQLite3 $db): void
+    {
         $db->exec("
-            CREATE TABLE IF NOT EXISTS Dorayakis(
+            CREATE TABLE IF NOT EXISTS $table (
                 dorayaki_id INTEGER PRIMARY KEY,
                 name TEXT,
                 description TEXT,
@@ -19,5 +25,4 @@ class DorayakiModel
             )
         ");
     }
-
 }

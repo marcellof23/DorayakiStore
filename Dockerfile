@@ -8,7 +8,7 @@ RUN a2enmod rewrite && service apache2 restart
 
 COPY src/ /var/www/html/
 
-RUN chmod -R o+x config
+RUN chmod -R 777 config
 
 EXPOSE 80
 

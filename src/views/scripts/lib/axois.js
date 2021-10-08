@@ -1,73 +1,73 @@
 const DEFAULT_URL = "https://jsonplaceholder.typicode.com/";
 
 class AXOIS {
-	constructor(baseUrl = DEFAULT_URL) {
-		this.baseUrl = baseUrl;
-	}
+  constructor(baseUrl = DEFAULT_URL) {
+    this.baseUrl = baseUrl;
+  }
 
-	set_url(route) {
-		if (route[0] === "/") route = route.substring(1);
-		return `${this.baseUrl}${route}`;
-	}
+  set_url(route) {
+    if (route[0] === "/") route = route.substring(1);
+    return `${this.baseUrl}${route}`;
+  }
 
-	obj_to_formdata(obj = {}) {
-		const data = new FormData();
-		for (const [key, value] of Object.entries(obj)) {
-			data.append(key, value);
-		}
-		return data;
-	}
+  obj_to_formdata(obj = {}) {
+    const data = new FormData();
+    for (const [key, value] of Object.entries(obj)) {
+      data.append(key, value);
+    }
+    return data;
+  }
 
-	compose_request(url, method, data) {
-		return new Promise(function (resolve, reject) {
-			const req = new XMLHttpRequest();
-			req.open(method, url);
+  compose_request(url, method, data) {
+    return new Promise(function (resolve, reject) {
+      const req = new XMLHttpRequest();
+      req.open(method, url);
 
-			req.onload = function () {
-				if (req.status >= 200 && req.status < 300) {
-					resolve(req.response);
-				} else {
-					reject({status: req.status, statusText: req.statusText});
-				}
-			};
+      req.onload = function () {
+        if (req.status >= 200 && req.status < 300) {
+          resolve(req.response);
+        } else {
+          reject({ status: req.status, statusText: req.statusText });
+        }
+      };
 
-			req.onerror = function () {
-				reject({
-					status: req.status,
-					statusText: req.statusText,
-				});
-			};
+      req.onerror = function () {
+        reject({
+          status: req.status,
+          statusText: req.statusText,
+        });
+      };
 
-			if (method !== "GET") {
-				req.send(data);
-			} else {
-				req.send();
-			}
-		});
-	}
+      if (method !== "GET") {
+        req.send(data);
+      } else {
+        req.send();
+      }
+    });
+  }
 
-	async get(route) {
-		const url = this.set_url(route);
-		return await this.compose_request(url, "GET");
-	}
+  async get(route) {
+    const url = this.set_url(route);
+    return await this.compose_request(url, "GET");
+  }
 
-	async post(route, payload) {
-		const url = this.set_url(route);
-		const data = this.obj_to_formdata(payload);
-		return await this.compose_request(url, "POST", data);
-	}
+  async post(route, payload) {
+    const url = this.set_url(route);
+    const data = this.obj_to_formdata(payload);
+    return await this.compose_request(url, "POST", data);
+  }
 
-	async put(route, payload) {
-		const url = this.set_url(route);
-		const data = this.obj_to_formdata(payload);
-		return await this.compose_request(url, "PUT", data);
-	}
+  async put(route, payload) {
+    const url = this.set_url(route);
+    const data = this.obj_to_formdata(payload);
+    return await this.compose_request(url, "PUT", data);
+  }
 
-	async delete(route, payload) {
-		const url = this.set_url(route);
-		const data = this.obj_to_formdata(payload);
-		return await this.compose_request(url, "DELETE", data);
-	}
+  async delete(route, payload) {
+    const url = this.set_url(route);
+    const data = this.obj_to_formdata(payload);
+    return await this.compose_request(url, "DELETE", data);
+  }
 }
 
 const axois = new AXOIS();
