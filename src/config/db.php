@@ -1,31 +1,18 @@
 <?php
-class MyDB extends SQLite3
-{
-    public function __construct()
-    {
-        $this->open('db/data.db');
-    }
-}
-$db = new MyDB();
-if (!$db) {
-    echo $db->lastErrorMsg();
-} else {
-    echo "Opened database successfully\n";
-}
 
-$sql = <<<EOF
-CREATE TABLE COMPANY
-(ID INT PRIMARY KEY     NOT NULL,
-NAME           TEXT    NOT NULL,
-AGE            INT     NOT NULL,
-ADDRESS        CHAR(50),
-SALARY         REAL);
-EOF;
+// error_log("asem");
+echo "halo";
 
-$ret = $db->exec($sql);
-if (!$ret) {
-    echo $db->lastErrorMsg();
-} else {
-    echo "Table created successfully\n";
-}
-$db->close();
+$db = new SQLite3('test.db');
+
+$db->exec("CREATE TABLE cars(id INTEGER PRIMARY KEY, name TEXT, price INT)");
+$db->exec("INSERT INTO cars(name, price) VALUES('Audi', 52642)");
+$db->exec("INSERT INTO cars(name, price) VALUES('Mercedes', 57127)");
+$db->exec("INSERT INTO cars(name, price) VALUES('Skoda', 9000)");
+$db->exec("INSERT INTO cars(name, price) VALUES('Volvo', 29000)");
+$db->exec("INSERT INTO cars(name, price) VALUES('Bentley', 350000)");
+$db->exec("INSERT INTO cars(name, price) VALUES('Citroen', 21000)");
+$db->exec("INSERT INTO cars(name, price) VALUES('Hummer', 41400)");
+$db->exec("INSERT INTO cars(name, price) VALUES('Volkswagen', 21600)");
+
+echo "halos";
