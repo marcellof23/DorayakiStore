@@ -1,6 +1,8 @@
 RewriteEngine on 
 
 RewriteBase /
+RewriteCond %{REQUEST_URI} !^/config
+RewriteCond %{REQUEST_URI} !^/controllers
 RewriteCond %{REQUEST_URI} !^/views
 RewriteCond %{REQUEST_URI} !^/public
 RewriteRule ^(.*)$ /views/$1 [NC,L]
