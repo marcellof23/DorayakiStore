@@ -4,14 +4,23 @@ class OrderModel
     public static $table = 'Orders';
     private $db;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = new Database();
+        $this->db = $db;
     }
 
     public function getAllOrders()
     {
         $this->db->query('SELECT * FROM ' . OrderModel::$table);
+        return $this->db->resultSet();
+    }
+
+    public function getOrders($page)
+    {
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $this->db->query('SELECT * FROM ' . OrderModel::$table . "LIMIT " . $limit . " OFFSET " . $offset);
         return $this->db->resultSet();
     }
 

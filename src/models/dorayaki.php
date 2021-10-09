@@ -7,14 +7,23 @@ class DorayakiModel
     public static $table = 'Dorayakis';
     private $db;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = new Database();
+        $this->db = $db;
     }
 
     public function getAllDoriyakis()
     {
         $this->db->query('SELECT * FROM ' . DorayakiModel::$table);
+        return $this->db->resultSet();
+    }
+
+    public function getDoriyakis($page)
+    {
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table . "LIMIT " . $limit . " OFFSET " . $offset);
         return $this->db->resultSet();
     }
 

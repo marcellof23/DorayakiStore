@@ -4,9 +4,9 @@ class UserModel
     public static $table = 'Users';
     private $db;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = new Database();
+        $this->db = $db;
     }
 
     public function getAllUsers()
@@ -15,10 +15,33 @@ class UserModel
         return $this->db->resultSet();
     }
 
+    public function getUsers($page)
+    {
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $this->db->query('SELECT * FROM ' . UserModel::$table . "LIMIT " . $limit . " OFFSET " . $offset);
+        return $this->db->resultSet();
+    }
+
     public function getUserById($id)
     {
         $this->db->query('SELECT * FROM ' . UserModel::$table . ' WHERE user_id = :user_id');
         $this->db->bind(':user_id', $id);
+        return $this->db->single();
+    }
+
+    public function getUserByEmail($email)
+    {
+        $this->db->query('SELECT * FROM ' . UserModel::$table . ' WHERE email = :email');
+        $this->db->bind(':email', $$email);
+        return $this->db->single();
+    }
+
+    public function getUserByUsername($username)
+    {
+        $this->db->query('SELECT * FROM ' . UserModel::$table . ' WHERE username = :username');
+        $this->db->bind(':username', $username);
         return $this->db->single();
     }
 
