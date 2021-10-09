@@ -1,10 +1,7 @@
 <?php
-
-use Carbon\Carbon;
-
 class OrderModel
 {
-    private $table = 'Orders';
+    public static $table = 'Orders';
     private $db;
 
     public function __construct()
@@ -14,29 +11,31 @@ class OrderModel
 
     public function getAllOrders()
     {
-        $this->db->query('SELECT * FROM ' . $this->table);
+        $this->db->query('SELECT * FROM ' . OrderModel::$table);
         return $this->db->resultSet();
     }
 
     public function getOrderById($id)
     {
-        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE order_id=:id');
-        $this->db->bind('order_id', $id);
+        $this->db->query('SELECT * FROM ' . OrderModel::$table . ' WHERE order_id = :order_id');
+        $this->db->bind(':order_id', $id);
         return $this->db->single();
     }
 
     public function createOrder($data)
     {
-        $query = "INSERT INTO $table
-                    VALUES
-                  ('', '', '', :amount, :createdAt, :thumbnail)";
+        $query = "INSERT INTO " . OrderModel:: $table . " VALUES
+                  (NULL, :user_id, :doriyaki_id, :amount, :createdAt, :thumbnail)";
 
-        $currentTime = Carbon::now();
+        $dt = new DateTime();
 
         $this->db->query($query);
-        $this->db->bind('amount', $data['amount']);
-        $this->db->bind('createdAt', $currentTime);
-        $this->db->bind('thumbnail', $data['thumbnail']);
+
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':doriyaki_id', $data['doriyaki_id']);
+        $this->db->bind(':amount', $data['amount']);
+        $this->db->bind(':createdAt', $dt->format('Y-m-d H:i:s'));
+        $this->db->bind(':thumbnail', $data['thumbnail']);
 
         $this->db->execute();
 
@@ -45,10 +44,11 @@ class OrderModel
 
     public function deleteOrder($id)
     {
-        $query = "DELETE FROM  $table WHERE order_id = :id";
+        $query = "DELETE FROM " . OrderModel::$table . " WHERE order_id = :order_id";
 
         $this->db->query($query);
-        $this->db->bind('order_id', $id);
+
+        $this->db->bind(':order_id', $id);
 
         $this->db->execute();
 
@@ -57,14 +57,16 @@ class OrderModel
 
     public function updateOrder($data)
     {
-        $query = "UPDATE $table SET
+        $query = "UPDATE " . OrderModel::$table . " SET
                     amount = :amount,
-                    thumbnail = :thumbnail,
-                  WHERE order_id = :id";
+                    thumbnail = :thumbnail
+                  WHERE order_id = :order_id";
 
         $this->db->query($query);
-        $this->db->bind('amount', $data['amount']);
-        $this->db->bind('thumbnail', $data['thumbnail']);
+
+        $this->db->bind(':order_id', $data['order_id']);
+        $this->db->bind(':amount', $data['amount']);
+        $this->db->bind(':thumbnail', $data['thumbnail']);
 
         $this->db->execute();
 
@@ -74,7 +76,7 @@ class OrderModel
     public static function createOrderDatabase(SQLite3 $db): void
     {
         $db->exec("
-            CREATE TABLE IF NOT EXISTS $table (
+            CREATE TABLE IF NOT EXISTS " . OrderModel::$table . "(
                 order_id INTEGER NOT NULL,
                 user_id INTEGER NOT NULL,
                 doriyaki_id INTEGER NOT NULL,
