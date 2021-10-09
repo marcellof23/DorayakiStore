@@ -82,7 +82,7 @@ class OrderModel
                 doriyaki_id INTEGER NOT NULL,
                 amount INTEGER,
                 createdAt TEXT,
-                thumbnail TEXT,
+                type TEXT CHECK(type IN ('ADD', 'MIN')),
                 PRIMARY KEY (order_id),
                 FOREIGN KEY (user_id) REFERENCES User(user_id),
                 FOREIGN KEY (doriyaki_id) REFERENCES Doriyaki(doriyaki_id)
