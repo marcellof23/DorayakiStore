@@ -23,13 +23,6 @@ class Database
             
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-
-            $stm = $this->db->query("SELECT * FROM Users");
-            $rows = $stm->fetchAll(PDO::FETCH_NUM);
-
-            foreach ($rows as $row) {
-                echo ("$row[0] $row[1] $row[2] $row[3] $row[4] $row[5]\n");
-            }
         } catch (PDOException $pdo) {
             echo "Database not found!";
         }

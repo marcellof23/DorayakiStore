@@ -47,8 +47,11 @@ class UserModel
 
     public function createUser($data)
     {
-        $query = "INSERT INTO " . UserModel::$table . " VALUES
-                  (NULL, :name, :username, :email, :password, false)";
+        $query = "
+            INSERT INTO " . UserModel::$table . "
+            VALUES
+                (NULL, :name, :username, :email, :password, false)
+        ";
 
         $this->db->query($query);
 
@@ -116,10 +119,10 @@ class UserModel
     {
         $db->exec("
             CREATE TABLE IF NOT EXISTS " . UserModel::$table . "(
-                user_id INTEGER AUTO_INCREMENT PRIMARY KEY,
+                user_id INTEGER PRIMARY KEY,
                 name TEXT,
-                username TEXT,
-                email TEXT,
+                username TEXT NOT NULL UNIQUE,
+                email TEXT NOT NULL UNIQUE,
                 password TEXT,
                 is_admin BOOL
             )

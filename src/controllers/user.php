@@ -23,7 +23,35 @@ class UserController
     public function register() {
         if (isset($_SESSION["login"])) return;
 
-        $this->userModel->createUser($_POST);
+        if (
+            $_POST['name'] == '' ||
+            $_POST['username'] == '' ||
+            $_POST['email'] == '' ||
+            $_POST['password'] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
+
+        $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+        try {
+            $isSuccess = $this->userModel->createUser($_POST);
+            
+            if (isset($isSuccess) && $isSuccess > 0) {
+                //TODO: What to do after register succeed
+            } else {
+                echo 'Register failed';
+            }
+        } catch (PDOException $pdo) {
+            $msg = $pdo->getMessage();
+
+            if (str_contains($msg, 'Integrity constraint violation')) {
+                echo 'Email or username have been used.';
+            } else {
+                echo $msg;
+            }
+        }
     }
 
     // public function tampil()
