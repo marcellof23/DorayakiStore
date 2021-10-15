@@ -24,11 +24,6 @@ class UserController
         return $token;
     }
 
-    public function destructToken($token)
-    {
-
-    }
-
     public function login()
     {
         if (isset($_SESSION["login"])) {
@@ -43,7 +38,7 @@ class UserController
 
         $user = $this->userModel->getUserByUsername($_POST["username"]);
 
-        if (isset($user)) {
+        if ($user) {
             if (password_verify($_POST["password"], $user["password"])) {
                 $token = $this->generateToken();
 
@@ -84,9 +79,16 @@ class UserController
         try {
             $isSuccess = $this->userModel->createUser($_POST);
 
-            if (isset($isSuccess) && $isSuccess > 0) {
-                //TODO: What to do after register succeed
-                // $_SESSION["login"] = true;
+            if ($isSuccess && $isSuccess > 0) {
+                $token = $this->generateToken();
+
+                $_SESSION["login"] = true;
+                $_SESSION["user_id"] = $this->userModel->getUserId()["user_id"];
+                $_SESSION["access_token"] = $token;
+
+                setcookie("access_token", $token, time() + 3600, '/');
+
+                header("Location: ../index.php");
             } else {
                 echo 'Register failed';
             }

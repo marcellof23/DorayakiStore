@@ -45,6 +45,13 @@ class UserModel
         return $this->db->single();
     }
 
+    public function getUserId($username)
+    {
+        $this->db->query('SELECT user_id FROM ' . UserModel::$table . ' WHERE username = :username');
+        $this->db->bind(':username', $username);
+        return $this->db->single();
+    }
+
     public function createUser($data)
     {
         $query = "
