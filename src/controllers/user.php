@@ -103,7 +103,7 @@ class UserController
 
     public function logout()
     {
-        echo $_SESSION["access_token"];
+        //echo $_SESSION["access_token"];
 
         session_unset();
         session_destroy();
@@ -111,8 +111,8 @@ class UserController
         unset($_COOKIE['access_token']);
         setcookie('access_token', null, -1, '/');
 
-        //header('Location: /');
-        echo $_SESSION["access_token"];
+        header('Location: /');
+        // echo $_SESSION["access_token"];
     }
 
 }
