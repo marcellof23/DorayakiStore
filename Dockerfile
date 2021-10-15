@@ -10,6 +10,8 @@ COPY src/ /var/www/html/
 
 RUN chmod -R 777 config
 
+RUN chown -R :www-data /var/www/html/config/db
+
 EXPOSE 80
 
 # CMD ["php", "-S", "localhost:5000"]
