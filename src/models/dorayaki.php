@@ -1,7 +1,4 @@
 <?php
-
-include "../config/db.php";
-
 class DorayakiModel
 {
     public static $table = 'Dorayakis';
