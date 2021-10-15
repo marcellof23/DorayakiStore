@@ -15,12 +15,10 @@
 </head>
 <body>
 	<div id="nav"></div>
-	<form action="api/register" method="post">
-    <input name="name" placeholder="name"></input>
+	<form action="api/login" method="post">
     <input name="username" placeholder="username"></input>
-    <input name="email" type="email" placeholder="email"></input>
     <input name="password" type="password" placeholder="password"></input>
-    <input type="submit" name="Register"></input>
+    <input type="submit" name="Login"></input>
   </form>
 </body>
 <script>

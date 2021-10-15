@@ -16,16 +16,51 @@ class UserController
         session_start();
     }
 
-    public function login() {
-        if (isset($_SESSION["login"])) return;
+    public function generateToken($user) {
 
-        if (isset($_SESSION["username"]) && isset($_SESSION["password"])) {
-            
+    }
+
+    public function destructToken($token) {
+
+    }
+
+    public function login() {
+        if (isset($_SESSION["login"])) {
+            echo 'Already logged in';
+            return;
+        }
+
+        if ($_POST["username"] == '' && $_POST["password"] == '') {
+            echo 'Incomplete data';
+            return;
+        }
+
+        $user = $this->userModel->getUserByUsername($_POST["username"]);
+
+        if (isset($user)) {
+            if (password_verify($_POST["password"], $user["password"])) {
+                //TODO: What to do after login succeed
+                // $_SESSION["login"] = true;
+                // $_SESSION["user_id"] = $user["user_id"];
+
+                // $token = generateToken($user);
+                // $_SESSION["key"] = $token;
+                // setcookie('key', $token);
+
+                echo 'Login successful';
+            } else {
+                echo 'Wrong password';
+            }
+        } else {
+            echo 'User not found';
         }
     }
 
     public function register() {
-        if (isset($_SESSION["login"])) return;
+        if (isset($_SESSION["login"])) {
+            echo 'Already logged in';
+            return;
+        }
 
         if (
             $_POST['name'] == '' ||
@@ -44,6 +79,7 @@ class UserController
             
             if (isset($isSuccess) && $isSuccess > 0) {
                 //TODO: What to do after register succeed
+                // $_SESSION["login"] = true;
             } else {
                 echo 'Register failed';
             }
@@ -56,6 +92,13 @@ class UserController
                 echo $msg;
             }
         }
+    }
+
+    public function logout() {
+        session_unset();
+        session_destroy();
+
+        header('Location: /');
     }
 
     // public function tampil()
