@@ -42,7 +42,7 @@ class Database
 
     public function query($query)
     {
-        $this->query = $this->db->prepare($query);
+        $this->statement = $this->db->prepare($query);
     }
 
     public function bind($param, $value, $type = null)
