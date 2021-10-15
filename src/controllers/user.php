@@ -43,6 +43,8 @@ class UserController
 
         $user = $this->userModel->getUserByUsername($_POST["username"]);
 
+        print($user);
+
         if (isset($user)) {
             if (password_verify($_POST["password"], $user["password"])) {
                 $token = $this->generateToken();
