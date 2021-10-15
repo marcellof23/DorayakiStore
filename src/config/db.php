@@ -4,7 +4,6 @@ class Database
 {
     private static $dbInstance;
     private $db_engine = "sqlite:";
-    private $db_file = "db/dorayaki.db";
     private $db;
     private $statement;
 
@@ -17,19 +16,13 @@ class Database
         return self::$dbInstance;
     }
 
-    public function __construct()
+    public function __construct($dbPath = "db/dorayaki.db")
     {
         try {
-            $this->db = new PDO($this->db_engine . $this->db_file . "");
+            $this->db = new PDO($this->db_engine . $dbPath . "");
+            
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-
-            $stm = $this->db->query("SELECT * FROM Users");
-            $rows = $stm->fetchAll(PDO::FETCH_NUM);
-
-            foreach ($rows as $row) {
-                echo ("$row[0] $row[1] $row[2] $row[3] $row[4] $row[5]\n");
-            }
         } catch (PDOException $pdo) {
             echo "Database not found!";
         }

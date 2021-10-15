@@ -1,5 +1,6 @@
 <?php
 
+include "../config/db.php";
 include "../models/dorayaki.php";
 echo "testing";
 

@@ -1,110 +1,152 @@
 <?php
-
-namespace Controllers;
-
-use Carbon\Carbon;
-
-class Mahasiswa extends Controller
+class UserController
 {
+    private $db;
+    private UserModel $userModel;
 
-    public function __construct()
+    public function __construct($dbPath)
     {
-        parent::__construct();
+        $this->db = new Database($dbPath);
+        $this->userModel = new UserModel($this->db);
+
+        session_start();
     }
 
-    public function tampil()
-    {
+    public function login() {
+        if (isset($_SESSION["login"])) return;
 
-        $stmt = $this->db->prepare("SELECT * FROM tb_mhsw");
-        $stmt->execute();
+        if (isset($_SESSION["username"]) && isset($_SESSION["password"])) {
+            
+        }
+    }
 
-        $data = array();
-        while ($rows = $stmt->fetch()) {
-            $data[] = $rows;
+    public function register() {
+        if (isset($_SESSION["login"])) return;
+
+        if (
+            $_POST['name'] == '' ||
+            $_POST['username'] == '' ||
+            $_POST['email'] == '' ||
+            $_POST['password'] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
         }
 
-        return $data;
+        $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
+        try {
+            $isSuccess = $this->userModel->createUser($_POST);
+            
+            if (isset($isSuccess) && $isSuccess > 0) {
+                //TODO: What to do after register succeed
+            } else {
+                echo 'Register failed';
+            }
+        } catch (PDOException $pdo) {
+            $msg = $pdo->getMessage();
+
+            if (str_contains($msg, 'Integrity constraint violation')) {
+                echo 'Email or username have been used.';
+            } else {
+                echo $msg;
+            }
+        }
     }
 
-    public function input()
-    {
+    // public function tampil()
+    // {
 
-        $mhsw_nim = $_POST['mhsw_nim'];
-        $mhsw_nama = $_POST['mhsw_nama'];
-        $mhsw_alamat = $_POST['mhsw_alamat'];
-        $created_at = Carbon::now();
+    //     $stmt = $this->db->prepare("SELECT * FROM tb_mhsw");
+    //     $stmt->execute();
 
-        $sql = "INSERT INTO tb_mhsw (mhsw_nim, mhsw_nama, mhsw_alamat, created_at)
-				VALUES (:mhsw_nim, :mhsw_nama, :mhsw_alamat,:created_at)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":mhsw_nim", $mhsw_nim);
-        $stmt->bindParam(":mhsw_nama", $mhsw_nama);
-        $stmt->bindParam(":mhsw_alamat", $mhsw_alamat);
-        $stmt->bindParam(":created_at", $created_at);
-        $stmt->execute();
+    //     $data = array();
+    //     while ($rows = $stmt->fetch()) {
+    //         $data[] = $rows;
+    //     }
 
-        return false;
-    }
+    //     return $data;
 
-    public function edit($id)
-    {
+    // }
 
-        $stmt = $this->db->prepare("SELECT * FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
-        $stmt->bindParam(":mhsw_id", $id);
-        $stmt->execute();
+    // public function input()
+    // {
 
-        $row = $stmt->fetch();
+    //     $mhsw_nim = $_POST['mhsw_nim'];
+    //     $mhsw_nama = $_POST['mhsw_nama'];
+    //     $mhsw_alamat = $_POST['mhsw_alamat'];
+    //     $created_at = Carbon::now();
 
-        return $row;
+    //     $sql = "INSERT INTO tb_mhsw (mhsw_nim, mhsw_nama, mhsw_alamat, created_at)
+	// 			VALUES (:mhsw_nim, :mhsw_nama, :mhsw_alamat,:created_at)";
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->bindParam(":mhsw_nim", $mhsw_nim);
+    //     $stmt->bindParam(":mhsw_nama", $mhsw_nama);
+    //     $stmt->bindParam(":mhsw_alamat", $mhsw_alamat);
+    //     $stmt->bindParam(":created_at", $created_at);
+    //     $stmt->execute();
 
-    }
+    //     return false;
+    // }
 
-    public function update()
-    {
-        $mhsw_id = $_POST['mhsw_id'];
-        $mhsw_nim = $_POST['mhsw_nim'];
-        $mhsw_nama = $_POST['mhsw_nama'];
-        $mhsw_alamat = $_POST['mhsw_alamat'];
-        $updated_at = Carbon::now();
+    // public function edit($id)
+    // {
 
-        $sql = "UPDATE tb_mhsw SET mhsw_nim=:mhsw_nim,
-				mhsw_nama=:mhsw_nama,
-				mhsw_alamat=:mhsw_alamat,
-				updated_at=:updated_at
-				WHERE mhsw_id=:mhsw_id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":mhsw_nim", $mhsw_nim);
-        $stmt->bindParam(":mhsw_nama", $mhsw_nama);
-        $stmt->bindParam(":mhsw_alamat", $mhsw_alamat);
-        $stmt->bindParam(":updated_at", $updated_at);
-        $stmt->bindParam(":mhsw_id", $mhsw_id);
-        $stmt->execute();
+    //     $stmt = $this->db->prepare("SELECT * FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
+    //     $stmt->bindParam(":mhsw_id", $id);
+    //     $stmt->execute();
 
-        return false;
-    }
+    //     $row = $stmt->fetch();
 
-    public function detail($id)
-    {
+    //     return $row;
 
-        $stmt = $this->db->prepare("SELECT * FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
-        $stmt->bindParam(":mhsw_id", $id);
-        $stmt->execute();
+    // }
 
-        $row = $stmt->fetch();
+    // public function update()
+    // {
+    //     $mhsw_id = $_POST['mhsw_id'];
+    //     $mhsw_nim = $_POST['mhsw_nim'];
+    //     $mhsw_nama = $_POST['mhsw_nama'];
+    //     $mhsw_alamat = $_POST['mhsw_alamat'];
+    //     $updated_at = Carbon::now();
 
-        return $row;
-    }
+    //     $sql = "UPDATE tb_mhsw SET mhsw_nim=:mhsw_nim,
+	// 			mhsw_nama=:mhsw_nama,
+	// 			mhsw_alamat=:mhsw_alamat,
+	// 			updated_at=:updated_at
+	// 			WHERE mhsw_id=:mhsw_id";
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->bindParam(":mhsw_nim", $mhsw_nim);
+    //     $stmt->bindParam(":mhsw_nama", $mhsw_nama);
+    //     $stmt->bindParam(":mhsw_alamat", $mhsw_alamat);
+    //     $stmt->bindParam(":updated_at", $updated_at);
+    //     $stmt->bindParam(":mhsw_id", $mhsw_id);
+    //     $stmt->execute();
 
-    public function delete()
-    {
+    //     return false;
+    // }
 
-        $id = $_POST['mhsw_id'];
+    // public function detail($id)
+    // {
 
-        $stmt = $this->db->prepare("DELETE FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
-        $stmt->bindParam(":mhsw_id", $id);
-        $stmt->execute();
+    //     $stmt = $this->db->prepare("SELECT * FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
+    //     $stmt->bindParam(":mhsw_id", $id);
+    //     $stmt->execute();
 
-        return false;
-    }
+    //     $row = $stmt->fetch();
+
+    //     return $row;
+    // }
+
+    // public function delete()
+    // {
+
+    //     $id = $_POST['mhsw_id'];
+
+    //     $stmt = $this->db->prepare("DELETE FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
+    //     $stmt->bindParam(":mhsw_id", $id);
+    //     $stmt->execute();
+
+    //     return false;
+    // }
 }
