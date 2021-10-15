@@ -89,8 +89,9 @@ class UserModel
         $query = "UPDATE " . UserModel::$table . " SET
                     name = :name,
                     username = :username,
-                    email = :email,
-                    password = :password
+                    email = :email
+                    " 
+                    . (isset($data["password"]) ? ",password = :password " : "") . "
                   WHERE user_id = :user_id";
 
         $this->db->query($query);
@@ -99,7 +100,10 @@ class UserModel
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':username', $data['username']);
         $this->db->bind(':email', $data['email']);
-        $this->db->bind(':password', $data['password']);
+
+        if (isset($data["password"])) {
+            $this->db->bind(':password', $data['password']);
+        }
 
         $this->db->execute();
 
