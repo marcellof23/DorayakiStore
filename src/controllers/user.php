@@ -1,12 +1,16 @@
 <?php
+
+require_once(ROOT . '/config/db.php');
+require_once(ROOT . '/models/user.php');
+
 class UserController
 {
     private $db;
-    private UserModel $userModel;
+    private $userModel;
 
-    public function __construct($dbPath)
+    public function __construct()
     {
-        $this->db = new Database($dbPath);
+        $this->db = new Database();
         $this->userModel = new UserModel($this->db);
 
         session_start();
