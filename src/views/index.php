@@ -16,6 +16,10 @@
 <body>
 	<div id="nav"></div>
 	<h1>HAI PEGES!!!!!!</h1>
+		<?php
+print_r($_COOKIE);
+echo "\n";
+?>
 </body>
 <script>
 
