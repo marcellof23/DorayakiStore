@@ -51,7 +51,8 @@ function generateNavbarAdmin() {
     }`;
 
     return `<div class="navigation-item" onclick="redirect('${row.path}')">
-			<img src=${icon} class="navigation-icon"/>
+		tes	
+		<img src=${icon} class="navigation-icon"/>
 		</div>`;
   });
 
