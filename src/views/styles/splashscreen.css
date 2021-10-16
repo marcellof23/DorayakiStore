@@ -1,0 +1,99 @@
+#splashscreen{
+	height: 100vh;
+	overflow: hidden;
+	background-color: var(--black);
+}
+
+.background{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top : 0;
+	left : 0;
+	overflow: hidden;
+	filter: opacity(0.4);
+	background-size: cover;
+	background-image: url("/public/bg_mobile.png");
+	animation: breathe 5s ease-in-out infinite;
+	z-index: 1;
+}
+
+.content{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: 2;
+	padding: var(--padding-med);
+}
+
+.text{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding-bottom : var(--padding-xlarge);
+}
+
+.content h1, .content p{
+	color : var(--white);
+	text-align: center;
+}
+
+.content h1{
+	font-family: var(--family_secondary);
+}
+
+.button, .button-ripple-1, .button-ripple-2, .button-ripple-3{
+	width: 20vw;
+	height: 20vw;
+	align-self: center;
+	justify-self: center;
+	position: absolute;
+	bottom : 30vh;
+	left: 50%;
+	transform: translate(-50%,-50%) scale(1);
+	padding: var(--padding-med);
+	border-radius: var(--border-radius-circle);
+	background-color: var(--white);
+	z-index: 3;
+}
+
+.button{
+	z-index: 5;
+	animation: swim_breathe 3s ease-in-out 0s infinite;
+}
+
+.button-ripple-1{
+	animation: ripple_breathe 3s ease-in-out 0s infinite;
+}
+.button-ripple-2{
+	animation: ripple_breathe 3s ease-in-out 2s infinite;
+}
+.button-ripple-3{
+	animation: ripple_breathe 3s ease-in-out 2.5s infinite;
+}
+
+@keyframes breathe{
+	0%{filter : opacity(0.4);}
+	50%{filter : opacity(0.6);}
+	100%{filter : opacity(0.4);}
+}
+
+@keyframes test{
+	0%{transform : scale(1);}
+	100%{transform : scale(2);}
+}
+
+@keyframes ripple_breathe{
+	0%{transform : translate(-50%,-50%) scale(1); filter : opacity(1)}
+	50%{transform : translate(-50%,-55%) scale(1.5); filter : opacity(0.4)}
+	100%{transform : translate(-50%,-50%) scale(2); filter: opacity(0);}
+}
+
+@keyframes swim_breathe {
+	0%{transform : translate(-50%,-50%);}
+	50%{transform : translate(-50%,-55%);}
+	100%{transform : translate(-50%,-50%);}
+}

@@ -1,7 +1,17 @@
 #home, #search, #history{
+	width: 100%;
+	height: fit-content;
 	padding : var(--padding-med) var(--padding-large);
 }
 
 #history .history-container > * {
+	margin-bottom : var(--padding-small);
+}
+
+#search .search-container > *{
+	margin-bottom : var(--padding-small);
+}
+
+#home .home-container > *{
 	margin-bottom : var(--padding-small);
 }

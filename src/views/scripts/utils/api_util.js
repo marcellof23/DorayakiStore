@@ -58,7 +58,7 @@ const redirect = (url, duration = 0) => {
 	setTimeout(() => {
 		window.location.href = url;
 	}, duration);
-};;
+};;;
 
 const openTab = (url) => {
 	window.open(url, "_newtab");
