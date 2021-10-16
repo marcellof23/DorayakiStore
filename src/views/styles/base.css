@@ -1,53 +1,92 @@
-.navigation{
-	width : fit-content;
-	height : fit-content;
+.navigation {
+  width: fit-content;
+  height: fit-content;
 
-	position: absolute;
-	bottom : 10vh;
-	left : 50%;
-	z-index: 1;
-	transform: translateX(-50%);
+  position: absolute;
+  bottom: 10vh;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
 
-	padding : var(--padding-med);
-	background-color : var(--primary);
-	border-radius: var(--border-radius-large);
+  padding: var(--padding-med);
+  background-color: var(--primary);
+  border-radius: var(--border-radius-large);
 
-	display : flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 }
 
-.navigation-item{
-	margin : 0 var(--padding-small);
-	cursor: pointer;
+.navigation-item {
+  margin: 0 var(--padding-small);
+  cursor: pointer;
 }
 
-.navigation-icon{
-	width : 3vh;
-	height : 3vh;
+.navigation-icon {
+  width: 3vh;
+  height: 3vh;
 }
 
-.page-title{
-	color : var(--primary);
-	font-family: var(--family_secondary);
-	text-align: center;
+.page-title {
+  color: var(--primary);
+  font-family: var(--family_secondary);
+  text-align: center;
 }
 
-@media only screen and (min-width: 768px){
-	.navigation{
-		width : 10vw;
-		height : 100vh;
-		top : 0;
-		left : 0;
-		transform: none;
-		border-radius: 0;
-		flex-direction: column;
-	}
+@media only screen and (min-width: 768px) {
+  .navigation {
+    width: 10vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    flex-direction: column;
+  }
 
-	.navigation-icon{
-		margin : var(--padding-small) 0;
-		width : 3vw;
-		height : 3vw;
-	}
+  .navigation-icon {
+    margin: var(--padding-small) 0;
+    width: 3vw;
+    height: 3vw;
+  }
+}
+
+table {
+  font-family: var(--family_secondary);
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table {
+  width: 90%;
+}
+
+td,
+tr {
+  width: 5%;
+}
+
+th {
+  height: 60px;
+  margin-left: 5px;
+  font-family: var(--family_secondary);
+  background-color: var(--primary);
+  text-align: center;
+  color: #f3f4f3;
+  padding-left: 10px;
+}
+
+td {
+  text-align: center;
+  height: 50px;
+  padding-left: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: #daf1da;
+}
+
+.first-row {
+  text-align: left !important;
 }

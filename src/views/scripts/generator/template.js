@@ -51,7 +51,7 @@ function generateNavbarAdmin() {
     }`;
 
     return `<div class="navigation-item" onclick="redirect('${row.path}')">
-		tes	
+			
 		<img src=${icon} class="navigation-icon"/>
 		</div>`;
   });
@@ -61,4 +61,57 @@ function generateNavbarAdmin() {
 
 function pageTitle(title) {
   return `<h2 class="page-title">${title}</h2>`;
+}
+
+function generate_table() {
+  return `
+	<table class="table">
+		<col style="width:10%">
+		<col style="width:18%">
+		<col style="width:18%">
+		<col style="width:30%">
+		<col style="width:12%">
+		<col style="width:12%">
+		<tr>
+			<th class="table-head first-row">No</th>
+			<th class="table-head">Thumbnail</th>
+			<th class="table-head">Nama Dorayaki</th>
+			<th class="table-head">Description</th>
+			<th class="table-head">Price</th>
+			<th class="table-head">Stock</th>
+		</tr>
+		<tr>
+			<td class="table-data first-row">1</td>
+			<td class="table-data">Maria Anders</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+		</tr>
+		<tr>
+			<td class="table-data first-row">2</td>
+			<td class="table-data">Francisco Chang</td>
+			<td class="table-data">Mexico</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+		</tr>
+		<tr>
+			<td class="table-data first-row">3</td>
+			<td class="table-data">Francisco Chang</td>
+			<td class="table-data">Mexico</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+		</tr>
+		<tr>
+			<td class="table-data first-row">4</td>
+			<td class="table-data">Francisco Chang</td>
+			<td class="table-data">Mexico</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+			<td class="table-data">Germany</td>
+		</tr>
+		
+	</table>`;
 }
