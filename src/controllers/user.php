@@ -1,27 +1,72 @@
 <?php
+
+require_once ROOT . '/config/db.php';
+require_once ROOT . '/models/user.php';
+
 class UserController
 {
     private $db;
-    private UserModel $userModel;
+    private $userModel;
 
-    public function __construct($dbPath)
+    public function __construct()
     {
-        $this->db = new Database($dbPath);
+        $this->db = new Database();
         $this->userModel = new UserModel($this->db);
 
+        $lifetime = 3600;
+        session_set_cookie_params($lifetime);
         session_start();
     }
 
-    public function login() {
-        if (isset($_SESSION["login"])) return;
+    public function generateToken()
+    {
+        $token = bin2hex(random_bytes(16));
+        return $token;
+    }
 
-        if (isset($_SESSION["username"]) && isset($_SESSION["password"])) {
-            
+    public function login()
+    {
+        if (!$_POST) return;
+
+        if (isset($_SESSION["login"])) {
+            echo 'Already logged in';
+            return;
+        }
+
+        if ($_POST["username"] == '' && $_POST["password"] == '') {
+            echo 'Incomplete data';
+            return;
+        }
+
+        $user = $this->userModel->getUserByUsername($_POST["username"]);
+
+        if ($user) {
+            if (password_verify($_POST["password"], $user["password"])) {
+                $token = $this->generateToken();
+
+                $_SESSION["login"] = true;
+                $_SESSION["user_id"] = $user["user_id"];
+                $_SESSION["access_token"] = $token;
+
+                setcookie("access_token", $token, time() + 3600, '/');
+
+                header("Location: ../index.php");
+            } else {
+                echo 'Wrong password';
+            }
+        } else {
+            echo 'User not found';
         }
     }
 
-    public function register() {
-        if (isset($_SESSION["login"])) return;
+    public function register()
+    {
+        if (!$_POST) return;
+
+        if (isset($_SESSION["login"])) {
+            echo 'Already logged in';
+            return;
+        }
 
         if (
             $_POST['name'] == '' ||
@@ -37,9 +82,17 @@ class UserController
 
         try {
             $isSuccess = $this->userModel->createUser($_POST);
-            
-            if (isset($isSuccess) && $isSuccess > 0) {
-                //TODO: What to do after register succeed
+
+            if ($isSuccess && $isSuccess > 0) {
+                $token = $this->generateToken();
+
+                $_SESSION["login"] = true;
+                $_SESSION["user_id"] = $this->userModel->getUserId()["user_id"];
+                $_SESSION["access_token"] = $token;
+
+                setcookie("access_token", $token, time() + 3600, '/');
+
+                header("Location: ../index.php");
             } else {
                 echo 'Register failed';
             }
@@ -54,99 +107,143 @@ class UserController
         }
     }
 
-    // public function tampil()
-    // {
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
 
-    //     $stmt = $this->db->prepare("SELECT * FROM tb_mhsw");
-    //     $stmt->execute();
+        unset($_COOKIE['access_token']);
+        setcookie('access_token', null, -1, '/');
 
-    //     $data = array();
-    //     while ($rows = $stmt->fetch()) {
-    //         $data[] = $rows;
-    //     }
+        header('Location: /');
+    }
 
-    //     return $data;
+    public function updateCurrentUser()
+    {
+        if (!$_POST) return;
 
-    // }
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
 
-    // public function input()
-    // {
+        if (
+            $_POST['name'] == '' ||
+            $_POST['username'] == '' ||
+            $_POST['email'] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
 
-    //     $mhsw_nim = $_POST['mhsw_nim'];
-    //     $mhsw_nama = $_POST['mhsw_nama'];
-    //     $mhsw_alamat = $_POST['mhsw_alamat'];
-    //     $created_at = Carbon::now();
+        try {
+            if (isset($_POST["password"])) {
+                $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            }
 
-    //     $sql = "INSERT INTO tb_mhsw (mhsw_nim, mhsw_nama, mhsw_alamat, created_at)
-	// 			VALUES (:mhsw_nim, :mhsw_nama, :mhsw_alamat,:created_at)";
-    //     $stmt = $this->db->prepare($sql);
-    //     $stmt->bindParam(":mhsw_nim", $mhsw_nim);
-    //     $stmt->bindParam(":mhsw_nama", $mhsw_nama);
-    //     $stmt->bindParam(":mhsw_alamat", $mhsw_alamat);
-    //     $stmt->bindParam(":created_at", $created_at);
-    //     $stmt->execute();
+            $_POST["user_id"] = $_SESSION["user_id"];
+            $isSuccess = $this->userModel->updateUser($_POST);
 
-    //     return false;
-    // }
+            if (!$isSuccess) {
+                echo 'User not found';
+                return;
+            }
+            echo 'Updated';
+        } catch (PDOException $pdo) {
+            $msg = $pdo->getMessage();
 
-    // public function edit($id)
-    // {
+            if (str_contains($msg, 'Integrity constraint violation')) {
+                echo 'Email or username have been used.';
+            } else {
+                echo $msg;
+            }
+        }
+    }
 
-    //     $stmt = $this->db->prepare("SELECT * FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
-    //     $stmt->bindParam(":mhsw_id", $id);
-    //     $stmt->execute();
+    //TODO: Testing
+    public function updateUser()
+    {
+        if (!$_POST) return;
 
-    //     $row = $stmt->fetch();
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+        
+        if (
+            $_POST["user_id"] == '' ||
+            $_POST['name'] == '' ||
+            $_POST['username'] == '' ||
+            $_POST['email'] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
 
-    //     return $row;
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
-    // }
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
 
-    // public function update()
-    // {
-    //     $mhsw_id = $_POST['mhsw_id'];
-    //     $mhsw_nim = $_POST['mhsw_nim'];
-    //     $mhsw_nama = $_POST['mhsw_nama'];
-    //     $mhsw_alamat = $_POST['mhsw_alamat'];
-    //     $updated_at = Carbon::now();
+        try {
+            $isSuccess = $this->userModel->updateUser($_POST);
 
-    //     $sql = "UPDATE tb_mhsw SET mhsw_nim=:mhsw_nim,
-	// 			mhsw_nama=:mhsw_nama,
-	// 			mhsw_alamat=:mhsw_alamat,
-	// 			updated_at=:updated_at
-	// 			WHERE mhsw_id=:mhsw_id";
-    //     $stmt = $this->db->prepare($sql);
-    //     $stmt->bindParam(":mhsw_nim", $mhsw_nim);
-    //     $stmt->bindParam(":mhsw_nama", $mhsw_nama);
-    //     $stmt->bindParam(":mhsw_alamat", $mhsw_alamat);
-    //     $stmt->bindParam(":updated_at", $updated_at);
-    //     $stmt->bindParam(":mhsw_id", $mhsw_id);
-    //     $stmt->execute();
+            if (!$isSuccess) {
+                echo 'User not found';
+                return;
+            }
+            echo 'Updated';
+        } catch (PDOException $pdo) {
+            $msg = $pdo->getMessage();
 
-    //     return false;
-    // }
+            if (str_contains($msg, 'Integrity constraint violation')) {
+                echo 'Email or username have been used.';
+            } else {
+                echo $msg;
+            }
+        }
+    }
 
-    // public function detail($id)
-    // {
+    //TODO: Testing
+    public function promoteAdmin()
+    {
+        if (!$_POST) return;
 
-    //     $stmt = $this->db->prepare("SELECT * FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
-    //     $stmt->bindParam(":mhsw_id", $id);
-    //     $stmt->execute();
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+        
+        if (
+            $_POST['is_admin'] == '' ||
+            $_POST['user_id'] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
 
-    //     $row = $stmt->fetch();
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
-    //     return $row;
-    // }
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
 
-    // public function delete()
-    // {
+        $isSuccess = $this->userModel->updateAdmin($_POST);
 
-    //     $id = $_POST['mhsw_id'];
+        if (!$isSuccess) {
+            echo 'Target user not found';
+            return;
+        }
+        echo 'Updated';
+    }
 
-    //     $stmt = $this->db->prepare("DELETE FROM tb_mhsw WHERE mhsw_id=:mhsw_id");
-    //     $stmt->bindParam(":mhsw_id", $id);
-    //     $stmt->execute();
-
-    //     return false;
-    // }
 }

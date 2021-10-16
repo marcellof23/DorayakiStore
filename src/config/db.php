@@ -1,9 +1,9 @@
 <?php
-
 class Database
 {
     private static $dbInstance;
     private $db_engine = "sqlite:";
+    private $db_path = ROOT . '/config/db/dorayaki.db';
     private $db;
     private $statement;
 
@@ -16,10 +16,10 @@ class Database
         return self::$dbInstance;
     }
 
-    public function __construct($dbPath = "db/dorayaki.db")
+    public function __construct()
     {
         try {
-            $this->db = new PDO($this->db_engine . $dbPath . "");
+            $this->db = new PDO($this->db_engine . $this->db_path . "");
             
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);

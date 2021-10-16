@@ -1,13 +1,10 @@
 <?php
 
-  include('../../config/db.php');
-  include('../../models/user.php');
-  include('../../controllers/user.php');
+require_once('../../config/constant.php');
+require_once(ROOT . '/controllers/user.php');
 
-  $dbPath = '../../config/db/dorayaki.db';
+$controller = new UserController();
 
-  $controller = new UserController($dbPath);
-
-  $controller->register();
+$controller->register();
   
 ?>

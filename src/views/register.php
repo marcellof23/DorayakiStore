@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div id="nav"></div>
-	<form action="api/register.php" method="post">
+	<form action="api/register" method="post">
     <input name="name" placeholder="name"></input>
     <input name="username" placeholder="username"></input>
     <input name="email" type="email" placeholder="email"></input>

@@ -15,6 +15,7 @@
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
+<<<<<<< HEAD
 	<div id="splashscreen" onclick='redirect("home")'>
 		<div class="background"></div>
 		<div class="content">
@@ -31,6 +32,14 @@
 			<p>Click Here to Continue</p>
 		</div>
 	</div>
+=======
+	<div id="nav"></div>
+	<h1>HAI PEGES!!!!!!</h1>
+		<?php
+print_r($_COOKIE);
+echo "\n";
+?>
+>>>>>>> d54ea04874f9108f4a4284868621e68a0803d847
 </body>
 <script>
 
