@@ -27,6 +27,7 @@ class UserController
     public function login()
     {
         if (isset($_SESSION["login"])) {
+            header("Location: ../index.php");
             echo 'Already logged in';
             return;
         }
@@ -83,7 +84,7 @@ class UserController
                 $token = $this->generateToken();
 
                 $_SESSION["login"] = true;
-                $_SESSION["user_id"] = $this->userModel->getUserId()["user_id"];
+                $_SESSION["user_id"] = $this->userModel->getUserId($_POST["username"])["user_id"];
                 $_SESSION["access_token"] = $token;
 
                 setcookie("access_token", $token, time() + 3600, '/');
@@ -110,8 +111,11 @@ class UserController
         session_unset();
         session_destroy();
 
-        unset($_COOKIE['access_token']);
-        setcookie('access_token', null, -1, '/');
+        print("OIIII");
+        var_dump($_COOKIE);
+
+        unset($_COOKIE["access_token"]);
+        setcookie("access_token", null, -1, '/');
 
         header('Location: /');
         // echo $_SESSION["access_token"];
