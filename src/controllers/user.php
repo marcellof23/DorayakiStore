@@ -26,6 +26,8 @@ class UserController
 
     public function login()
     {
+        if (!$_POST) return;
+
         if (isset($_SESSION["login"])) {
             header("Location: ../index.php");
             echo 'Already logged in';
@@ -60,6 +62,8 @@ class UserController
 
     public function register()
     {
+        if (!$_POST) return;
+
         if (isset($_SESSION["login"])) {
             echo 'Already logged in';
             return;
@@ -106,8 +110,6 @@ class UserController
 
     public function logout()
     {
-        //echo $_SESSION["access_token"];
-
         session_unset();
         session_destroy();
 
@@ -118,7 +120,134 @@ class UserController
         setcookie("access_token", null, -1, '/');
 
         header('Location: /');
-        // echo $_SESSION["access_token"];
+    }
+
+    public function updateCurrentUser()
+    {
+        if (!$_POST) return;
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        if (
+            $_POST['name'] == '' ||
+            $_POST['username'] == '' ||
+            $_POST['email'] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
+
+        try {
+            if (isset($_POST["password"])) {
+                $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            }
+
+            $_POST["user_id"] = $_SESSION["user_id"];
+            $isSuccess = $this->userModel->updateUser($_POST);
+
+            if (!$isSuccess) {
+                echo 'User not found';
+                return;
+            }
+            echo 'Updated';
+        } catch (PDOException $pdo) {
+            $msg = $pdo->getMessage();
+
+            if (str_contains($msg, 'Integrity constraint violation')) {
+                echo 'Email or username have been used.';
+            } else {
+                echo $msg;
+            }
+        }
+    }
+
+    //TODO: Testing
+    public function updateUser()
+    {
+        if (!$_POST) return;
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+        
+        if (
+            $_POST["user_id"] == '' ||
+            $_POST['name'] == '' ||
+            $_POST['username'] == '' ||
+            $_POST['email'] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
+
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
+
+        try {
+            $isSuccess = $this->userModel->updateUser($_POST);
+
+            if (!$isSuccess) {
+                echo 'User not found';
+                return;
+            }
+            echo 'Updated';
+        } catch (PDOException $pdo) {
+            $msg = $pdo->getMessage();
+
+            if (str_contains($msg, 'Integrity constraint violation')) {
+                echo 'Email or username have been used.';
+            } else {
+                echo $msg;
+            }
+        }
+    }
+
+    //TODO: Testing
+    public function promoteAdmin()
+    {
+        if (!$_POST) return;
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+        
+        if (
+            $_POST['is_admin'] == '' ||
+            $_POST['user_id'] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
+
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
+
+        $isSuccess = $this->userModel->updateAdmin($_POST);
+
+        if (!$isSuccess) {
+            echo 'Target user not found';
+            return;
+        }
+        echo 'Updated';
     }
 
 }
