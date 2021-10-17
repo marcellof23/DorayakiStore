@@ -17,7 +17,7 @@ function generateNavbar() {
   const navigation = [
     { path: "/search", icon: "search" },
     { path: "/home", icon: "home" },
-    { path: "/history", icon: "history" },
+    { path: "/history", iczon: "history" },
     { path: "/logout", icon: "logout" },
   ];
 
@@ -63,7 +63,104 @@ function pageTitle(title) {
   return `<h2 class="page-title">${title}</h2>`;
 }
 
+const generate_data = (data, i) => `
+	<tr>
+		<td class="table-data first-row">${i + 1}</td>
+		<td class="table-data">${data.thumbnail}</td>
+		<td class="table-data">${data.name}</td>
+		<td class="table-data">${data.description}</td>
+		<td class="table-data">${data.price}</td>
+		<td class="table-data">${data.stock}</td>
+	</tr>
+`;
+
 function generate_table() {
+  const data = [
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+    {
+      thumbnail: "https://picsum.photos/200",
+      name: "Dorayaki",
+      description: "Dorayaki spesial",
+      price: 180,
+      stock: 25,
+    },
+  ];
+
+  let dataTableString = "";
+
+  data.forEach((d, i) => {
+    dataTableString += generate_data(d, i);
+  });
+
   return `
 	<table class="table">
 		<col style="width:10%">
@@ -80,38 +177,7 @@ function generate_table() {
 			<th class="table-head">Price</th>
 			<th class="table-head">Stock</th>
 		</tr>
-		<tr>
-			<td class="table-data first-row">1</td>
-			<td class="table-data">Maria Anders</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-		</tr>
-		<tr>
-			<td class="table-data first-row">2</td>
-			<td class="table-data">Francisco Chang</td>
-			<td class="table-data">Mexico</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-		</tr>
-		<tr>
-			<td class="table-data first-row">3</td>
-			<td class="table-data">Francisco Chang</td>
-			<td class="table-data">Mexico</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-		</tr>
-		<tr>
-			<td class="table-data first-row">4</td>
-			<td class="table-data">Francisco Chang</td>
-			<td class="table-data">Mexico</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-			<td class="table-data">Germany</td>
-		</tr>
-		
+			${dataTableString}
+		</div>
 	</table>`;
 }

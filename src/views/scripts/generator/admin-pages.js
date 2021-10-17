@@ -1,21 +1,6 @@
 const AdminHomePage = () => {
   const target = document.getElementById("home-admin");
 
-  const data = [
-    {
-      thumbnail: "https://picsum.photos/200",
-      createdAt: new Date(),
-      title: "Dorayaki spesial",
-      amount: 180,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      createdAt: new Date(),
-      title: "Dorayaki spesial",
-      amount: 180,
-    },
-  ];
-
   const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
@@ -29,7 +14,7 @@ const AdminHomePage = () => {
       <div class="table-container">
        ${generate_table()}
        <div class="pagination-container">
-        <  1 > 
+        <p class="pagination-number">< 1 ></p>
       </div>
       </div>
       

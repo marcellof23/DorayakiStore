@@ -52,3 +52,7 @@
   justify-content: center;
   align-items: center;
 }
+
+#home-admin .pagination-number {
+  font-size: 36px;
+}
