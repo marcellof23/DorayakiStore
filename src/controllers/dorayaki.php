@@ -1,132 +1,20 @@
 <?php
 
 require_once ROOT . '/config/db.php';
-require_once ROOT . '/models/user.php';
+require_once ROOT . '/models/dorayaki.php';
 
-class UserController
+class DorayakiController
 {
     private $db;
-    private $userModel;
+    private $dorayakiModel;
 
     public function __construct()
     {
         $this->db = new Database();
-        $this->userModel = new UserModel($this->db);
-
-        $lifetime = 3600;
-        session_set_cookie_params($lifetime);
-        session_start();
+        $this->dorayakiModel = new DorayakiModel($this->db);
     }
 
-    public function generateToken()
-    {
-        $token = bin2hex(random_bytes(16));
-        return $token;
-    }
-
-    public function login()
-    {
-        if (!$_POST) {
-            return;
-        }
-
-        if (isset($_SESSION["login"])) {
-            header("Location: ../index.php");
-            echo 'Already logged in';
-            return;
-        }
-
-        if ($_POST["username"] == '' && $_POST["password"] == '') {
-            echo 'Incomplete data';
-            return;
-        }
-
-        $user = $this->userModel->getUserByUsername($_POST["username"]);
-
-        if ($user) {
-            if (password_verify($_POST["password"], $user["password"])) {
-                $token = $this->generateToken();
-
-                $_SESSION["login"] = true;
-                $_SESSION["user_id"] = $user["user_id"];
-                $_SESSION["access_token"] = $token;
-
-                setcookie("access_token", $token, time() + 3600, '/');
-
-                header("Location: ../index.php");
-            } else {
-                echo 'Wrong password';
-            }
-        } else {
-            echo 'User not found';
-        }
-    }
-
-    public function register()
-    {
-        if (!$_POST) {
-            return;
-        }
-
-        if (isset($_SESSION["login"])) {
-            echo 'Already logged in';
-            return;
-        }
-
-        if (
-            $_POST['name'] == '' ||
-            $_POST['username'] == '' ||
-            $_POST['email'] == '' ||
-            $_POST['password'] == ''
-        ) {
-            echo 'Incomplete data';
-            return;
-        }
-
-        $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-        try {
-            $isSuccess = $this->userModel->createUser($_POST);
-
-            if ($isSuccess && $isSuccess > 0) {
-                $token = $this->generateToken();
-
-                $_SESSION["login"] = true;
-                $_SESSION["user_id"] = $this->userModel->getUserId($_POST["username"])["user_id"];
-                $_SESSION["access_token"] = $token;
-
-                setcookie("access_token", $token, time() + 3600, '/');
-
-                header("Location: ../index.php");
-            } else {
-                echo 'Register failed';
-            }
-        } catch (PDOException $pdo) {
-            $msg = $pdo->getMessage();
-
-            if (str_contains($msg, 'Integrity constraint violation')) {
-                echo 'Email or username have been used.';
-            } else {
-                echo $msg;
-            }
-        }
-    }
-
-    public function logout()
-    {
-        session_unset();
-        session_destroy();
-
-        print("OIIII");
-        var_dump($_COOKIE);
-
-        unset($_COOKIE["access_token"]);
-        setcookie("access_token", null, -1, '/');
-
-        header('Location: /');
-    }
-
-    public function updateCurrentUser()
+    public function getDorayakiById()
     {
         if (!$_POST) {
             return;
@@ -138,40 +26,97 @@ class UserController
         }
 
         if (
-            $_POST['name'] == '' ||
-            $_POST['username'] == '' ||
-            $_POST['email'] == ''
+            $_GET["dorayaki_id"] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
+
+        $doryakiData = $this->dorayakiModel->getDorayakiById($_GET["dorayaki_id"]);
+
+        if (!$dorayakiData) {
+            echo 'Current dorayaki is not found';
+            return;
+        }
+        echo 'Dorayaki with id : ' . $_GET["dorayaki_id"] . ' is found';
+    }
+
+    public function getDorayakis()
+    {
+        if (!$_POST) {
+            return;
+        }
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        if (
+            $_GET["page"] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
+
+        $doryakiData = $this->dorayakiModel->getDorayakis($_GET["page"]);
+
+        if (!$dorayakiData) {
+            echo 'Current dorayaki page is not found';
+            return;
+        }
+        echo 'Dorayaki with page : ' . $_GET["page"] . ' is found';
+    }
+
+    public function createDorayaki()
+    {
+        if (!$_POST) {
+            return;
+        }
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        if (
+            $_POST["name"] == '' ||
+            $_POST['description'] == '' ||
+            $_POST['price'] == '' ||
+            $_POST['stock'] == '' ||
+            $_POST['thumbnail'] == ''
         ) {
             echo 'Incomplete data';
             return;
         }
 
         try {
-            if (isset($_POST["password"])) {
-                $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            }
+            $data["name"] = $_POST["name"];
+            $data["description"] = $_POST["description"];
+            $data["price"] = $_POST["price"];
+            $data["stock"] = $_POST["stock"];
+            $data["thumbnail"] = $_POST["thumbnail"];
 
-            $_POST["user_id"] = $_SESSION["user_id"];
-            $isSuccess = $this->userModel->updateUser($_POST);
+            $doryakiData = $this->dorayakiModel->createDoriyaki($data);
 
-            if (!$isSuccess) {
-                echo 'User not found';
+            if (!$dorayakiData) {
+                echo 'Current dorayaki page is not found';
                 return;
             }
-            echo 'Updated';
+            echo 'Dorayaki with data is successfully created';
+
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
 
             if (str_contains($msg, 'Integrity constraint violation')) {
-                echo 'Email or username have been used.';
+                echo 'name have been used.';
             } else {
                 echo $msg;
             }
         }
     }
 
-    //TODO: Testing
-    public function updateUser()
+    public function updateDorayaki()
     {
         if (!$_POST) {
             return;
@@ -183,46 +128,44 @@ class UserController
         }
 
         if (
-            $_POST["user_id"] == '' ||
-            $_POST['name'] == '' ||
-            $_POST['username'] == '' ||
-            $_POST['email'] == ''
+            $_POST["dorayaki_id"] == '' ||
+            $_POST["name"] == '' ||
+            $_POST['description'] == '' ||
+            $_POST['price'] == '' ||
+            $_POST['stock'] == '' ||
+            $_POST['thumbnail'] == ''
         ) {
             echo 'Incomplete data';
-            return;
-        }
-
-        $user = $this->userModel->getUserById($_SESSION["user_id"]);
-
-        if (!$user) {
-            echo 'Current user not found';
-            return;
-        } else if ($user && !$user["is_admin"]) {
-            echo 'You are not admin';
             return;
         }
 
         try {
-            $isSuccess = $this->userModel->updateUser($_POST);
+            $data["dorayaki_id"] = $_POST["dorayaki_id"];
+            $data["name"] = $_POST["name"];
+            $data["description"] = $_POST["description"];
+            $data["price"] = $_POST["price"];
+            $data["stock"] = $_POST["stock"];
+            $data["thumbnail"] = $_POST["thumbnail"];
 
-            if (!$isSuccess) {
-                echo 'User not found';
+            $doryakiData = $this->dorayakiModel->updateDorayaki($data);
+
+            if (!$dorayakiData) {
+                echo 'Current dorayaki page is not found';
                 return;
             }
-            echo 'Updated';
+            echo 'Dorayaki with data is successfully updated';
+
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
-
             if (str_contains($msg, 'Integrity constraint violation')) {
-                echo 'Email or username have been used.';
+                echo 'name have been used.';
             } else {
                 echo $msg;
             }
         }
     }
 
-    //TODO: Testing
-    public function promoteAdmin()
+    public function deleteDorayaki()
     {
         if (!$_POST) {
             return;
@@ -233,31 +176,17 @@ class UserController
             return;
         }
 
+        $idFound = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
+
         if (
-            $_POST['is_admin'] == '' ||
-            $_POST['user_id'] == ''
+            !$idFound
         ) {
-            echo 'Incomplete data';
+            echo 'dorayaki_id is not found';
             return;
         }
 
-        $user = $this->userModel->getUserById($_SESSION["user_id"]);
-
-        if (!$user) {
-            echo 'Current user not found';
-            return;
-        } else if ($user && !$user["is_admin"]) {
-            echo 'You are not admin';
-            return;
-        }
-
-        $isSuccess = $this->userModel->updateAdmin($_POST);
-
-        if (!$isSuccess) {
-            echo 'Target user not found';
-            return;
-        }
-        echo 'Updated';
+        $doryakiData = $this->dorayakiModel->deleteDorayaki($_POST["dorayaki_id"]);
+        echo 'Dorayaki with id : ' . $_POST["dorayaki_id"] . ' is successfully deleted';
     }
 
 }
