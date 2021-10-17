@@ -56,3 +56,18 @@
 #home-admin .pagination-number {
   font-size: 36px;
 }
+
+#login .login-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#login .form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

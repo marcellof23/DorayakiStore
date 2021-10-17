@@ -146,13 +146,6 @@ function generate_table() {
       price: 180,
       stock: 25,
     },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
   ];
 
   let dataTableString = "";

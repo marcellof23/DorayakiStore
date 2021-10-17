@@ -17,10 +17,9 @@ class DorayakiModel
 
     public function getDoriyakis($page)
     {
-        $limit = 20;
+        $limit = 10;
         $offset = ($page - 1) * $limit;
-
-        $this->db->query('SELECT * FROM ' . DorayakiModel::$table . "LIMIT " . $limit . " OFFSET " . $offset);
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table . " LIMIT " . $limit . " OFFSET " . $offset);
         return $this->db->resultSet();
     }
 
