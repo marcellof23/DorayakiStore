@@ -69,6 +69,11 @@
   grid-gap: 16px;
 }
 
+.doriyaki-details-text input,
+.doriyaki-details-text textarea {
+  width: 100%;
+}
+
 .doriyaki-details h3 {
   font-size: 18px;
   font-weight: 400;

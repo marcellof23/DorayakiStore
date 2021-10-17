@@ -150,7 +150,8 @@ small{
 	}	
 }
 
-input{
+input,
+textarea{
   padding : var(--padding-small);
   border-radius: var(--border-radius-small);
 	border : none;
