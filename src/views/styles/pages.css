@@ -57,6 +57,57 @@
   font-size: 36px;
 }
 
+.doriyaki-details {
+  margin: 40px 5% 0 15%;
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+}
+
+.doriyaki-details-main {
+  display: grid;
+  grid-template-rows: auto;
+  grid-gap: 16px;
+}
+
+.doriyaki-details h3 {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--black-secondary);
+  margin-bottom: 10px;
+}
+
+.doriyaki-details span,
+.doriyaki-details p {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.doriyaki-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+.doriyaki-button.primary {
+  background: var(--primary);
+  outline: 1px solid var(--primary);
+  color: var(--white);
+}
+
+.doriyaki-button.outline {
+  background: transparent;
+  outline: 1px solid var(--primary);
+  color: var(--primary);
+}
+
 #login .login-container {
   height: 100vh;
   display: flex;
