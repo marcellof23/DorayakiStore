@@ -1,3 +1,6 @@
+<?php
+$id = $_GET["id"];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,5 +29,14 @@
 </body>
 <script>
 	DorayakiDetailsPage();
+
+	async function fetchingData() {
+		const axois = new AXOIS("/");
+		const res = await axois.get('api/dorayaki/get-details?dorayaki_id=<?php echo $id; ?>')
+
+		console.log(res);
+	}
+
+	fetchingData();
 </script>
 </html>
