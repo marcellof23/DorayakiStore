@@ -103,7 +103,7 @@ class DorayakiModel
         $db->exec("
             CREATE TABLE IF NOT EXISTS " . DorayakiModel::$table . "(
                 dorayaki_id INTEGER PRIMARY KEY,
-                name TEXT,
+                name TEXT UNIQUE,
                 description TEXT,
                 price INTEGER,
                 stock INTEGER,

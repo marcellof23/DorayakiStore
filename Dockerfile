@@ -14,4 +14,4 @@ RUN chown -R :www-data /var/www/html/config/db
 
 EXPOSE 80
 
-# CMD ["php", "-S", "localhost:5000"]
+# CMD ["php", "-S", "localhost:5000"

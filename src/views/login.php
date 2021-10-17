@@ -18,14 +18,28 @@
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="login">
-		<div class="login-container">
-			<form class="form-container" action="api/login" method="post">
-				Login
-				<input name="username" placeholder="username"></input>
-				Password
-				<input name="password" type="password" placeholder="password"></input>
-				<input type="submit" name="Login"></input>
+	<div id="form">
+		<div class="form-container">
+			<div class="form-title">
+				Hello!
+			</div>
+			<div class="form-subtitle">
+				Glad to see you again
+			</div>
+			<form class="form-container-inner" action="api/login" method="post">
+				<div class="form-login">
+					Email
+				</div>
+				<input class="form-login input" name="username" placeholder="email"></input>
+				<div class="form-login">
+					Password
+				</div>
+				<input class="form-login input" name="password" type="password" placeholder="password"></input>
+				<input class="submit" type="submit" name="Login" value="Login"></input>
+				<div class="form-bottom-container">
+					<div class="terms-policy">Terms & Privacy Policy</div>
+					<div class="form-bottom-text">SIGN UP</div>
+				</div>
 			</form>
 		</div>
 	</div>
