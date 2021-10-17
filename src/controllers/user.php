@@ -119,6 +119,34 @@ class UserController
         header('Location: /');
     }
 
+    public function getUser() {
+        if (!$_GET) {
+            echo 'Please provide user id';
+            return;
+        }
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        if (
+            $_GET["user_id"] == ''
+        ) {
+            echo 'Incomplete data';
+            return;
+        }
+
+        $user = $this->userModel->getUserById($_GET["user_id"]);
+
+        if (!$user) {
+            echo 'User not found';
+            return;
+        }
+        
+        var_dump($user);
+    }
+
     public function getCurrentUser() {
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';

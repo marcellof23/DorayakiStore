@@ -16,7 +16,8 @@ class DorayakiController
 
     public function getDorayakiById()
     {
-        if (!$_POST) {
+        if (!$_GET) {
+            echo 'Please provide dorayaki id';
             return;
         }
 
@@ -38,33 +39,26 @@ class DorayakiController
             echo 'Current dorayaki is not found';
             return;
         }
+        
         echo 'Dorayaki with id : ' . $_GET["dorayaki_id"] . ' is found';
     }
 
     public function getDorayakis()
     {
-        if (!$_POST) {
-            return;
-        }
+        $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';
             return;
         }
 
-        if (
-            $_GET["page"] == ''
-        ) {
-            echo 'Incomplete data';
-            return;
-        }
-
-        $doryakiData = $this->dorayakiModel->getDorayakis($_GET["page"]);
+        $doryakiData = $this->dorayakiModel->getDorayakis($page);
 
         if (!$dorayakiData) {
             echo 'Current dorayaki page is not found';
             return;
         }
+
         echo 'Dorayaki with page : ' . $_GET["page"] . ' is found';
     }
 
