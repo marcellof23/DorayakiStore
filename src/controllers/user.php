@@ -113,13 +113,26 @@ class UserController
         session_unset();
         session_destroy();
 
-        print("OIIII");
-        var_dump($_COOKIE);
-
         unset($_COOKIE["access_token"]);
         setcookie("access_token", null, -1, '/');
 
         header('Location: /');
+    }
+
+    public function getCurrentUser() {
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        }
+
+        var_dump($user);
     }
 
     public function updateCurrentUser()
