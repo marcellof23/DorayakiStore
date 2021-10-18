@@ -186,4 +186,25 @@ class DorayakiController
         echo 'Dorayaki with id : ' . $_POST["dorayaki_id"] . ' is successfully deleted';
     }
 
+    public function uploadDorayakiImage()
+    {
+        if (!$_POST) {
+            return;
+        }
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        $target_dir = ROOT . "/public/upload/";
+        $target_file = $target_dir . basename($_FILES["userfile"]["name"]);
+
+        if (move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_file)) {
+            echo "The file " . htmlspecialchars(basename($_FILES["userfile"]["name"])) . " has been uploaded.";
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+
 }

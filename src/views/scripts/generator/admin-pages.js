@@ -40,6 +40,7 @@ const AdminHomePage = async () => {
       </div>  
 		</div>
     <script>
+      console.log("asem");
       var box = document.getElementById("button1");
       var isBlue = true;
       box.onclick = function () {

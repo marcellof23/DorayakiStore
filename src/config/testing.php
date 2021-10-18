@@ -13,13 +13,15 @@ $testing = new Database();
 
 $tes = new DorayakiModel($testing);
 
-$data["name"] = "asem8";
-$data["description"] = "nothing";
-$data["price"] = 30000;
-$data["stock"] = 120;
-$data["thumbnail"] = "nothing";
+// $data["name"] = "asem8";
+// $data["description"] = "nothing";
+// $data["price"] = 30000;
+// $data["stock"] = 120;
+// $data["thumbnail"] = "nothing";
 
-$tes->createDorayaki($data);
+// $tes->createDorayaki($data);
+
+echo ROOT;
 
 // echo var_dump($tes->getDoriyakis(1));
 //echo var_dump($tes->getAllDoriyakis());
