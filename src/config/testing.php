@@ -11,15 +11,15 @@ session_start();
 
 $testing = new Database();
 
-// $tes = new DorayakiModel($testing);
+$tes = new DorayakiModel($testing);
 
-// $data["name"] = "Tes";
-// $data["description"] = "nothing";
-// $data["price"] = 30000;
-// $data["stock"] = 120;
-// $data["thumbnail"] = "nothing";
+$data["name"] = "asem8";
+$data["description"] = "nothing";
+$data["price"] = 30000;
+$data["stock"] = 120;
+$data["thumbnail"] = "nothing";
 
-// $tes->createDoriyaki($data);
+$tes->createDorayaki($data);
 
 // echo var_dump($tes->getDoriyakis(1));
 //echo var_dump($tes->getAllDoriyakis());
@@ -32,9 +32,9 @@ $testing = new Database();
 // echo json_encode($OM -> getOrders(1,1));
 // echo "<br/>";
 
-$OC = new OrderController();
-// $OC->createOrder();
-$OC->getAdminOrders(1);
-echo "<br/>";
-$OC->getUserOrders(1);
-echo "<br/>";
+// $OC = new OrderController();
+// // $OC->createOrder();
+// $OC->getAdminOrders(1);
+// echo "<br/>";
+// $OC->getUserOrders(1);
+// echo "<br/>";
