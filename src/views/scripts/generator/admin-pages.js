@@ -1,9 +1,22 @@
 const AdminHomePage = async () => {
   const target = document.getElementById("home-admin");
 
+  let curr_page = 1;
+
+  function addPageNumber() {
+    curr_page++;
+  }
+
+  function minPageNumber() {
+    curr_page--;
+  }
+
   async function fetchingData() {
     const axois = new AXOIS("/");
-    const res = await axois.get("api/dorayaki/get-pagination?page=1");
+
+    const res = await axois.get(
+      `api/dorayaki/get-pagination?page=${curr_page}`
+    );
     return res;
   }
 
@@ -22,13 +35,18 @@ const AdminHomePage = async () => {
       <div class="table-container">
        ${generate_table(res)}
        <div class="pagination-container">
-        <p class="pagination-number">< 1 ></p>
+        <p class="pagination-number"><span id="button1"> < </span>   <span class="button2"> > </span> </p>
       </div>
-      </div>
-      
+      </div>  
 		</div>
+    <script>
+      var box = document.getElementById("button1");
+      var isBlue = true;
+      box.onclick = function () {
+        console.log("WOI");
+      };
+    </script>
 	`;
-
   target.innerHTML = components;
 };
 
@@ -42,19 +60,19 @@ const DorayakiDetailsPage = () => {
       <div class="dorayaki-details">
         <img src="" alt="foto dorayaki" id="dorayaki-photo" />
         <div class="dorayaki-details-main">
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text name">
             <h3>Name</h3>
             <span>{name}</span>
           </div>
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text price">
             <h3>Price</h3>
             <span>{price}</span>
           </div>
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text stock">
             <h3>Stock</h3>
             <span>{stock}</span>
           </div>
-          <div class="dorayaki-details-text" style="margin-bottom:10px">
+          <div class="dorayaki-details-text description" style="margin-bottom:10px">
             <h3>Description</h3>
             <p>{description}</p>
           </div>

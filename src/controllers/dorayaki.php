@@ -35,14 +35,16 @@ class DorayakiController
             return;
         }
 
-        $doryakiData = $this->dorayakiModel->getDorayakiById($_GET["dorayaki_id"]);
+        $dorayakiData = $this->dorayakiModel->getDorayakiById($_GET["dorayaki_id"]);
 
         if (!$dorayakiData) {
             echo 'Current dorayaki is not found';
             return;
         }
 
-        echo 'Dorayaki with id : ' . $_GET["dorayaki_id"] . ' is found';
+        echo json_encode($dorayakiData);
+
+        // echo 'Dorayaki with id : ' . $_GET["dorayaki_id"] . ' is found';
     }
 
     public function getDorayakis()
