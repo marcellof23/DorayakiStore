@@ -28,9 +28,9 @@
 			</div>
 			<form class="form-container-inner" action="api/login" method="post">
 				<div class="form-login">
-					Email
+					Username
 				</div>
-				<input class="form-login input" name="username" placeholder="email"></input>
+				<input class="form-login input" name="username" placeholder="username"></input>
 				<div class="form-login">
 					Password
 				</div>

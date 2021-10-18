@@ -1,5 +1,13 @@
-const AdminHomePage = () => {
+const AdminHomePage = async () => {
   const target = document.getElementById("home-admin");
+
+  async function fetchingData() {
+    const axois = new AXOIS("/");
+    const res = await axois.get("api/dorayaki/get-pagination?page=1");
+    return res;
+  }
+
+  const res = await fetchingData();
 
   const components = `
 		${generateNavbarAdmin()}
@@ -12,7 +20,7 @@ const AdminHomePage = () => {
         </button>
       </div>
       <div class="table-container">
-       ${generate_table()}
+       ${generate_table(res)}
        <div class="pagination-container">
         <p class="pagination-number">< 1 ></p>
       </div>
@@ -58,7 +66,7 @@ const DorayakiDetailsPage = () => {
 	`;
 
   target.innerHTML = components;
-}
+};
 
 const DorayakiEditPage = () => {
   const target = document.getElementById("dorayaki-edit-page");
@@ -94,7 +102,7 @@ const DorayakiEditPage = () => {
 	`;
 
   target.innerHTML = components;
-}
+};
 
 const DorayakiAddPage = () => {
   const target = document.getElementById("dorayaki-add-page");
@@ -130,4 +138,4 @@ const DorayakiAddPage = () => {
 	`;
 
   target.innerHTML = components;
-}
+};

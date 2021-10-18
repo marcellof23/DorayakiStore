@@ -12,6 +12,8 @@ class DorayakiController
     {
         $this->db = new Database();
         $this->dorayakiModel = new DorayakiModel($this->db);
+
+        session_start();
     }
 
     public function getDorayakiById()
@@ -39,12 +41,13 @@ class DorayakiController
             echo 'Current dorayaki is not found';
             return;
         }
-        
+
         echo 'Dorayaki with id : ' . $_GET["dorayaki_id"] . ' is found';
     }
 
     public function getDorayakis()
     {
+
         $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
@@ -52,14 +55,14 @@ class DorayakiController
             return;
         }
 
-        $doryakiData = $this->dorayakiModel->getDorayakis($page);
+        $dorayakiData = $this->dorayakiModel->getDorayakis($page);
 
         if (!$dorayakiData) {
             echo 'Current dorayaki page is not found';
             return;
         }
-
-        echo 'Dorayaki with page : ' . $_GET["page"] . ' is found';
+        echo json_encode($dorayakiData);
+        //echo 'Dorayaki with page : ' . $_GET["page"] . ' is found';
     }
 
     public function createDorayaki()
@@ -91,7 +94,7 @@ class DorayakiController
             $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
 
-            $doryakiData = $this->dorayakiModel->createDoriyaki($data);
+            $doryakiData = $this->dorayakiModel->createDorayaki($data);
 
             if (!$dorayakiData) {
                 echo 'Current dorayaki page is not found';
