@@ -57,38 +57,38 @@
   font-size: 36px;
 }
 
-.doriyaki-details {
+.dorayaki-details {
   margin: 40px 5% 0 15%;
   display: grid;
   grid-template-columns: 0.5fr 1fr;
 }
 
-.doriyaki-details-main {
+.dorayaki-details-main {
   display: grid;
   grid-template-rows: auto;
   grid-gap: 16px;
 }
 
-.doriyaki-details-text input,
-.doriyaki-details-text textarea {
+.dorayaki-details-text input,
+.dorayaki-details-text textarea {
   width: 100%;
 }
 
-.doriyaki-details h3 {
+.dorayaki-details h3 {
   font-size: 18px;
   font-weight: 400;
   color: var(--black-secondary);
   margin-bottom: 10px;
 }
 
-.doriyaki-details span,
-.doriyaki-details p {
+.dorayaki-details span,
+.dorayaki-details p {
   font-size: 20px;
   font-weight: 600;
   color: var(--black);
 }
 
-.doriyaki-button {
+.dorayaki-button {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -101,13 +101,13 @@
   cursor: pointer;
 }
 
-.doriyaki-button.primary {
+.dorayaki-button.primary {
   background: var(--primary);
   outline: 1px solid var(--primary);
   color: var(--white);
 }
 
-.doriyaki-button.outline {
+.dorayaki-button.outline {
   background: transparent;
   outline: 1px solid var(--primary);
   color: var(--primary);
