@@ -15,7 +15,7 @@
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="splashscreen" onclick='redirect("home")'>
+	<div id="splashscreen" onclick='redirect("login")'>
 		<div class="background"></div>
 		<div class="content">
 			<div class="text">

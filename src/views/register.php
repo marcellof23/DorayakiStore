@@ -1,3 +1,11 @@
+<?php 
+$messages = array("Incomplete data", "Wrong password", "User not found");
+session_start();
+if (isset($_SESSION["login"]) && isset($_SESSION["user_id"])) {
+	header("Location: ./home");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +18,7 @@
 	<script src="scripts/generator/template.js"></script>
 	<link rel="stylesheet" href="./styles/index.css">
 	<link rel="stylesheet" href="./styles/base.css">
+	<link rel="stylesheet" href="./styles/control.css">
 	<link rel="stylesheet" href="./styles/pages.css">
 	<title>Dorayaki</title>
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
@@ -24,26 +33,36 @@
 				Create an account to continue
 			</div>
 			<form class="form-container-inner" action="api/register" method="post">
+				<?php
+				if (isset($_GET["status"]) && isset($_GET["msg"]) && in_array($_GET["msg"], $messages)) {
+				?>
+				<div class="alert <?php echo $_GET["status"] ?>" style="margin-bottom: 25px">
+					<?php echo $_GET["msg"] ?>
+				</div>
+				<?php
+				}
+				?>
+
 				<div class="form-login">
 					Name
 				</div>
-				<input class="form-login input"  name="name" placeholder="name"></input>
+				<input class="form-login input"  name="name" placeholder="name" required></input>
 				<div class="form-login">
 					Username
 				</div>
-				<input class="form-login input"  name="username" placeholder="username"></input>
+				<input class="form-login input"  name="username" placeholder="username" required></input>
 				<div class="form-login">
 					Email
 				</div>
-				<input class="form-login input" name="email" type="email" placeholder="email"></input>
+				<input class="form-login input" name="email" type="email" placeholder="email" required></input>
 				<div class="form-login">
 					Password
 				</div>
-				<input class="form-login input" name="password" type="password" placeholder="password"></input>
+				<input class="form-login input" name="password" type="password" placeholder="password" required></input>
 				<input class="submit" type="submit" name="Register" value="Register"></input>
 				<div class="form-bottom-container">
 					<div class="terms-policy">Terms & Privacy Policy</div>
-					<div class="form-bottom-text">LOGIN</div>
+					<a class="form-bottom-text" href="/login">LOGIN</a>
 				</div>
 			</form>
 		</div>

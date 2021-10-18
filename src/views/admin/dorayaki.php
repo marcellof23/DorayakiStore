@@ -1,3 +1,6 @@
+<?php
+$num = 1;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +28,8 @@
 	<div id="home-admin">asdf</div>
 </body>
 <script>
+
 	AdminHomePage();
+
 </script>
 </html>

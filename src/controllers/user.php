@@ -29,13 +29,14 @@ class UserController
         if (!$_POST) return;
 
         if (isset($_SESSION["login"])) {
-            header("Location: ../index.php");
-            echo 'Already logged in';
+            // echo 'Already logged in';
+            header("Location: ../index");
             return;
         }
 
-        if ($_POST["username"] == '' && $_POST["password"] == '') {
-            echo 'Incomplete data';
+        if ($_POST["username"] == '' || $_POST["password"] == '') {
+            // echo 'Incomplete data';
+            header("Location: ../login?status=error&msg=Incomplete data");
             return;
         }
 
@@ -51,12 +52,14 @@ class UserController
 
                 setcookie("access_token", $token, time() + 3600, '/');
 
-                header("Location: ../index.php");
+                header("Location: ../home");
             } else {
-                echo 'Wrong password';
+                // echo 'Wrong password';
+                header("Location: ../login?status=error&msg=Wrong password");
             }
         } else {
-            echo 'User not found';
+            // echo 'User not found';
+            header("Location: ../login?status=error&msg=User not found");
         }
     }
 
@@ -65,7 +68,8 @@ class UserController
         if (!$_POST) return;
 
         if (isset($_SESSION["login"])) {
-            echo 'Already logged in';
+            // echo 'Already logged in';
+            header("Location: ../index");
             return;
         }
 
@@ -75,7 +79,8 @@ class UserController
             $_POST['email'] == '' ||
             $_POST['password'] == ''
         ) {
-            echo 'Incomplete data';
+            // echo 'Incomplete data';
+            header("Location: ../register?status=error&msg=Incomplete data");
             return;
         }
 
@@ -93,15 +98,17 @@ class UserController
 
                 setcookie("access_token", $token, time() + 3600, '/');
 
-                header("Location: ../index.php");
+                header("Location: ../home");
             } else {
-                echo 'Register failed';
+                // echo 'Register failed';
+                header("Location: ../register?status=error&msg=Register failed");
             }
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
 
             if (str_contains($msg, 'Integrity constraint violation')) {
-                echo 'Email or username have been used.';
+                // echo 'Email or username have been used';
+                header("Location: ../register?status=error&msg=Email or username have been used");
             } else {
                 echo $msg;
             }

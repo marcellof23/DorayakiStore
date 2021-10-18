@@ -74,83 +74,85 @@ const generate_data = (data, i) => `
 	</tr>
 `;
 
-function generate_table() {
-  const data = [
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-    {
-      thumbnail: "https://picsum.photos/200",
-      name: "Dorayaki",
-      description: "Dorayaki spesial",
-      price: 180,
-      stock: 25,
-    },
-  ];
+function generate_table(data) {
+  // const data = [
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  //   {
+  //     thumbnail: "https://picsum.photos/200",
+  //     name: "Dorayaki",
+  //     description: "Dorayaki spesial",
+  //     price: 180,
+  //     stock: 25,
+  //   },
+  // ];
 
   let dataTableString = "";
 
-  data.forEach((d, i) => {
+  const datas = JSON.parse(data);
+
+  datas.forEach((d, i) => {
     dataTableString += generate_data(d, i);
   });
 

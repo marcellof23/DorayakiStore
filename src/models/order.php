@@ -102,7 +102,7 @@ class OrderModel
                 type TEXT CHECK(type IN ('ADD', 'MIN')),
                 PRIMARY KEY (order_id),
                 FOREIGN KEY (user_id) REFERENCES User(user_id),
-                FOREIGN KEY (dorayaki_id) REFERENCES Dorayaki(dorayaki_id)
+                FOREIGN KEY (dorayaki_id) REFERENCES Dorayakis(dorayaki_id)
             )
         ");
     }

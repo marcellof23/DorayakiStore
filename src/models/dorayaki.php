@@ -9,13 +9,13 @@ class DorayakiModel
         $this->db = $db;
     }
 
-    public function getAllDoriyakis()
+    public function getAllDorayakis()
     {
         $this->db->query('SELECT * FROM ' . DorayakiModel::$table);
         return $this->db->resultSet();
     }
 
-    public function getDoriyakis($page)
+    public function getDorayakis($page)
     {
         $limit = 10;
         $offset = ($page - 1) * $limit;
@@ -23,14 +23,14 @@ class DorayakiModel
         return $this->db->resultSet();
     }
 
-    public function getDoriyakiById($id)
+    public function getDorayakiById($id)
     {
         $this->db->query('SELECT * FROM ' . DorayakiModel::$table . ' WHERE dorayaki_id = :dorayaki_id');
         $this->db->bind(':dorayaki_id', $id);
         return $this->db->single();
     }
 
-    public function createDoriyaki($data)
+    public function createDorayaki($data)
     {
         $query = "INSERT INTO " . DorayakiModel::$table . " VALUES
                   (NULL, :name, :description, :price, :stock, :thumbnail)";
@@ -48,7 +48,7 @@ class DorayakiModel
         return $this->db->rowCount();
     }
 
-    public function deleteDoriyaki($id)
+    public function deleteDorayaki($id)
     {
         $query = "DELETE FROM " . DorayakiModel::$table . " WHERE dorayaki_id = :dorayaki_id";
 
@@ -60,18 +60,18 @@ class DorayakiModel
         return $this->db->rowCount();
     }
 
-    public function updateDoriyaki($data)
+    public function updateDorayaki($data)
     {
         $query = "UPDATE " . DorayakiModel::$table . " SET
                     name = :name,
                     description = :description,
                     price = :price,
                     thumbnail = :thumbnail
-                  WHERE doriyaki_id = :doriyaki_id";
+                  WHERE dorayaki_id = :dorayaki_id";
 
         $this->db->query($query);
 
-        $this->db->bind(':doriyaki_id', $data['doriyaki_id']);
+        $this->db->bind(':dorayaki_id', $data['dorayaki_id']);
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':description', $data['description']);
         $this->db->bind(':price', $data['price']);
@@ -86,11 +86,11 @@ class DorayakiModel
     {
         $query = "UPDATE " . DorayakiModel::$table . " SET
                     stock = :stock
-                  WHERE doriyaki_id = :doriyaki_id";
+                  WHERE dorayaki_id = :dorayaki_id";
 
         $this->db->query($query);
 
-        $this->db->bind(':doriyaki_id', $data['doriyaki_id']);
+        $this->db->bind(':dorayaki_id', $data['dorayaki_id']);
         $this->db->bind(':stock', $data['stock']);
 
         $this->db->execute();
