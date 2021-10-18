@@ -49,9 +49,9 @@ if (isset($_SESSION["login"]) && isset($_SESSION["user_id"])) {
 				?>
 
 				<div class="form-login">
-					Email
+					Username
 				</div>
-				<input class="form-login input" name="username" placeholder="email" required></input>
+				<input class="form-login input" name="username" placeholder="username"></input>
 				<div class="form-login">
 					Password
 				</div>
