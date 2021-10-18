@@ -1,6 +1,7 @@
 <?php
 
 require_once ROOT . '/config/db.php';
+require_once ROOT . '/models/dorayaki.php';
 require_once ROOT . '/models/order.php';
 require_once ROOT . '/models/user.php';
 
@@ -17,10 +18,10 @@ class OrderController{
     public function getAdminOrders(){
         $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
         
-        // if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
-        //     echo 'Authentication required.';
-        //     return;
-        // }
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
 
         $orderData = $this->orderModel->getOrders($page, 0);
 
@@ -29,7 +30,7 @@ class OrderController{
             return;
         }
 
-        echo 'Admin order with page : ' . $_GET["page"] . ' is found';
+        echo json_encode($orderData);
     }
     
     public function getUserOrders(){
@@ -40,14 +41,18 @@ class OrderController{
             return;
         }
 
-        $orderData = $this->orderModel->getOrders($page, 1);
+        $user_id = $_SESSION["user_id"];
+        $userModel = new UserModel($this->db);
+        $user = $userModel->getUserById($user_id);
+
+        $orderData = $user["is_admin"] ? $this->orderModel->getOrders($page, 1) : $this->orderModel->getOrderByUserId($page, $user["user_id"]);
 
         if (!$orderData) {
             echo 'Order data not found';
             return;
         }
 
-        echo 'User order with page : ' . $_GET["page"] . ' is found';
+        echo json_encode($orderData);
     }
 
     public function createOrder(){
@@ -63,7 +68,7 @@ class OrderController{
         if (
             $_POST["user_id"] == '' ||
             $_POST['dorayaki_id'] == '' ||
-            $_POST['price'] == '' ||
+            $_POST['amount'] == '' ||
             $_POST['isOrder'] == '' ||
             $_POST['type'] == ''
         ) {
@@ -77,6 +82,18 @@ class OrderController{
             $data["amount"] = $_POST["amount"];
             $data["isOrder"] = $_POST["isOrder"];
             $data["type"] = $_POST["type"];
+
+            $dorayakiModel = new DorayakiModel($this->db);
+            $dorayakiData = $dorayakiModel->getDorayakiById($data["dorayaki_id"]);
+
+            if(!$dorayakiData){
+                echo 'Dorayaki not valid!';
+                echo json_encode($data);
+                echo json_encode($dorayakiData);
+                return;
+            }
+
+            $data["price"] = $dorayakiData["price"];
 
             $orderData = $this->orderModel->createOrder($data);
 
@@ -116,7 +133,7 @@ class OrderController{
             return;
         }
 
-        $doryakiData = $this->orderModel->deleteOrder($_POST["order_id"]);
+        $orderData = $this->orderModel->deleteOrder($_POST["order_id"]);
         echo 'Order with id : ' . $_POST["order_id"] . ' is successfully deleted';
     }
 }

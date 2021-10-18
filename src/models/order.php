@@ -30,15 +30,27 @@ class OrderModel
 
     public function getOrderById($id)
     {
-        $this->db->query('SELECT * FROM ' . OrderModel::$table . ' WHERE order_id = :order_id');
+        $join = "INNER JOIN " . DorayakiModel::$table . " D ON D.dorayaki_id = O.dorayaki_id INNER JOIN " . UserModel::$table . " U on U.user_id = O.user_id";
+        $this->db->query('SELECT * FROM ' . OrderModel::$table . ' O ' .$join. ' WHERE O.order_id = :order_id');
         $this->db->bind(':order_id', $id);
         return $this->db->single();
+    }
+
+    public function getOrderByUserId($page, $user_id){
+        $limit = 20;
+        $offset = ($page - 1) * $limit;
+
+        $selection = "O.*, D.name AS dorayaki, U.name AS user";
+        $join = "INNER JOIN " . DorayakiModel::$table . " D ON D.dorayaki_id = O.dorayaki_id INNER JOIN " . UserModel::$table . " U on U.user_id = O.user_id";
+        $pagination = "LIMIT " . $limit . " OFFSET " . $offset;
+        $this->db->query('SELECT '.$selection.' FROM ' . OrderModel::$table . " O " . $join . " WHERE O.user_id = " . $user_id ." ". $pagination);
+        return $this->db->resultSet();
     }
 
     public function createOrder($data)
     {
         $query = "INSERT INTO " . OrderModel:: $table . " VALUES
-                  (NULL, :user_id, :dorayaki_id, :amount, :isOrder, :createdAt, :type)";
+                  (NULL, :user_id, :dorayaki_id, :amount, :total_cost, :isOrder, :createdAt, :type)";
 
         $dt = new DateTime();
 
@@ -47,6 +59,7 @@ class OrderModel
         $this->db->bind(':user_id', $data['user_id']);
         $this->db->bind(':dorayaki_id', $data['dorayaki_id']);
         $this->db->bind(':amount', $data['amount']);
+        $this->db->bind(':total_cost', (int) $data['amount'] * (int) $data["price"]);
         $this->db->bind(':isOrder', $data['isOrder']);
         $this->db->bind(':createdAt', $dt->format('Y-m-d H:i:s'));
         $this->db->bind(':type', $data['type']);
@@ -97,11 +110,12 @@ class OrderModel
                 user_id INTEGER NOT NULL,
                 dorayaki_id INTEGER NOT NULL,
                 amount INTEGER,
+                total_cost INTEGER,
                 isOrder BIT,
                 createdAt TEXT,
                 type TEXT CHECK(type IN ('ADD', 'MIN')),
                 PRIMARY KEY (order_id),
-                FOREIGN KEY (user_id) REFERENCES User(user_id),
+                FOREIGN KEY (user_id) REFERENCES Users(user_id),
                 FOREIGN KEY (dorayaki_id) REFERENCES Dorayakis(dorayaki_id)
             )
         ");
