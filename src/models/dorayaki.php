@@ -53,7 +53,7 @@ class DorayakiModel
         $query = "DELETE FROM " . DorayakiModel::$table . " WHERE dorayaki_id = :dorayaki_id";
 
         $this->db->query($query);
-        $this->db->bind(':user_id', $id);
+        $this->db->bind(':dorayaki_id', $id);
 
         $this->db->execute();
 

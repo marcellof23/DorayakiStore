@@ -180,12 +180,12 @@ class DorayakiController
         if (
             !$idFound
         ) {
-            echo 'dorayaki_id is not found';
+            echo 'Dorayaki not found';
             return;
         }
 
         $doryakiData = $this->dorayakiModel->deleteDorayaki($_POST["dorayaki_id"]);
-        echo 'Dorayaki with id : ' . $_POST["dorayaki_id"] . ' is successfully deleted';
+        echo 'Deleted successfully';
     }
 
 }
