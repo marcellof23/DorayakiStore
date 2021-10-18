@@ -61,19 +61,19 @@ const DorayakiDetailsPage = () => {
       <div class="dorayaki-details">
         <img src="" alt="foto dorayaki" id="dorayaki-photo" />
         <div class="dorayaki-details-main">
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text name">
             <h3>Name</h3>
             <span>{name}</span>
           </div>
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text price">
             <h3>Price</h3>
             <span>{price}</span>
           </div>
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text stock">
             <h3>Stock</h3>
             <span>{stock}</span>
           </div>
-          <div class="dorayaki-details-text" style="margin-bottom:10px">
+          <div class="dorayaki-details-text description" style="margin-bottom:10px">
             <h3>Description</h3>
             <p>{description}</p>
           </div>

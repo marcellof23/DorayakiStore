@@ -35,14 +35,16 @@ class DorayakiController
             return;
         }
 
-        $doryakiData = $this->dorayakiModel->getDorayakiById($_GET["dorayaki_id"]);
+        $dorayakiData = $this->dorayakiModel->getDorayakiById($_GET["dorayaki_id"]);
 
         if (!$dorayakiData) {
             echo 'Current dorayaki is not found';
             return;
         }
 
-        echo 'Dorayaki with id : ' . $_GET["dorayaki_id"] . ' is found';
+        echo json_encode($dorayakiData);
+
+        // echo 'Dorayaki with id : ' . $_GET["dorayaki_id"] . ' is found';
     }
 
     public function getDorayakis()
@@ -178,12 +180,12 @@ class DorayakiController
         if (
             !$idFound
         ) {
-            echo 'dorayaki_id is not found';
+            echo 'Dorayaki not found';
             return;
         }
 
         $doryakiData = $this->dorayakiModel->deleteDorayaki($_POST["dorayaki_id"]);
-        echo 'Dorayaki with id : ' . $_POST["dorayaki_id"] . ' is successfully deleted';
+        echo 'Deleted successfully';
     }
 
     public function uploadDorayakiImage()
