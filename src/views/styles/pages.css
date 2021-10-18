@@ -61,6 +61,14 @@
   margin: 40px 5% 0 15%;
   display: grid;
   grid-template-columns: 0.5fr 1fr;
+  grid-gap: 30px;
+}
+
+#dorayaki-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 .dorayaki-details-main {
