@@ -133,19 +133,19 @@ const DorayakiAddPage = () => {
       <div class="dorayaki-details">
         <img src="" alt="foto dorayaki" id="dorayaki-photo" />
         <form class="dorayaki-details-main">
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text name">
             <h3>Name</h3>
-            <input name="name" value="{name}" />
+            <input name="name" />
           </div>
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text price">
             <h3>Price</h3>
             <input name="price" type="number" />
           </div>
-          <div class="dorayaki-details-text">
+          <div class="dorayaki-details-text stock">
             <h3>Stock</h3>
             <input name="stock" type="number" />
           </div>
-          <div class="dorayaki-details-text" style="margin-bottom:10px">
+          <div class="dorayaki-details-text description" style="margin-bottom:10px">
             <h3>Description</h3>
             <textarea name="description" rows="4" cols="50"></textarea>
           </div>

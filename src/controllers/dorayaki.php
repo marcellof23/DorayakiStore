@@ -106,7 +106,7 @@ class DorayakiController
             $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
 
-            $doryakiData = $this->dorayakiModel->createDorayaki($data);
+            $dorayakiData = $this->dorayakiModel->createDorayaki($data);
 
             if (!$dorayakiData) {
                 echo 'Failed to create dorayaki';
@@ -219,7 +219,7 @@ class DorayakiController
             return;
         }
 
-        $doryakiData = $this->dorayakiModel->deleteDorayaki($_POST["dorayaki_id"]);
+        $dorayakiData = $this->dorayakiModel->deleteDorayaki($_POST["dorayaki_id"]);
         echo 'Deleted successfully';
     }
 
