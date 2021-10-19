@@ -16,7 +16,7 @@ $testing = new Database();
 $tess = new OrderModel($testing);
 
 $data["user_id"] = "1";
-$data["dorayaki_id"] = "1";
+$data["dorayaki_id"] = "3";
 $data["amount"] = 3000;
 $data["total_cost"] = 120;
 $data["price"] = 1000;

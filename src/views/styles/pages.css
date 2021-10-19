@@ -18,16 +18,17 @@
   margin-bottom: var(--padding-small);
 }
 
-#home-admin .table-container {
-  margin-top: 3%;
-  margin-left: 15%;
+#home-admin .table-container #dorayaki-table tr{
+  display : grid;
+  grid-template-columns: 1fr 2fr 2fr 3fr 1fr 1fr;
 }
 
 #home-admin .search-container {
-  display: flex;
-  flex-direction: row;
-  margin-top: 2%;
-  margin-left: 15%;
+  display: grid;
+  grid-template-columns: 1fr 10vw;
+  gap : var(--padding-med);
+  padding: var(--padding-small) 0;
+  margin-bottom: var(--padding-small);
 }
 
 #home-admin .add-dorayaki {
@@ -45,20 +46,11 @@
   cursor: pointer;
 }
 
-#home-admin .pagination-container {
-  display: flex;
-  width: 90%;
-  margin-top: 3%;
-  justify-content: center;
-  align-items: center;
+#dorayaki-details-page .dorayaki-management-container > *{
+  margin-bottom: var(--padding-large);
 }
 
-#home-admin .pagination-number {
-  font-size: 36px;
-}
-
-.dorayaki-details {
-  margin: 40px 5% 0 15%;
+#dorayaki-details-page .dorayaki-details{
   display: grid;
   grid-template-columns: 0.5fr 1fr;
   grid-gap: 30px;
@@ -71,10 +63,20 @@
   object-fit: cover;
 }
 
-.dorayaki-details-main {
+#dorayaki-details-page .dorayaki-details-main {
   display: grid;
   grid-template-rows: auto;
   grid-gap: 16px;
+}
+
+#admin-history-page .table-container #user-pov-history-table tr{
+  display : grid;
+  grid-template-columns: 1fr 2fr 2fr 3fr 1fr 1fr;
+}
+
+#admin-history-page .table-container #admin-pov-history-table tr{
+  display : grid;
+  grid-template-columns: 1fr 2fr 2fr 3fr 1fr 1fr 1fr;
 }
 
 .dorayaki-details-text input,
@@ -94,106 +96,4 @@
   font-size: 20px;
   font-weight: 600;
   color: var(--black);
-}
-
-.dorayaki-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  height: 44px;
-  border: none;
-  border-radius: 8px;
-  outline: none;
-  cursor: pointer;
-}
-
-.dorayaki-button.primary {
-  background: var(--primary);
-  outline: 1px solid var(--primary);
-  color: var(--white);
-}
-
-.dorayaki-button.outline {
-  background: transparent;
-  outline: 1px solid var(--primary);
-  color: var(--primary);
-}
-
-#form .form-container {
-  background-color: var(--primary);
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#form .form-title {
-  font-weight: bold;
-  color: white;
-  font-size: 80px;
-  margin-bottom: 1%;
-}
-
-#form .form-subtitle {
-  font-weight: 500;
-  font-size: 24px;
-  color: white;
-  margin-bottom: 2%;
-}
-
-#form .form-container-inner {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 500px;
-}
-
-#form .form-login {
-  color: white;
-  font-size: 20px;
-  font-weight: 600;
-  width: 100%;
-  margin-bottom: 1.5vh;
-}
-
-#form .input {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 2px solid white;
-  border-radius: 0px !important;
-  padding-left: 0px;
-}
-
-#form .submit {
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  background-color: var(--secondary);
-  width: 100%;
-  border-radius: 6px;
-  margin-top: 3%;
-}
-
-#form .form-bottom-container {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-top: 3%;
-}
-
-#form .form-bottom-text {
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-}
-
-#form .terms-policy {
-  font-weight: bold;
-  color: #c7c7c7;
 }

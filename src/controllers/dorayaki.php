@@ -64,6 +64,31 @@ class DorayakiController
             return;
         }
 
+        $dorayakiData['items_per_page'] = 10;
+        $dorayakiData['item_count'] = $this->dorayakiModel->countDorayakis();
+        $dorayakiData['page_count'] = floor($this->dorayakiModel->countDorayakis()
+            / $dorayakiData['items_per_page']) + 1;
+
+        echo json_encode($dorayakiData);
+    }
+
+    public function getDorayakiPopularVariant()
+    {
+
+        $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        $dorayakiData = $this->dorayakiModel->getDorayakiPopularVariant();
+
+        if (!$dorayakiData) {
+            echo 'Current dorayaki page is not found';
+            return;
+        }
+
         echo json_encode($dorayakiData);
     }
 

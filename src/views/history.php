@@ -21,7 +21,7 @@
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="history"></div>
+	<div id="history" class="app"></div>
 </body>
 <script>
 	HistoryPage();

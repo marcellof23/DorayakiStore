@@ -1,3 +1,8 @@
+.app{
+  height: 100vh;
+  padding : var(--padding-large) var(--padding-xlarge) var(--padding-large) 15%;
+}
+
 .navigation {
   width: fit-content;
   height: fit-content;
@@ -58,33 +63,41 @@ table {
   width: 100%;
 }
 
-.table {
-  width: 90%;
-}
-
-td,
-tr {
-  width: 5%;
+th, td{
+  text-align: center;
+  padding : var(--padding-small);
+  display: flex;
+  align-items : center;
+  justify-content: center;
 }
 
 th {
   height: 60px;
-  margin-left: 5px;
+  color: #f3f4f3;
   font-family: var(--family_secondary);
   background-color: var(--primary);
-  text-align: center;
-  color: #f3f4f3;
-  padding-left: 10px;
 }
 
 td {
-  text-align: center;
   height: 50px;
-  padding-left: 10px;
 }
 
 tr:nth-child(even) {
   background-color: #daf1da;
+}
+
+.table-row{
+  transition: all 0.3s ease;
+}
+
+.table-row:hover{
+  cursor: pointer;
+  background-color: var(--primary);
+  transform: scale(1.01);
+}
+
+.table-row:hover > *{
+  color : var(--white);
 }
 
 .first-row {

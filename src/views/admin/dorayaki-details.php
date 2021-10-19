@@ -28,7 +28,7 @@ if (isset($_GET["id"])) {
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="dorayaki-details-page"></div>
+	<div id="dorayaki-details-page" class="app"></div>
 </body>
 <script>
 	DorayakiDetailsPage();

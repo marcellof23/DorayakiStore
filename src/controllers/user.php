@@ -26,7 +26,9 @@ class UserController
 
     public function login()
     {
-        if (!$_POST) return;
+        if (!$_POST) {
+            return;
+        }
 
         if (isset($_SESSION["login"])) {
             // echo 'Already logged in';
@@ -50,6 +52,7 @@ class UserController
                 $_SESSION["user_id"] = $user["user_id"];
                 $_SESSION["access_token"] = $token;
 
+                setcookie("username", $_POST["username"], time() + 3600, '/');
                 setcookie("access_token", $token, time() + 3600, '/');
 
                 header("Location: ../home");
@@ -65,7 +68,9 @@ class UserController
 
     public function register()
     {
-        if (!$_POST) return;
+        if (!$_POST) {
+            return;
+        }
 
         if (isset($_SESSION["login"])) {
             // echo 'Already logged in';
@@ -126,7 +131,8 @@ class UserController
         header('Location: /');
     }
 
-    public function getUser() {
+    public function getUser()
+    {
         if (!$_GET) {
             echo 'Please provide user id';
             return;
@@ -150,11 +156,12 @@ class UserController
             echo 'User not found';
             return;
         }
-        
+
         var_dump($user);
     }
 
-    public function getCurrentUser() {
+    public function getCurrentUser()
+    {
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';
             return;
@@ -172,7 +179,9 @@ class UserController
 
     public function updateCurrentUser()
     {
-        if (!$_POST) return;
+        if (!$_POST) {
+            return;
+        }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';
@@ -215,13 +224,15 @@ class UserController
     //TODO: Testing
     public function updateUser()
     {
-        if (!$_POST) return;
+        if (!$_POST) {
+            return;
+        }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';
             return;
         }
-        
+
         if (
             $_POST["user_id"] == '' ||
             $_POST['name'] == '' ||
@@ -264,13 +275,15 @@ class UserController
     //TODO: Testing
     public function promoteAdmin()
     {
-        if (!$_POST) return;
+        if (!$_POST) {
+            return;
+        }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';
             return;
         }
-        
+
         if (
             $_POST['is_admin'] == '' ||
             $_POST['user_id'] == ''

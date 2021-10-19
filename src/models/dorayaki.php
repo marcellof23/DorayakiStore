@@ -15,12 +15,31 @@ class DorayakiModel
         return $this->db->resultSet();
     }
 
+    public function countDorayakis()
+    {
+        $this->db->query('SELECT COUNT(dorayaki_id) FROM ' . DorayakiModel::$table);
+        return $this->db->rowCount();
+    }
+
     public function getDorayakis($page)
     {
         $limit = 10;
         $offset = ($page - 1) * $limit;
         $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
             " LIMIT " . $limit . " OFFSET " . $offset);
+        return $this->db->resultSet();
+    }
+
+    public function getDorayakiPopularVariant()
+    {
+        $limit = 5;
+        $selection = "D.*, COUNT(O.order_id) as sold_count";
+        $join = "Orders O ON O.dorayaki_id = D.dorayaki_id";
+        $from = "Dorayakis D INNER JOIN";
+        $group_by = "D.dorayaki_id ORDER BY sold_count DESC LIMIT " . $limit;
+        $this->db->query('SELECT ' . $selection . ' FROM ' . $from . ' ' . $join .
+            ' GROUP BY ' . $group_by);
+
         return $this->db->resultSet();
     }
 
