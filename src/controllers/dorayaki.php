@@ -67,6 +67,26 @@ class DorayakiController
         echo json_encode($dorayakiData);
     }
 
+    public function getDorayakiPopularVariant()
+    {
+
+        $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        $dorayakiData = $this->dorayakiModel->getDorayakiPopularVariant();
+
+        if (!$dorayakiData) {
+            echo 'Current dorayaki page is not found';
+            return;
+        }
+
+        echo json_encode($dorayakiData);
+    }
+
     public function createDorayaki()
     {
         if (!$_POST) {

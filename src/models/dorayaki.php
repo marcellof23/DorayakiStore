@@ -24,6 +24,19 @@ class DorayakiModel
         return $this->db->resultSet();
     }
 
+    public function getDorayakiPopularVariant()
+    {
+        $limit = 5;
+        $selection = "D.*, COUNT(O.order_id) as sold_count";
+        $join = "Orders O ON O.dorayaki_id = D.dorayaki_id";
+        $from = "Dorayakis D INNER JOIN";
+        $group_by = "D.dorayaki_id ORDER BY sold_count DESC LIMIT " . $limit;
+        $this->db->query('SELECT ' . $selection . ' FROM ' . $from . ' ' . $join .
+            ' GROUP BY ' . $group_by);
+
+        return $this->db->resultSet();
+    }
+
     public function getDorayakiById($id)
     {
         $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
