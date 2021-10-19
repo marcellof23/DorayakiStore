@@ -13,6 +13,9 @@ class OrderController{
     {
         $this->db = new Database();
         $this->orderModel = new OrderModel($this->db);
+        $this->userModel = new UserModel($this->db);
+
+        session_start();
     }
 
     public function getAdminOrders(){
@@ -20,6 +23,16 @@ class OrderController{
         
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';
+            return;
+        }
+
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
             return;
         }
 
@@ -42,8 +55,7 @@ class OrderController{
         }
 
         $user_id = $_SESSION["user_id"];
-        $userModel = new UserModel($this->db);
-        $user = $userModel->getUserById($user_id);
+        $user = $this->$userModel->getUserById($user_id);
 
         $orderData = $user["is_admin"] ? $this->orderModel->getOrders($page, 1) : $this->orderModel->getOrderByUserId($page, $user["user_id"]);
 
@@ -76,6 +88,16 @@ class OrderController{
             return;
         }
 
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
+
         try {
             $data["user_id"] = $_POST["user_id"];
             $data["dorayaki_id"] = $_POST["dorayaki_id"];
@@ -88,8 +110,8 @@ class OrderController{
 
             if(!$dorayakiData){
                 echo 'Dorayaki not valid!';
-                echo json_encode($data);
-                echo json_encode($dorayakiData);
+                // echo json_encode($data);
+                // echo json_encode($dorayakiData);
                 return;
             }
 
@@ -102,12 +124,11 @@ class OrderController{
                 return;
             }
             echo 'Order or dorayaki change successfully created';
-
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
 
             if (str_contains($msg, 'Integrity constraint violation')) {
-                echo 'name have been used.';
+                echo 'Doriyaki name have been used.';
             } else {
                 echo $msg;
             }
@@ -124,12 +145,27 @@ class OrderController{
             return;
         }
 
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
+
+        if (isset($_POST["order_id"]) && $_POST["order_id"] == '') {
+            echo 'Incomplete data';
+            return;
+        }
+
         $idFound = $this->orderModel->getOrderById($_POST["order_id"]);
 
         if (
             !$idFound
         ) {
-            echo 'order_id is not found';
+            echo 'Order not found';
             return;
         }
 
