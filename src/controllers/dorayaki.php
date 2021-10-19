@@ -2,6 +2,7 @@
 
 require_once ROOT . '/config/db.php';
 require_once ROOT . '/models/dorayaki.php';
+require_once ROOT . '/models/user.php';
 
 class DorayakiController
 {
@@ -12,6 +13,7 @@ class DorayakiController
     {
         $this->db = new Database();
         $this->dorayakiModel = new DorayakiModel($this->db);
+        $this->userModel = new UserModel($this->db);
 
         session_start();
     }
@@ -43,8 +45,6 @@ class DorayakiController
         }
 
         echo json_encode($dorayakiData);
-
-        // echo 'Dorayaki with id : ' . $_GET["dorayaki_id"] . ' is found';
     }
 
     public function getDorayakis()
@@ -63,8 +63,28 @@ class DorayakiController
             echo 'Current dorayaki page is not found';
             return;
         }
+
         echo json_encode($dorayakiData);
-        //echo 'Dorayaki with page : ' . $_GET["page"] . ' is found';
+    }
+
+    public function getDorayakiPopularVariant()
+    {
+
+        $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        $dorayakiData = $this->dorayakiModel->getDorayakiPopularVariant();
+
+        if (!$dorayakiData) {
+            echo 'Current dorayaki page is not found';
+            return;
+        }
+
+        echo json_encode($dorayakiData);
     }
 
     public function createDorayaki()
@@ -89,6 +109,16 @@ class DorayakiController
             return;
         }
 
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
+
         try {
             $data["name"] = $_POST["name"];
             $data["description"] = $_POST["description"];
@@ -99,16 +129,16 @@ class DorayakiController
             $dorayakiData = $this->dorayakiModel->createDorayaki($data);
 
             if (!$dorayakiData) {
-                echo 'Current dorayaki page is not found';
+                echo 'Failed to create dorayaki';
                 return;
             }
-            echo 'Dorayaki with data is successfully created';
 
+            echo 'Dorayaki is successfully created';
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
 
             if (str_contains($msg, 'Integrity constraint violation')) {
-                echo 'name have been used.';
+                echo 'Dorayaki name have been used.';
             } else {
                 echo $msg;
             }
@@ -138,6 +168,16 @@ class DorayakiController
             return;
         }
 
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
+
         try {
             $data["dorayaki_id"] = $_POST["dorayaki_id"];
             $data["name"] = $_POST["name"];
@@ -149,15 +189,15 @@ class DorayakiController
             $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
 
             if (!$dorayakiData) {
-                echo 'Current dorayaki page is not found';
+                echo 'Dorayaki is not found';
                 return;
             }
-            echo 'Dorayaki with data is successfully updated';
+            echo 'Dorayaki is successfully updated';
 
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
             if (str_contains($msg, 'Integrity constraint violation')) {
-                echo 'name have been used.';
+                echo 'Dorayaki name have been used.';
             } else {
                 echo $msg;
             }
@@ -175,17 +215,53 @@ class DorayakiController
             return;
         }
 
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
+
+        if (!$user) {
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            echo 'You are not admin';
+            return;
+        }
+
+        if (isset($_POST["dorayaki_id"]) && $_POST["dorayaki_id"] == '') {
+            echo 'Incomplete data';
+            return;
+        }
+
         $idFound = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
 
         if (
             !$idFound
         ) {
-            echo 'dorayaki_id is not found';
+            echo 'Dorayaki not found';
             return;
         }
 
         $doryakiData = $this->dorayakiModel->deleteDorayaki($_POST["dorayaki_id"]);
-        echo 'Dorayaki with id : ' . $_POST["dorayaki_id"] . ' is successfully deleted';
+        echo 'Deleted successfully';
+    }
+
+    public function uploadDorayakiImage()
+    {
+        if (!$_POST) {
+            return;
+        }
+
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            echo 'Authentication required.';
+            return;
+        }
+
+        $target_dir = ROOT . "/public/upload/";
+        $target_file = $target_dir . basename($_FILES["userfile"]["name"]);
+
+        if (move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_file)) {
+            echo "The file " . htmlspecialchars(basename($_FILES["userfile"]["name"])) . " has been uploaded.";
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
     }
 
 }

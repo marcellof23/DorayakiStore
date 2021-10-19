@@ -24,32 +24,33 @@ class OrderModel
         $join = "INNER JOIN " . DorayakiModel::$table . " D ON D.dorayaki_id = O.dorayaki_id INNER JOIN " . UserModel::$table . " U on U.user_id = O.user_id";
         $pagination = "LIMIT " . $limit . " OFFSET " . $offset;
 
-        $this->db->query('SELECT '.$selection.' FROM ' . OrderModel::$table . " O " . $join . " WHERE isOrder = " . $isOrder ." ". $pagination);
+        $this->db->query('SELECT ' . $selection . ' FROM ' . OrderModel::$table . " O " . $join . " WHERE isOrder = " . $isOrder . " " . $pagination);
         return $this->db->resultSet();
     }
 
     public function getOrderById($id)
     {
         $join = "INNER JOIN " . DorayakiModel::$table . " D ON D.dorayaki_id = O.dorayaki_id INNER JOIN " . UserModel::$table . " U on U.user_id = O.user_id";
-        $this->db->query('SELECT * FROM ' . OrderModel::$table . ' O ' .$join. ' WHERE O.order_id = :order_id');
+        $this->db->query('SELECT * FROM ' . OrderModel::$table . ' O ' . $join . ' WHERE O.order_id = :order_id');
         $this->db->bind(':order_id', $id);
         return $this->db->single();
     }
 
-    public function getOrderByUserId($page, $user_id){
+    public function getOrderByUserId($page, $user_id)
+    {
         $limit = 20;
         $offset = ($page - 1) * $limit;
 
         $selection = "O.*, D.name AS dorayaki, U.name AS user";
         $join = "INNER JOIN " . DorayakiModel::$table . " D ON D.dorayaki_id = O.dorayaki_id INNER JOIN " . UserModel::$table . " U on U.user_id = O.user_id";
         $pagination = "LIMIT " . $limit . " OFFSET " . $offset;
-        $this->db->query('SELECT '.$selection.' FROM ' . OrderModel::$table . " O " . $join . " WHERE O.user_id = " . $user_id ." ". $pagination);
+        $this->db->query('SELECT ' . $selection . ' FROM ' . OrderModel::$table . " O " . $join . " WHERE O.user_id = " . $user_id . " " . $pagination);
         return $this->db->resultSet();
     }
 
     public function createOrder($data)
     {
-        $query = "INSERT INTO " . OrderModel:: $table . " VALUES
+        $query = "INSERT INTO " . OrderModel::$table . " VALUES
                   (NULL, :user_id, :dorayaki_id, :amount, :total_cost, :isOrder, :createdAt, :type)";
 
         $dt = new DateTime();

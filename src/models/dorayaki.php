@@ -19,13 +19,28 @@ class DorayakiModel
     {
         $limit = 10;
         $offset = ($page - 1) * $limit;
-        $this->db->query('SELECT * FROM ' . DorayakiModel::$table . " LIMIT " . $limit . " OFFSET " . $offset);
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
+            " LIMIT " . $limit . " OFFSET " . $offset);
+        return $this->db->resultSet();
+    }
+
+    public function getDorayakiPopularVariant()
+    {
+        $limit = 5;
+        $selection = "D.*, COUNT(O.order_id) as sold_count";
+        $join = "Orders O ON O.dorayaki_id = D.dorayaki_id";
+        $from = "Dorayakis D INNER JOIN";
+        $group_by = "D.dorayaki_id ORDER BY sold_count DESC LIMIT " . $limit;
+        $this->db->query('SELECT ' . $selection . ' FROM ' . $from . ' ' . $join .
+            ' GROUP BY ' . $group_by);
+
         return $this->db->resultSet();
     }
 
     public function getDorayakiById($id)
     {
-        $this->db->query('SELECT * FROM ' . DorayakiModel::$table . ' WHERE dorayaki_id = :dorayaki_id');
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
+            ' WHERE dorayaki_id = :dorayaki_id');
         $this->db->bind(':dorayaki_id', $id);
         return $this->db->single();
     }
@@ -53,7 +68,7 @@ class DorayakiModel
         $query = "DELETE FROM " . DorayakiModel::$table . " WHERE dorayaki_id = :dorayaki_id";
 
         $this->db->query($query);
-        $this->db->bind(':user_id', $id);
+        $this->db->bind(':dorayaki_id', $id);
 
         $this->db->execute();
 

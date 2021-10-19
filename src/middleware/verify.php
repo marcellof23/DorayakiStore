@@ -18,6 +18,5 @@ class Middleware
 
     public function verify()
     {
-
     }
 }

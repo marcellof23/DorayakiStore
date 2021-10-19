@@ -20,3 +20,10 @@ const formatDate = (date) => {
 	date = new Date(date);
 	return `${date.getDate()} ${date.getMonth()} ${date.getFullYear()}`;
 };
+
+const formatCurrency = (num) => {
+	return new Intl.NumberFormat('id-ID', {
+		style: 'currency',
+		currency: 'IDR'
+	}).format(num)
+}
