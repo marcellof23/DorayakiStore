@@ -64,6 +64,11 @@ class DorayakiController
             return;
         }
 
+        $dorayakiData['items_per_page'] = 10;
+        $dorayakiData['item_count'] = $this->dorayakiModel->countDorayakis();
+        $dorayakiData['page_count'] = floor($this->dorayakiModel->countDorayakis()
+            / $dorayakiData['items_per_page']) + 1;
+
         echo json_encode($dorayakiData);
     }
 
