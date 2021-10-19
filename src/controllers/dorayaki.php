@@ -166,7 +166,7 @@ class DorayakiController
             $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
 
-            $doryakiData = $this->dorayakiModel->updateDorayaki($data);
+            $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
 
             if (!$dorayakiData) {
                 echo 'Dorayaki is not found';
