@@ -19,13 +19,15 @@ class DorayakiModel
     {
         $limit = 10;
         $offset = ($page - 1) * $limit;
-        $this->db->query('SELECT * FROM ' . DorayakiModel::$table . " LIMIT " . $limit . " OFFSET " . $offset);
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
+            " LIMIT " . $limit . " OFFSET " . $offset);
         return $this->db->resultSet();
     }
 
     public function getDorayakiById($id)
     {
-        $this->db->query('SELECT * FROM ' . DorayakiModel::$table . ' WHERE dorayaki_id = :dorayaki_id');
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
+            ' WHERE dorayaki_id = :dorayaki_id');
         $this->db->bind(':dorayaki_id', $id);
         return $this->db->single();
     }
