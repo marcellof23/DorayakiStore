@@ -1,14 +1,14 @@
 <?php
 
 require_once '../../../config/constant.php';
-require_once ROOT . '/controllers/Order.php';
+require_once ROOT . '/controllers/order.php';
 
 $controller = new OrderController();
 
-if($_GET["type"]=="order"){
-    $controller->getUserOrders();
+if($_GET["type"]=="admin"){
+  $controller->getAdminOrders();
 }else{
-    $controller->getAdminOrders();
+  $controller->getUserOrders();
 }
 
 ?>

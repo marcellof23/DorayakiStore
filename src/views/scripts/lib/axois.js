@@ -70,7 +70,7 @@ class AXOIS {
   }
 }
 
-const axois = new AXOIS();
+const axois = new AXOIS("/api/");
 
 // WORKING EXAMPLE DOWN HERE
 

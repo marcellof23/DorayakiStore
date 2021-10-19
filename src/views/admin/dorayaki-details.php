@@ -28,33 +28,9 @@ if (isset($_GET["id"])) {
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="dorayaki-details-page"></div>
+	<div id="dorayaki-details-page" class="app"></div>
 </body>
 <script>
 	DorayakiDetailsPage();
-
-	<?php
-	if (isset($_GET["id"])) {
-	?>
-	async function fetchingData() {
-		const axois = new AXOIS("/");
-		const response = await axois.get('api/dorayaki/get-details?dorayaki_id=<?php echo $id; ?>');
-
-		try {
-			const data = JSON.parse(response)
-			document.querySelector('.dorayaki-details-text.name span').textContent = data.name;
-			document.querySelector('.dorayaki-details-text.price span').textContent = data.price;
-			document.querySelector('.dorayaki-details-text.stock span').textContent = data.stock;
-			document.querySelector('.dorayaki-details-text.description p').textContent = data.description;
-			document.querySelector('#dorayaki-photo').src = data.thumbnail;
-		} catch (err) {
-			document.querySelector('.dorayaki-details').innerHTML = `<h3>${response}</h3>`;	
-		}
-	}
-
-	fetchingData();
-	<?php
-	}
-	?>
 </script>
 </html>

@@ -13,14 +13,46 @@ $testing = new Database();
 
 $tes = new DorayakiModel($testing);
 
-$data["name"] = "asem8";
 $data["description"] = "nothing";
 $data["price"] = 30000;
 $data["stock"] = 120;
 $data["thumbnail"] = "nothing";
 
+$data["name"] = "asem1";
 $tes->createDorayaki($data);
 
+$data["name"] = "asem2";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem3";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem4";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem5";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem6";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem7";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem8";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem9";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem10";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem11";
+$tes->createDorayaki($data);
+
+$data["name"] = "asem12";
+$tes->createDorayaki($data);
 // echo var_dump($tes->getDoriyakis(1));
 //echo var_dump($tes->getAllDoriyakis());
 

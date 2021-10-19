@@ -1,6 +1,3 @@
-<?php
-$num = 1;
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +8,8 @@ $num = 1;
 	<script src="../scripts/utils/api_util.js"></script>
 	<script src="../scripts/utils/formatting.js"></script>
 	<script src="../scripts/lib/axois.js"></script>
-	<script src="../scripts/lib/table.js"></script>
-	<script src="../scripts/api/dorayaki.js"></script>
+  <script src="../scripts/lib/table.js"></script>
+  <script src="../scripts/api/order.js"></script>
 	<script src="../scripts/generator/template.js"></script>
 	<script src="../scripts/generator/card.js"></script>
 	<script src="../scripts/generator/control.js"></script>
@@ -27,9 +24,9 @@ $num = 1;
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="home-admin" class="app"></div>
+	<div id="admin-history-page" class="app"></div>
 </body>
 <script>
-	AdminHomePage();
+	AdminHistoryPage();
 </script>
 </html>

@@ -22,7 +22,7 @@
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="home"></div>
+	<div id="home" class="app"></div>
 </body>
 <script>
 	HomePage();

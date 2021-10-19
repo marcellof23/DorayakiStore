@@ -1,95 +1,96 @@
 const AdminHomePage = async () => {
-  const target = document.getElementById("home-admin");
+	const target = document.getElementById("home-admin");
 
-  let curr_page = 1;
+	const table_id = "dorayaki-table";
 
-  function addPageNumber() {
-    curr_page++;
-  }
+	const head = {
+		No: "No",
+		thumbnail: "Thumbnail",
+		name: "Nama Dorayaki",
+		description: "Deskripsi",
+		price: "Harga",
+		stock: "Stock",
+	};
 
-  function minPageNumber() {
-    curr_page--;
-  }
+	const table = new Table(table_id, head, getDorayakiPage);
 
-  async function fetchingData() {
-    const axois = new AXOIS("/");
+	const onAdd = `redirect("/admin/dorayaki-add")`;
 
-    const res = await axois.get(
-      `api/dorayaki/get-pagination?page=${curr_page}`
-    );
-    return res;
-  }
-
-  const res = await fetchingData();
-
-  const components = `
-		${generateNavbarAdmin()}
-		<div class="dorayaki-management-container">
-			${pageTitle("Dorayaki Management")}
+	const components = `
+    ${generateNavbarAdmin()}
+    <div class="dorayaki-management-container">
+      ${pageTitle("Dorayaki Management")}
       <div class="search-container">
         ${SearchBar()}
-        <button onclick="submit" class="add-dorayaki">
-          Add Dorayaki
-        </button>
+        ${Button("Add Dorayaki", "primary", onAdd)}
       </div>
-      <div class="table-container">
-       ${generate_table(res)}
-       <div class="pagination-container">
-        <p class="pagination-number"><span id="button1"> < </span>   <span class="button2"> > </span> </p>
-      </div>
-      </div>  
-		</div>
-    <script>
-      var box = document.getElementById("button1");
-      var isBlue = true;
-      box.onclick = function () {
-        console.log("WOI");
-      };
-    </script>
-	`;
-  target.innerHTML = components;
+      ${await table.generate_table()}
+    </div>
+  `;
+	target.innerHTML = components;
 };
 
-const DorayakiDetailsPage = () => {
-  const target = document.getElementById("dorayaki-details-page");
+const DorayakiDetailsPage = async () => {
+	const target = document.getElementById("dorayaki-details-page");
 
-  const components = `
+	const url = new URL(window.location.href);
+	const id = parseInt(url.searchParams.get("id"));
+
+	const res = await axois.get(`dorayaki/get-details?dorayaki_id=${id}`);
+	const data = JSON.parse(res);
+
+	const onEdit = `redirect("/admin/dorayaki-edit?id=${id}")`;
+	const onDelete = `openTab("/")`;
+
+	const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        <img src="" alt="foto dorayaki" id="dorayaki-photo" />
+        ${Image(data.thumbnail || "", false, "foto dorayaki", "dorayaki-photo")}
         <div class="dorayaki-details-main">
-          <div class="dorayaki-details-text name">
-            <h3>Name</h3>
-            <span>{name}</span>
-          </div>
-          <div class="dorayaki-details-text price">
-            <h3>Price</h3>
-            <span>{price}</span>
-          </div>
-          <div class="dorayaki-details-text stock">
-            <h3>Stock</h3>
-            <span>{stock}</span>
-          </div>
-          <div class="dorayaki-details-text description" style="margin-bottom:10px">
-            <h3>Description</h3>
-            <p>{description}</p>
-          </div>
-          <button class="dorayaki-button primary">Edit Dorayaki</button>
-          <button class="dorayaki-button outline">Delete Dorayaki</button>
+          ${LabText(
+						"Name",
+						data.name || "name",
+						true,
+						"text",
+						"dorayaki-details-text name"
+					)}
+          ${LabText(
+						"Price",
+						data.price || "price",
+						true,
+						"text",
+						"dorayaki-details-text price"
+					)}
+          ${LabText(
+						"Stock",
+						data.stock || "stock",
+						true,
+						"text",
+						"dorayaki-details-text stock"
+					)}
+          ${LabText(
+						"Description",
+						data.description || "description",
+						true,
+						"text",
+						"dorayaki-details-text description"
+					)}
+          ${Button("Edit Dorayaki", true, onEdit)}
+          ${Button("Delete Dorayaki", false, onDelete)}
         </div>
       </div>
 		</div>
 	`;
 
-  target.innerHTML = components;
+	target.innerHTML = components;
 };
 
 const DorayakiEditPage = () => {
-  const target = document.getElementById("dorayaki-edit-page");
+	const target = document.getElementById("dorayaki-edit-page");
 
-  const components = `
+	const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
@@ -119,13 +120,13 @@ const DorayakiEditPage = () => {
 		</div>
 	`;
 
-  target.innerHTML = components;
+	target.innerHTML = components;
 };
 
 const DorayakiAddPage = () => {
-  const target = document.getElementById("dorayaki-add-page");
+	const target = document.getElementById("dorayaki-add-page");
 
-  const components = `
+	const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
@@ -155,5 +156,51 @@ const DorayakiAddPage = () => {
 		</div>
 	`;
 
-  target.innerHTML = components;
+	target.innerHTML = components;
+};
+
+const AdminHistoryPage = async () => {
+	const target = document.getElementById("admin-history-page");
+
+	const url = new URL(window.location.href);
+	const type = url.searchParams.get("type") || "user";
+
+	const table_id =
+		type === "user" ? "user-pov-history-table" : "admin-pov-history-table";
+
+	const head = {
+		No: "No",
+		createdAt: "Tanggal",
+		user: "User",
+		dorayaki: "Dorayaki",
+		amount: "Quantity",
+		total_cost: "Total",
+	};
+
+	const adminHead = {
+		No: "No",
+		createdAt: "Tanggal",
+		user: "User",
+		dorayaki: "Dorayaki",
+		amount: "Quantity",
+		type: "Type",
+		total_cost: "Total",
+	};
+
+	const table = new Table(
+		table_id,
+		type === "user" ? head : adminHead,
+		getOrderPage
+	);
+
+	const components = `
+    ${generateNavbarAdmin()}
+    <div class="history-container">
+      ${pageTitle("Dorayaki Order List")}
+      <div class="control-container">
+      </div>
+      ${await table.generate_table()}
+    </div>
+  `;
+	target.innerHTML = components;
 };
