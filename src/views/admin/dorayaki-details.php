@@ -71,8 +71,12 @@ if (isset($_GET["id"])) {
 			alert.style.gridColumn = 'span 2';
 			alert.textContent = response;
 
-			document.querySelector('.dorayaki-details')
-				.insertBefore(alert, document.querySelector('#dorayaki-photo'))
+			if (document.querySelector('.alert.error')) {
+				document.querySelector('.alert.error').textContent = response;
+			} else {
+				document.querySelector('.dorayaki-details')
+					.insertBefore(alert, document.querySelector('#dorayaki-photo'))
+			}
 		}
 	}
 
