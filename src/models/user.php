@@ -20,7 +20,7 @@ class UserModel
         $limit = 20;
         $offset = ($page - 1) * $limit;
 
-        $this->db->query('SELECT * FROM ' . UserModel::$table . "LIMIT " . $limit . " OFFSET " . $offset);
+        $this->db->query('SELECT * FROM ' . UserModel::$table . " LIMIT " . $limit . " OFFSET " . $offset);
         return $this->db->resultSet();
     }
 
@@ -90,8 +90,8 @@ class UserModel
                     name = :name,
                     username = :username,
                     email = :email
-                    " 
-                    . (isset($data["password"]) ? ",password = :password " : "") . "
+                    "
+            . (isset($data["password"]) ? ",password = :password " : "") . "
                   WHERE user_id = :user_id";
 
         $this->db->query($query);
