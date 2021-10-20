@@ -81,6 +81,26 @@ class DorayakiController
         echo json_encode($res);
     }
 
+    public function getDorayakiByQuery()
+    {
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
+            echo 'Authentication required.';
+            return;
+        }
+
+        $query = $_GET["query"];
+        $dorayakiData = $this->dorayakiModel->getDorayakiByQuery($query);
+
+        if (!$dorayakiData) {
+            http_response_code(404);
+            echo 'Current dorayaki query is not found';
+            return;
+        }
+
+        echo json_encode($dorayakiData);
+    }
+
     public function getDorayakiPopularVariant()
     {
 
@@ -329,7 +349,7 @@ class DorayakiController
     public function uploadDorayakiImage()
     {
         if (!isset($_POST)) {
-          return;
+            return;
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
