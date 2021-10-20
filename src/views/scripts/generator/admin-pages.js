@@ -37,49 +37,65 @@ const AdminHomePage = async () => {
 };
 
 const DorayakiDetailsPage = async () => {
-  const target = document.getElementById("dorayaki-details-page");
+	const target = document.getElementById("dorayaki-details-page");
+	const modaldom = document.getElementById("modal-portal");
 
-  const url = new URL(window.location.href);
-  const id = parseInt(url.searchParams.get("id"));
+	const url = new URL(window.location.href);
+	const id = parseInt(url.searchParams.get("id"));
 
-  try {
-    const res = await getDorayakiDetail(id);
-    const data = JSON.parse(res);
-    const { name, price, stock, description, thumbnail } = data;
+	try {
+		const res = await getDorayakiDetail(id);
+		const data = JSON.parse(res);
+		const {name, price, stock, description, thumbnail} = data;
 
-    const onEdit = `redirect("/admin/dorayaki-edit?id=${id}")`;
+		const ddt = "dorayaki-details-text";
 
-    const ddt = "dorayaki-details-text";
+		const onEdit = `redirect("/admin/dorayaki-edit?id=${id}")`;
+		const onDelete = `deleteDorayaki(${id})`;
 
-    const components = `
+		const modal = new ConfirmationModal(
+			"confirm-delete",
+			false,
+			onDelete,
+			null,
+			"Apakah anda yakin akan menghapus dorayaki ini?"
+		);
+
+		const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        ${Image(thumbnail || "/public/placeholder.jpg", false, "foto dorayaki", "dorayaki-photo")}
+        ${Image(
+					thumbnail || "/public/placeholder.jpg",
+					false,
+					"foto dorayaki",
+					"dorayaki-photo"
+				)}
         <div class="dorayaki-details-main">
           ${LabText("Name", "name", name, true, "text", `${ddt} name`)}
           ${LabText("Price", "price", price, true, "text", `${ddt} price`)}
           ${LabText("Stock", "stock", stock, true, "text", `${ddt} stock`)}
           ${LabText(
-            "Description",
-            "description",
-            description,
-            true,
-            "text",
-            `${ddt} description`
-          )}
+						"Description",
+						"description",
+						description,
+						true,
+						"text",
+						`${ddt} description`
+					)}
           ${Button("Edit Dorayaki", true, onEdit)}
-          ${Button("Delete Dorayaki", false, `deleteDorayaki(${id})`)}
+          ${Button("Delete Dorayaki", false, modal.open())}
         </div>
       </div>
 		</div>
 	`;
 
-    target.innerHTML = components;
-  } catch (err) {
-    console.log(err);
-    const components = `
+		target.innerHTML = components;
+		modaldom.innerHTML = modal.render();
+	} catch (err) {
+		console.log(err);
+		const components = `
       ${generateNavbarAdmin()}
       <div class="dorayaki-management-container">
         ${pageTitle("Dorayaki Management")}
@@ -89,42 +105,47 @@ const DorayakiDetailsPage = async () => {
       </div>
     `;
 
-    target.innerHTML = components;
-  }
+		target.innerHTML = components;
+	}
 };
 
 const DorayakiEditPage = async () => {
-  const target = document.getElementById("dorayaki-edit-page");
+	const target = document.getElementById("dorayaki-edit-page");
 
-  const url = new URL(window.location.href);
-  const id = parseInt(url.searchParams.get("id"));
+	const url = new URL(window.location.href);
+	const id = parseInt(url.searchParams.get("id"));
 
-  const res = await getDorayakiDetail(id);
-  const data = JSON.parse(res);
-  const { name, price, stock, description, thumbnail } = data;
-  const ddt = "dorayaki-details-text";
+	const res = await getDorayakiDetail(id);
+	const data = JSON.parse(res);
+	const {name, price, stock, description, thumbnail} = data;
+	const ddt = "dorayaki-details-text";
 
-  onSubmit = `updateDorayaki(${id})`;
-  onCancel = `redirect("/admin/dorayaki-details?id=${id}")`;
+	onSubmit = `updateDorayaki(${id})`;
+	onCancel = `redirect("/admin/dorayaki-details?id=${id}")`;
 
-  const components = `
+	const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        ${Image(thumbnail || "/public/placeholder.jpg", true, "foto dorayaki", "dorayaki-photo")}
+        ${Image(
+					thumbnail || "/public/placeholder.jpg",
+					true,
+					"foto dorayaki",
+					"dorayaki-photo"
+				)}
         <form class="dorayaki-details-main">
           ${LabText("Name", "name", name, false, "text", `${ddt} name`)}
           ${LabText("Price", "price", price, false, "text", `${ddt} price`)}
           ${LabText("Stock", "stock", stock, false, "text", `${ddt} stock`)}
           ${LabText(
-            "Description",
-            "description",
-            description,
-            false,
-            "text",
-            `${ddt} description`
-          )}
+						"Description",
+						"description",
+						description,
+						false,
+						"text",
+						`${ddt} description`
+					)}
           ${Button("Save changes", true, onSubmit)}
           ${Button("Cancel", false, onCancel)}
         </form>
@@ -132,35 +153,43 @@ const DorayakiEditPage = async () => {
 		</div>
 	`;
 
-  target.innerHTML = components;
+	target.innerHTML = components;
 };
 
 const DorayakiAddPage = () => {
-  const target = document.getElementById("dorayaki-add-page");
+	const target = document.getElementById("dorayaki-add-page");
+	const modaldom = document.getElementById("modal-portal");
 
-  onSubmit = `createDorayaki()`;
-  onCancel = `redirect("/admin/dorayaki")`;
+	const modal = new Modal("confirm-delete", false, "Dorayaki berhasil dibuat!");
 
-  const ddt = "dorayaki-details-text";
+  onSubmit = `createDorayaki(); ${modal.open()}; redirect("/admin/dorayaki",1000)`;
+	onCancel = `redirect("/admin/dorayaki")`;
 
-  const components = `
+	const ddt = "dorayaki-details-text";
+
+	const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        ${Image("/public/placeholder.jpg", true, "foto dorayaki", "dorayaki-photo")}
+        ${Image(
+					"/public/placeholder.jpg",
+					true,
+					"foto dorayaki",
+					"dorayaki-photo"
+				)}
         <form class="dorayaki-details-main">
           ${LabText("Name", "name", "", false, "text", `${ddt} name`)}
           ${LabText("Price", "price", "", false, "text", `${ddt} price`)}
           ${LabText("Stock", "stock", "", false, "text", `${ddt} stock`)}
           ${LabText(
-            "Description",
-            "description",
-            "",
-            false,
-            "text",
-            `${ddt} description`
-          )}
+						"Description",
+						"description",
+						"",
+						false,
+						"text",
+						`${ddt} description`
+					)}
           ${Button("Add New Dorayaki", true, onSubmit)}
           ${Button("Cancel", false, onCancel)}
         </form>
@@ -168,7 +197,8 @@ const DorayakiAddPage = () => {
 		</div>
 	`;
 
-  target.innerHTML = components;
+	target.innerHTML = components;
+	modaldom.innerHTML = modal.render();
 };
 
 const AdminHistoryPage = async () => {

@@ -8,6 +8,7 @@
 	<script src="../scripts/utils/api_util.js"></script>
 	<script src="../scripts/utils/formatting.js"></script>
 	<script src="../scripts/lib/axois.js"></script>
+	<script src="../scripts/lib/modal.js"></script>
   <script src="../scripts/api/dorayaki.js"></script>
 	<script src="../scripts/generator/template.js"></script>
 	<script src="../scripts/generator/card.js"></script>
@@ -24,6 +25,7 @@
 </head>
 <body>
 	<div id="dorayaki-add-page" class="app"></div>
+  <div id="modal-portal"></div>
 </body>
 <script>
 	DorayakiAddPage();

@@ -14,6 +14,7 @@ if (isset($_GET["id"])) {
 	<script src="../scripts/utils/api_util.js"></script>
 	<script src="../scripts/utils/formatting.js"></script>
 	<script src="../scripts/lib/axois.js"></script>
+	<script src="../scripts/lib/modal.js"></script>
   <script src="../scripts/api/dorayaki.js"></script>
 	<script src="../scripts/generator/template.js"></script>
 	<script src="../scripts/generator/card.js"></script>
@@ -30,6 +31,7 @@ if (isset($_GET["id"])) {
 </head>
 <body>
 	<div id="dorayaki-details-page" class="app"></div>
+	<div id="modal-portal"></div>
 </body>
 <script>
 	DorayakiDetailsPage();
