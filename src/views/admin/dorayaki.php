@@ -16,7 +16,7 @@ $num = 1;
 	<script src="../scripts/generator/template.js"></script>
 	<script src="../scripts/generator/card.js"></script>
 	<script src="../scripts/generator/control.js"></script>
-	<script src="../scripts/generator/admin-pages.js"></script>
+	<script src="../scripts/generator/admin-pages.js" async defer></script>
 
 	<link rel="stylesheet" href="../styles/index.css">
 	<link rel="stylesheet" href="../styles/base.css">

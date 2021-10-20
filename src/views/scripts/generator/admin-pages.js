@@ -1,22 +1,22 @@
 const AdminHomePage = async () => {
-	const target = document.getElementById("home-admin");
+  const target = document.getElementById("home-admin");
 
-	const table_id = "dorayaki-table";
+  const table_id = "dorayaki-table";
 
-	const head = {
-		No: "No",
-		thumbnail: "Thumbnail",
-		name: "Nama Dorayaki",
-		description: "Deskripsi",
-		price: "Harga",
-		stock: "Stock",
-	};
+  const head = {
+    No: "No",
+    thumbnail: "Thumbnail",
+    name: "Nama Dorayaki",
+    description: "Deskripsi",
+    price: "Harga",
+    stock: "Stock",
+  };
 
-	const table = new Table(table_id, head, getDorayakiPage);
+  const table = new Table(table_id, head, getDorayakiPage);
 
-	const onAdd = `redirect("/admin/dorayaki-add")`;
+  const onAdd = `redirect("/admin/dorayaki-add")`;
 
-	const components = `
+  const components = `
     ${generateNavbarAdmin()}
     <div class="dorayaki-management-container">
       ${pageTitle("Dorayaki Management")}
@@ -27,7 +27,7 @@ const AdminHomePage = async () => {
       ${await table.generate_table()}
     </div>
   `;
-	target.innerHTML = components;
+  target.innerHTML = components;
 };
 
 const DorayakiDetailsPage = () => {
@@ -67,9 +67,9 @@ const DorayakiDetailsPage = () => {
 };
 
 const DorayakiEditPage = () => {
-	const target = document.getElementById("dorayaki-edit-page");
+  const target = document.getElementById("dorayaki-edit-page");
 
-	const components = `
+  const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
@@ -99,13 +99,13 @@ const DorayakiEditPage = () => {
 		</div>
 	`;
 
-	target.innerHTML = components;
+  target.innerHTML = components;
 };
 
 const DorayakiAddPage = () => {
-	const target = document.getElementById("dorayaki-add-page");
+  const target = document.getElementById("dorayaki-add-page");
 
-	const components = `
+  const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
@@ -135,44 +135,44 @@ const DorayakiAddPage = () => {
 		</div>
 	`;
 
-	target.innerHTML = components;
+  target.innerHTML = components;
 };
 
 const AdminHistoryPage = async () => {
-	const target = document.getElementById("admin-history-page");
+  const target = document.getElementById("admin-history-page");
 
-	const url = new URL(window.location.href);
-	const type = url.searchParams.get("type") || "user";
+  const url = new URL(window.location.href);
+  const type = url.searchParams.get("type") || "user";
 
-	const table_id =
-		type === "user" ? "user-pov-history-table" : "admin-pov-history-table";
+  const table_id =
+    type === "user" ? "user-pov-history-table" : "admin-pov-history-table";
 
-	const head = {
-		No: "No",
-		createdAt: "Tanggal",
-		user: "User",
-		dorayaki: "Dorayaki",
-		amount: "Quantity",
-		total_cost: "Total",
-	};
+  const head = {
+    No: "No",
+    createdAt: "Tanggal",
+    user: "User",
+    dorayaki: "Dorayaki",
+    amount: "Quantity",
+    total_cost: "Total",
+  };
 
-	const adminHead = {
-		No: "No",
-		createdAt: "Tanggal",
-		user: "User",
-		dorayaki: "Dorayaki",
-		amount: "Quantity",
-		type: "Type",
-		total_cost: "Total",
-	};
+  const adminHead = {
+    No: "No",
+    createdAt: "Tanggal",
+    user: "User",
+    dorayaki: "Dorayaki",
+    amount: "Quantity",
+    type: "Type",
+    total_cost: "Total",
+  };
 
-	const table = new Table(
-		table_id,
-		type === "user" ? head : adminHead,
-		getOrderPage
-	);
+  const table = new Table(
+    table_id,
+    type === "user" ? head : adminHead,
+    getOrderPage
+  );
 
-	const components = `
+  const components = `
     ${generateNavbarAdmin()}
     <div class="history-container">
       ${pageTitle("Dorayaki Order List")}
@@ -181,5 +181,5 @@ const AdminHistoryPage = async () => {
       ${await table.generate_table()}
     </div>
   `;
-	target.innerHTML = components;
+  target.innerHTML = components;
 };
