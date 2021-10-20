@@ -23,8 +23,9 @@ class OrderModel
         $selection = "O.*, D.name AS dorayaki, U.name AS user";
         $join = "INNER JOIN " . DorayakiModel::$table . " D ON D.dorayaki_id = O.dorayaki_id INNER JOIN " . UserModel::$table . " U on U.user_id = O.user_id";
         $pagination = "LIMIT " . $limit . " OFFSET " . $offset;
+        $query = 'SELECT ' . $selection . ' FROM ' . OrderModel::$table . " O " . $join . " WHERE isOrder = " . $isOrder . " " . $pagination;
 
-        $this->db->query('SELECT ' . $selection . ' FROM ' . OrderModel::$table . " O " . $join . " WHERE isOrder = " . $isOrder . " " . $pagination);
+        $this->db->query($query);
         return $this->db->resultSet();
     }
 

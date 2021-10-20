@@ -1,5 +1,13 @@
 class Table {
-	constructor(table_id, head, onGet, urlOnClick, id_field, isClickable = true) {
+	constructor(
+		table_id,
+		head,
+		onGet,
+		urlOnClick,
+		id_field,
+		isClickable = true,
+		otherParams = ""
+	) {
 		const params = new URLSearchParams(window.location.search);
 		this.table_id = table_id;
 		this.pagination_id = `${table_id}-pagination`;
@@ -9,6 +17,7 @@ class Table {
 		this.id_field = id_field;
 		this.isClickable = isClickable;
 		this.page = parseInt(params.get("page")) || 1;
+		this.otherParams = otherParams;
 	}
 
 	generate_heading() {
@@ -41,7 +50,9 @@ class Table {
 			for (const [key, _] of Object.entries(this.head)) {
 				if (key === "No") continue;
 				if (key === "thumbnail") {
-					row_data += `<td class="table-data"><img src="${row[key] || "/public/placeholder.jpg"}"/></td>`;
+					row_data += `<td class="table-data"><img src="${
+						row[key] || "/public/placeholder.jpg"
+					}"/></td>`;
 				} else {
 					row_data += `<td class="table-data">${row[key]}</td>`;
 				}
@@ -63,8 +74,12 @@ class Table {
 			const table_body = this.generate_body(data.entries);
 
 			const url = location.protocol + "//" + location.host + location.pathname;
-			const onPrev = `window.location.href="${url}?page=${this.page - 1}"`;
-			const onNext = `window.location.href="${url}?page=${this.page + 1}"`;
+			const onPrev = `window.location.href="${url}?page=${this.page - 1}${
+				this.otherParams
+			}"`;
+			const onNext = `window.location.href="${url}?page=${this.page + 1}${
+				this.otherParams
+			}"`;
 
 			const pagination = `<p id="${this.pagination_id}" class="pagination-number">${this.page}</p> `;
 

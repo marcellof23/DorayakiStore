@@ -230,13 +230,14 @@ const AdminHistoryPage = async () => {
   };
 
   const table = new Table(
-    table_id,
-    type === "user" ? head : adminHead,
-    getOrderPage,
-    "",
-    "",
-    false
-  );
+		table_id,
+		type === "user" ? head : adminHead,
+		getOrderPage,
+		"",
+		"",
+		false,
+		`&type=${type}`
+	);
 
   const switchOptions = ["user", "admin"];
   const active = type;
