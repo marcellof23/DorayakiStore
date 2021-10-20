@@ -21,11 +21,13 @@ class DorayakiController
     public function getDorayakiById()
     {
         if (!$_GET) {
+            http_response_code(400);
             echo 'Please provide dorayaki id';
             return;
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -33,6 +35,7 @@ class DorayakiController
         if (
             $_GET["dorayaki_id"] == ''
         ) {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -40,6 +43,7 @@ class DorayakiController
         $dorayakiData = $this->dorayakiModel->getDorayakiById($_GET["dorayaki_id"]);
 
         if (!$dorayakiData) {
+            http_response_code(404);
             echo 'Current dorayaki is not found';
             return;
         }
@@ -53,6 +57,7 @@ class DorayakiController
         $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -60,6 +65,7 @@ class DorayakiController
         $dorayakiData = $this->dorayakiModel->getDorayakis($page);
 
         if (!$dorayakiData) {
+            http_response_code(404);
             echo 'Current dorayaki page is not found';
             return;
         }
@@ -80,6 +86,7 @@ class DorayakiController
         $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -87,6 +94,7 @@ class DorayakiController
         $dorayakiData = $this->dorayakiModel->getDorayakiPopularVariant();
 
         if (!$dorayakiData) {
+            http_response_code(404);
             echo 'Current dorayaki page is not found';
             return;
         }
@@ -101,6 +109,7 @@ class DorayakiController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -112,6 +121,7 @@ class DorayakiController
             $_POST['stock'] == '' ||
             $_POST['thumbnail'] == ''
         ) {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -119,9 +129,11 @@ class DorayakiController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
             echo 'You are not admin';
             return;
         }
@@ -136,6 +148,7 @@ class DorayakiController
             $dorayakiData = $this->dorayakiModel->createDorayaki($data);
 
             if (!$dorayakiData) {
+                http_response_code(500);
                 echo 'Failed to create dorayaki';
                 return;
             }
@@ -145,6 +158,7 @@ class DorayakiController
             $msg = $pdo->getMessage();
 
             if (str_contains($msg, 'Integrity constraint violation')) {
+                http_response_code(400);
                 echo 'Dorayaki name have been used.';
             } else {
                 echo $msg;
@@ -159,6 +173,7 @@ class DorayakiController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -171,6 +186,7 @@ class DorayakiController
             $_POST['stock'] == '' ||
             $_POST['thumbnail'] == ''
         ) {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -178,9 +194,11 @@ class DorayakiController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
             echo 'You are not admin';
             return;
         }
@@ -196,6 +214,7 @@ class DorayakiController
             $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
 
             if (!$dorayakiData) {
+                http_response_code(404);
                 echo 'Dorayaki is not found';
                 return;
             }
@@ -204,6 +223,7 @@ class DorayakiController
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
             if (str_contains($msg, 'Integrity constraint violation')) {
+                http_response_code(400);
                 echo 'Dorayaki name have been used.';
             } else {
                 echo $msg;
@@ -218,6 +238,7 @@ class DorayakiController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -225,14 +246,17 @@ class DorayakiController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
             echo 'You are not admin';
             return;
         }
 
         if (isset($_POST["dorayaki_id"]) && $_POST["dorayaki_id"] == '') {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -242,6 +266,7 @@ class DorayakiController
         if (
             !$idFound
         ) {
+            http_response_code(404);
             echo 'Dorayaki not found';
             return;
         }
@@ -257,6 +282,7 @@ class DorayakiController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -267,6 +293,7 @@ class DorayakiController
         if (move_uploaded_file($_FILES["userfile"]["tmp_name"], $target_file)) {
             echo "The file " . htmlspecialchars(basename($_FILES["userfile"]["name"])) . " has been uploaded.";
         } else {
+            http_response_code(500);
             echo "Sorry, there was an error uploading your file.";
         }
     }
