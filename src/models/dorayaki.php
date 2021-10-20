@@ -51,6 +51,14 @@ class DorayakiModel
         return $this->db->single();
     }
 
+    public function getDorayakiByName($name)
+    {
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
+            ' WHERE name = :name');
+        $this->db->bind(':name', $name);
+        return $this->db->single();
+    }
+
     public function createDorayaki($data)
     {
         $query = "INSERT INTO " . DorayakiModel::$table . " VALUES
