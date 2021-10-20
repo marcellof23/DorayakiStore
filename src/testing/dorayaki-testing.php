@@ -25,6 +25,10 @@ for ($x = 0; $x <= 10; $x++) {
     $data["thumbnail"] = "nothing";
 
     // $_GET["page"] = 1;
-    $tes_model->createDorayaki($data);
+    //$tes_model->createDorayaki($data);
     // var_dump($tes_controller->getDorayakis());
 }
+
+$_GET["query"] = "asem";
+var_dump($tes_controller->getDorayakiByQuery());
+//var_dump($tes_model->getDorayakiByQuery("sem"));

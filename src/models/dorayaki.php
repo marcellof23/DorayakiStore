@@ -30,6 +30,15 @@ class DorayakiModel
         return $this->db->resultSet();
     }
 
+    public function getDorayakiByQuery($query)
+    {
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
+            " WHERE name LIKE :query");
+        $query = '%' . $query . '%';
+        $this->db->bind(':query', $query);
+        return $this->db->resultSet();
+    }
+
     public function getDorayakiPopularVariant()
     {
         $limit = 10;
