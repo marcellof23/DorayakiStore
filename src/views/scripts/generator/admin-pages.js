@@ -12,7 +12,13 @@ const AdminHomePage = async () => {
     stock: "Stock",
   };
 
-  const table = new Table(table_id, head, getDorayakiPage);
+  const table = new Table(
+    table_id,
+    head,
+    getDorayakiPage,
+    "/admin/dorayaki-details",
+    "dorayaki_id"
+  );
 
   const onAdd = `redirect("/admin/dorayaki-add")`;
 
@@ -196,15 +202,20 @@ const AdminHistoryPage = async () => {
   const table = new Table(
     table_id,
     type === "user" ? head : adminHead,
-    getOrderPage
+    getOrderPage,
+    "",
+    "",
+    false
   );
+
+  const switchOptions = ["user", "admin"];
+  const active = type;
 
   const components = `
     ${generateNavbarAdmin()}
     <div class="history-container">
       ${pageTitle("Dorayaki Order List")}
-      <div class="control-container">
-      </div>
+      ${Switch(switchOptions, active, "/admin/history", "type")}
       ${await table.generate_table()}
     </div>
   `;

@@ -60,3 +60,17 @@ const Alert = (type, text, classname) =>
       ${text}
     </div>
 `;
+
+const Switch = (options, active, baseUrl, queryParam) => {
+	let opts = "";
+	options.forEach((element) => {
+		opts += `<div class="option ${
+			element === active ? "active" : ""
+		}" onclick='redirect("${baseUrl}?${queryParam}=${element}")'>${element}</div>`;
+	});
+	return `
+  <div class="switch">
+    ${opts}
+  </div>
+  `;
+};

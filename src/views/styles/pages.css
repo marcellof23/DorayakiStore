@@ -79,6 +79,10 @@
   grid-template-columns: 1fr 2fr 2fr 3fr 1fr 1fr 1fr;
 }
 
+.history-container > *{
+  margin-bottom: var(--padding-large);
+}
+
 .dorayaki-details-text input,
 .dorayaki-details-text textarea {
   width: 100%;

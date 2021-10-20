@@ -13,15 +13,16 @@ $testing = new Database();
 
 // Order Testing
 
-$tess = new OrderModel($testing);
+$tes_model = new OrderModel($testing);
 
 $data["user_id"] = "1";
 $data["dorayaki_id"] = "3";
-$data["amount"] = 3000;
+$data["amount"] = 1;
 $data["total_cost"] = 120;
 $data["price"] = 1000;
 $data["isOrder"] = "1";
 $data["createdAt"] = "nothing";
 $data["type"] = "ADD";
 
-$tess->createOrder($data);
+//$tess->createOrder($data);
+$tes_model->createOrder($data);

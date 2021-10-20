@@ -28,6 +28,21 @@ class OrderModel
         return $this->db->resultSet();
     }
 
+    public function countOrders($isOrder)
+    {
+      $where = 'isOrder = '.$isOrder;
+      $query = 'SELECT COUNT(order_id) as total_order FROM ' . OrderModel::$table . ' WHERE ' . $where;
+      $this->db->query($query);
+      return $this->db->resultSet();
+    }
+
+    public function countOrderByUserId($user_id){
+      $where = 'user_id = '.$user_id;
+      $query = 'SELECT COUNT(order_id) as total_order FROM ' . OrderModel::$table . ' WHERE ' . $where;
+      $this->db->query($query);
+      return $this->db->resultSet();
+    }
+
     public function getOrderById($id)
     {
         $join = "INNER JOIN " . DorayakiModel::$table . " D ON D.dorayaki_id = O.dorayaki_id INNER JOIN " . UserModel::$table . " U on U.user_id = O.user_id";

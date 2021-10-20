@@ -132,4 +132,21 @@ class DorayakiModel
             )
         ");
     }
+
+    public static function createDorayakiOrderTrigger(SQLite3 $db): void
+    {
+        $db->exec("
+            CREATE TRIGGER DorayakiOrderTrigger
+            AFTER INSERT ON Orders
+            BEGIN
+                UPDATE Dorayakis
+                SET stock = stock - new.amount
+                WHERE dorayaki_id = new.dorayaki_id;
+            END;
+        ");
+
+        // $db->exec("
+        //     DROP TRIGGER DorayakiOrderTrigger;
+        // ");
+    }
 }

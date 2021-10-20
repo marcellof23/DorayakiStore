@@ -90,13 +90,13 @@ tr:nth-child(even) {
   transition: all 0.3s ease;
 }
 
-.table-row:hover{
+.table-row.clickable:hover{
   cursor: pointer;
   background-color: var(--primary);
   transform: scale(1.01);
 }
 
-.table-row:hover > *{
+.table-row.clickable:hover > *{
   color : var(--white);
 }
 
