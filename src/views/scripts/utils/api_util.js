@@ -8,6 +8,12 @@ const handleUploadPhoto = async (cb) => {
 		const file = input.files ? input.files[0] : undefined;
 		if (!file) return;
 
+		const formData = new FormData();
+		formData.append("userfile", file);
+		const res = await axois.post("/dorayaki/upload-image", formData);
+
+		console.log(JSON.stringify(res));
+
 		cb(file);
 		return file;
 	};

@@ -30,70 +30,97 @@ const AdminHomePage = async () => {
   target.innerHTML = components;
 };
 
-const DorayakiDetailsPage = () => {
+const DorayakiDetailsPage = async () => {
   const target = document.getElementById("dorayaki-details-page");
 
-  const components = `
+  const url = new URL(window.location.href);
+  const id = parseInt(url.searchParams.get("id"));
+
+  try {
+    const res = await getDorayakiDetail(id);
+    const data = JSON.parse(res);
+    const { name, price, stock, description, thumbnail } = data;
+
+    const onEdit = `redirect("/admin/dorayaki-edit?id=${id}")`;
+
+    const ddt = "dorayaki-details-text";
+
+    const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        <img src="" alt="foto dorayaki" id="dorayaki-photo" />
+        ${Image(thumbnail || "", false, "foto dorayaki", "dorayaki-photo")}
         <div class="dorayaki-details-main">
-          <div class="dorayaki-details-text name">
-            <h3>Name</h3>
-            <span>{name}</span>
-          </div>
-          <div class="dorayaki-details-text price">
-            <h3>Price</h3>
-            <span>{price}</span>
-          </div>
-          <div class="dorayaki-details-text stock">
-            <h3>Stock</h3>
-            <span>{stock}</span>
-          </div>
-          <div class="dorayaki-details-text description" style="margin-bottom:10px">
-            <h3>Description</h3>
-            <p>{description}</p>
-          </div>
-          <button class="dorayaki-button primary">Edit Dorayaki</button>
-          <button class="dorayaki-button outline">Delete Dorayaki</button>
+          ${LabText("Name", "name", name, true, "text", `${ddt} name`)}
+          ${LabText("Price", "price", price, true, "text", `${ddt} price`)}
+          ${LabText("Stock", "stock", stock, true, "text", `${ddt} stock`)}
+          ${LabText(
+            "Description",
+            "description",
+            description,
+            true,
+            "text",
+            `${ddt} description`
+          )}
+          ${Button("Edit Dorayaki", true, onEdit)}
+          ${Button("Delete Dorayaki", false, `deleteDorayaki(${id})`)}
         </div>
       </div>
 		</div>
 	`;
 
-  target.innerHTML = components;
+    target.innerHTML = components;
+  } catch (err) {
+    console.log(err);
+    const components = `
+      ${generateNavbarAdmin()}
+      <div class="dorayaki-management-container">
+        ${pageTitle("Dorayaki Management")}
+        <div class="dorayaki-details">
+          ${Alert("error", err.response, "col-2")}
+        </div>
+      </div>
+    `;
+
+    target.innerHTML = components;
+  }
 };
 
-const DorayakiEditPage = () => {
+const DorayakiEditPage = async () => {
   const target = document.getElementById("dorayaki-edit-page");
+
+  const url = new URL(window.location.href);
+  const id = parseInt(url.searchParams.get("id"));
+
+  const res = await getDorayakiDetail(id);
+  const data = JSON.parse(res);
+  const { name, price, stock, description, thumbnail } = data;
+  const ddt = "dorayaki-details-text";
+
+  onSubmit = `updateDorayaki(${id})`;
+  onCancel = `redirect("/admin/dorayaki-details?id=${id}")`;
 
   const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        <img src="" alt="foto dorayaki" id="dorayaki-photo" />
+        ${Image(thumbnail || "", true, "foto dorayaki", "dorayaki-photo")}
         <form class="dorayaki-details-main">
-          <div class="dorayaki-details-text name">
-            <h3>Name</h3>
-            <input name="name" value="{name}" />
-          </div>
-          <div class="dorayaki-details-text price">
-            <h3>Price</h3>
-            <input name="price" type="number" />
-          </div>
-          <div class="dorayaki-details-text stock">
-            <h3>Stock</h3>
-            <input name="stock" type="number" />
-          </div>
-          <div class="dorayaki-details-text description" style="margin-bottom:10px">
-            <h3>Description</h3>
-            <textarea name="description" rows="4" cols="50"></textarea>
-          </div>
-          <button class="dorayaki-button primary">Save Changes</button>
-          <button class="dorayaki-button outline">Cancel</button>
+          ${LabText("Name", "name", name, false, "text", `${ddt} name`)}
+          ${LabText("Price", "price", price, false, "text", `${ddt} price`)}
+          ${LabText("Stock", "stock", stock, false, "text", `${ddt} stock`)}
+          ${LabText(
+            "Description",
+            "description",
+            description,
+            false,
+            "text",
+            `${ddt} description`
+          )}
+          ${Button("Save changes", true, onSubmit)}
+          ${Button("Cancel", false, onCancel)}
         </form>
       </div>
 		</div>
@@ -105,31 +132,31 @@ const DorayakiEditPage = () => {
 const DorayakiAddPage = () => {
   const target = document.getElementById("dorayaki-add-page");
 
+  onSubmit = `createDorayaki()`;
+  onCancel = `redirect("/admin/dorayaki")`;
+
+  const ddt = "dorayaki-details-text";
+
   const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        <img src="" alt="foto dorayaki" id="dorayaki-photo" />
+        ${Image("" || "", true, "foto dorayaki", "dorayaki-photo")}
         <form class="dorayaki-details-main">
-          <div class="dorayaki-details-text name">
-            <h3>Name</h3>
-            <input name="name" />
-          </div>
-          <div class="dorayaki-details-text price">
-            <h3>Price</h3>
-            <input name="price" type="number" />
-          </div>
-          <div class="dorayaki-details-text stock">
-            <h3>Stock</h3>
-            <input name="stock" type="number" />
-          </div>
-          <div class="dorayaki-details-text description" style="margin-bottom:10px">
-            <h3>Description</h3>
-            <textarea name="description" rows="4" cols="50"></textarea>
-          </div>
-          <input type="submit" class="dorayaki-button primary" value="Add new dorayaki" />
-          <button class="dorayaki-button outline">Cancel</button>
+          ${LabText("Name", "name", "", false, "text", `${ddt} name`)}
+          ${LabText("Price", "price", "", false, "text", `${ddt} price`)}
+          ${LabText("Stock", "stock", "", false, "text", `${ddt} stock`)}
+          ${LabText(
+            "Description",
+            "description",
+            "",
+            false,
+            "text",
+            `${ddt} description`
+          )}
+          ${Button("Add New Dorayaki", true, onSubmit)}
+          ${Button("Cancel", false, onCancel)}
         </form>
       </div>
 		</div>

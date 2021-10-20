@@ -63,13 +63,15 @@ class DorayakiController
             echo 'Current dorayaki page is not found';
             return;
         }
+        $res = array();
+        $res['entries'] = $dorayakiData;
+        $res['items_per_page'] = 10;
+        $res['item_count'] = $this->dorayakiModel->countDorayakis()[0]["total_dorayaki"];
+        $res["page"] = $page;
+        $res['page_count'] = floor($this->dorayakiModel->countDorayakis()[0]["total_dorayaki"]
+            / $res['items_per_page']) + 1;
 
-        $dorayakiData['items_per_page'] = 10;
-        $dorayakiData['item_count'] = $this->dorayakiModel->countDorayakis();
-        $dorayakiData['page_count'] = floor($this->dorayakiModel->countDorayakis()
-            / $dorayakiData['items_per_page']) + 1;
-
-        echo json_encode($dorayakiData);
+        echo json_encode($res);
     }
 
     public function getDorayakiPopularVariant()
@@ -250,8 +252,8 @@ class DorayakiController
 
     public function uploadDorayakiImage()
     {
-        if (!$_POST) {
-            return;
+        if (!isset($_POST)) {
+          return;
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {

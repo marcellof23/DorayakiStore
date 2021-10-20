@@ -46,11 +46,11 @@
   cursor: pointer;
 }
 
-#dorayaki-details-page .dorayaki-management-container > *{
+.dorayaki-management-container > *{
   margin-bottom: var(--padding-large);
 }
 
-#dorayaki-details-page .dorayaki-details{
+.dorayaki-details{
   display: grid;
   grid-template-columns: 0.5fr 1fr;
   grid-gap: 30px;
@@ -63,7 +63,7 @@
   object-fit: cover;
 }
 
-#dorayaki-details-page .dorayaki-details-main {
+.dorayaki-details-main {
   display: grid;
   grid-template-rows: auto;
   grid-gap: 16px;
