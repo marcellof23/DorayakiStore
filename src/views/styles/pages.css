@@ -63,7 +63,7 @@
   object-fit: cover;
 }
 
-#dorayaki-details-page .dorayaki-details-main {
+.dorayaki-details-main {
   display: grid;
   grid-template-rows: auto;
   grid-gap: 16px;

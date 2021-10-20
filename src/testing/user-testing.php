@@ -11,7 +11,6 @@ session_start();
 
 $testing = new Database();
 
-<<<<<<< HEAD:src/config/testing.php
 $tes = new DorayakiModel($testing);
 
 $data["description"] = "nothing";
@@ -33,9 +32,6 @@ $tes->createDorayaki($data);
 
 $data["name"] = "asem5";
 $tes->createDorayaki($data);
-=======
-echo ROOT;
->>>>>>> 2d56d5203d9b4ae5109164f5402342af9fc8c73c:src/testing/user-testing.php
 
 $data["name"] = "asem6";
 $tes->createDorayaki($data);

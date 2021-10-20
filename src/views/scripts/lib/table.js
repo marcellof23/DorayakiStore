@@ -57,7 +57,7 @@ class Table {
 		console.log(data);
 
 		const table_headings = this.generate_heading();
-		const table_body = this.generate_body(data);
+		const table_body = this.generate_body(data.entries);
 
 		const url = location.protocol + "//" + location.host + location.pathname;
 		const onPrev = `window.location.href="${url}?page=${this.page - 1}"`;
@@ -78,7 +78,12 @@ class Table {
           <p id="${this.pagination_id}" class="pagination-number">${
 			this.page
 		}</p> 
-          <div class="pagination-btn" onclick='${onNext}'> > </div>
+          ${
+						this.page === data.page_count
+							? ""
+							: `<div class="pagination-btn" onclick='${onNext}'> > </div>`
+					}
+          
         </div>
       </div>`;
 	}

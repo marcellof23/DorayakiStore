@@ -8,6 +8,7 @@
 	<script src="../scripts/utils/api_util.js"></script>
 	<script src="../scripts/utils/formatting.js"></script>
 	<script src="../scripts/lib/axois.js"></script>
+  <script src="../scripts/api/dorayaki.js"></script>
 	<script src="../scripts/generator/template.js"></script>
 	<script src="../scripts/generator/card.js"></script>
 	<script src="../scripts/generator/control.js"></script>
@@ -22,7 +23,7 @@
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="dorayaki-add-page"></div>
+	<div id="dorayaki-add-page" class="app"></div>
 </body>
 <script>
 	DorayakiAddPage();

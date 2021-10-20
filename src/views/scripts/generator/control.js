@@ -53,3 +53,10 @@ const Image = (url, isUpload, alt, id) =>
       <img alt="${alt}" src="${url}" id="${id}"/>
     </div>
   `;
+
+const Alert = (type, text, classname) =>
+	`
+    <div class="alert ${type} ${classname}">
+      ${text}
+    </div>
+`;

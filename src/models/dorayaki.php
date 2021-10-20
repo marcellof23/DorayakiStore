@@ -15,6 +15,12 @@ class DorayakiModel
         return $this->db->resultSet();
     }
 
+    public function countDorayakis()
+    {
+        $this->db->query('SELECT COUNT(dorayaki_id) as total_dorayaki FROM ' . DorayakiModel::$table);
+        return $this->db->resultSet();
+    }
+
     public function getDorayakis($page)
     {
         $limit = 10;
