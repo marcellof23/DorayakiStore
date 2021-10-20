@@ -25,8 +25,7 @@ const updateDorayaki = async (dorayaki_id) => {
   const description = document.querySelector(`.${ddt}.description input`).value;
   const price = Number(document.querySelector(`.${ddt}.price input`).value);
   const stock = Number(document.querySelector(`.${ddt}.stock input`).value);
-  const thumbnail = "https://picsum.photos/200";
-  // const thumbnail = document.querySelector(`.${ddt}.thumbnail input`).src;
+  const thumbnail = document.querySelector(`#dorayaki-photo`).src;
 
   const payload = { dorayaki_id, name, description, price, stock, thumbnail };
   console.log("UPDATING DORAYAKI...", payload);
@@ -52,7 +51,7 @@ const createDorayaki = async () => {
   const description = document.querySelector(`.${ddt}.description input`).value;
   const price = Number(document.querySelector(`.${ddt}.price input`).value);
   const stock = Number(document.querySelector(`.${ddt}.stock input`).value);
-  const thumbnail = "https://picsum.photos/200";
+  const thumbnail = document.querySelector(`#dorayaki-photo`).src;
 
   const payload = { name, description, price, stock, thumbnail };
   console.log("CREATING DORAYAKI...", payload);

@@ -58,19 +58,22 @@ class AXOIS {
 
   async post(route, payload) {
     const url = this.set_url(route);
-    const data = this.obj_to_formdata(payload);
+    const data = payload instanceof FormData ?
+      payload : this.obj_to_formdata(payload);
     return await this.compose_request(url, "POST", data);
   }
 
   async put(route, payload) {
     const url = this.set_url(route);
-    const data = this.obj_to_formdata(payload);
+    const data = payload instanceof FormData ?
+      payload : this.obj_to_formdata(payload);
     return await this.compose_request(url, "PUT", data);
   }
 
   async delete(route, payload) {
     const url = this.set_url(route);
-    const data = this.obj_to_formdata(payload);
+    const data = payload instanceof FormData ?
+      payload : this.obj_to_formdata(payload);
     return await this.compose_request(url, "DELETE", data);
   }
 }

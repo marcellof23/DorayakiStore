@@ -56,7 +56,7 @@ const DorayakiDetailsPage = async () => {
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        ${Image(thumbnail || "", false, "foto dorayaki", "dorayaki-photo")}
+        ${Image(thumbnail || "/public/placeholder.jpg", false, "foto dorayaki", "dorayaki-photo")}
         <div class="dorayaki-details-main">
           ${LabText("Name", "name", name, true, "text", `${ddt} name`)}
           ${LabText("Price", "price", price, true, "text", `${ddt} price`)}
@@ -112,7 +112,7 @@ const DorayakiEditPage = async () => {
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        ${Image(thumbnail || "", true, "foto dorayaki", "dorayaki-photo")}
+        ${Image(thumbnail || "/public/placeholder.jpg", true, "foto dorayaki", "dorayaki-photo")}
         <form class="dorayaki-details-main">
           ${LabText("Name", "name", name, false, "text", `${ddt} name`)}
           ${LabText("Price", "price", price, false, "text", `${ddt} price`)}
@@ -148,7 +148,7 @@ const DorayakiAddPage = () => {
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        ${Image("" || "", true, "foto dorayaki", "dorayaki-photo")}
+        ${Image("/public/placeholder.jpg", true, "foto dorayaki", "dorayaki-photo")}
         <form class="dorayaki-details-main">
           ${LabText("Name", "name", "", false, "text", `${ddt} name`)}
           ${LabText("Price", "price", "", false, "text", `${ddt} price`)}
