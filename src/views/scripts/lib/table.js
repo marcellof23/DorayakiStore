@@ -41,7 +41,7 @@ class Table {
 			for (const [key, _] of Object.entries(this.head)) {
 				if (key === "No") continue;
 				if (key === "thumbnail") {
-					row_data += `<td class="table-data"><img src="${row[key]}"/></td>`;
+					row_data += `<td class="table-data"><img src="${row[key] || "/public/placeholder.jpg"}"/></td>`;
 				} else {
 					row_data += `<td class="table-data">${row[key]}</td>`;
 				}
