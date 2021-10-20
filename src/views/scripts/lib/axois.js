@@ -27,7 +27,11 @@ class AXOIS {
         if (req.status >= 200 && req.status < 300) {
           resolve(req.response);
         } else {
-          reject({ status: req.status, statusText: req.statusText });
+          reject({
+            status: req.status,
+            statusText: req.statusText,
+            response: req.response
+          });
         }
       };
 
@@ -35,6 +39,7 @@ class AXOIS {
         reject({
           status: req.status,
           statusText: req.statusText,
+          response: req.response
         });
       };
 

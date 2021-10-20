@@ -32,10 +32,17 @@ const updateDorayaki = async (dorayaki_id) => {
   console.log("UPDATING DORAYAKI...", payload);
 
   const url = `/dorayaki/update`;
-  const res = await axois.post(url, payload);
-  console.log("INI RES", res);
-  //redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
-  return res;
+  
+  try {
+    const res = await axois.post(url, payload);
+    redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
+    return res;
+  } catch (err) {
+    console.log(err)
+    ShowAlert('error', err.response, '', 'beforeBegin', 'dorayaki-details')
+  }
+
+  return null;
 };
 
 const createDorayaki = async () => {
@@ -51,8 +58,15 @@ const createDorayaki = async () => {
   console.log("CREATING DORAYAKI...", payload);
 
   const url = `/dorayaki/create`;
-  const res = await axois.post(url, payload);
-  console.log("INI RES", res);
-  redirect("/admin/dorayaki");
-  return res;
+
+  try {
+    const res = await axois.post(url, payload);
+    ShowAlert('success', 'Dorayaki has been successfully created!', '', 'beforeBegin', 'dorayaki-details')
+    return res;
+  } catch (err) {
+    console.log(err)
+    ShowAlert('error', err.response, '', 'beforeBegin', 'dorayaki-details')
+  }
+
+  return null;
 };

@@ -54,12 +54,23 @@ const Image = (url, isUpload, alt, id) =>
     </div>
   `;
 
-const Alert = (type, text, classname) =>
+const Alert = (type, text, classname = '') =>
 	`
     <div class="alert ${type} ${classname}">
       ${text}
     </div>
 `;
+
+const ShowAlert = (type, text, classname, appendType, parentClass) => {
+	const parentEl = document.querySelector(`.${parentClass}`)
+	const oldAlert = document.querySelector(`.alert`);
+	if (oldAlert) {
+		oldAlert.classList = `alert ${type} ${classname}`
+		oldAlert.textContent = text;
+	} else {
+		parentEl.insertAdjacentHTML(appendType, Alert(type, text, classname))
+	}
+}
 
 const Switch = (options, active, baseUrl, queryParam) => {
 	let opts = "";

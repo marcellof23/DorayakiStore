@@ -20,7 +20,7 @@ class DorayakiController
 
     public function getDorayakiById()
     {
-        if (!$_GET) {
+        if (!$_GET || !isset($_GET["dorayaki_id"])) {
             http_response_code(400);
             echo 'Please provide dorayaki id';
             return;
