@@ -17,12 +17,14 @@ $testing = new Database();
 $tes_model = new DorayakiModel($testing);
 $tes_controller = new DorayakiController($testing);
 
-$data["name"] = "asem13";
-$data["description"] = "nothing";
-$data["price"] = 30000;
-$data["stock"] = 120;
-$data["thumbnail"] = "nothing";
+for ($x = 0; $x <= 10; $x++) {
+    $data["name"] = "asem2" . $x;
+    $data["description"] = "nothing";
+    $data["price"] = 30000;
+    $data["stock"] = 120;
+    $data["thumbnail"] = "nothing";
 
-// $_GET["page"] = 1;
-$tes_model->createDorayaki($data);
-// var_dump($tes_controller->getDorayakis());
+    // $_GET["page"] = 1;
+    $tes_model->createDorayaki($data);
+    // var_dump($tes_controller->getDorayakis());
+}

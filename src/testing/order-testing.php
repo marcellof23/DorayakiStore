@@ -15,14 +15,15 @@ $testing = new Database();
 
 $tes_model = new OrderModel($testing);
 
-$data["user_id"] = "1";
-$data["dorayaki_id"] = "3";
-$data["amount"] = 1;
-$data["total_cost"] = 120;
-$data["price"] = 1000;
-$data["isOrder"] = "1";
-$data["createdAt"] = "nothing";
-$data["type"] = "ADD";
+for ($x = 0; $x <= 10; $x++) {
+    $data["user_id"] = "1";
+    $data["dorayaki_id"] = "3";
+    $data["amount"] = 1;
+    $data["total_cost"] = 120;
+    $data["price"] = 1000;
+    $data["isOrder"] = "1";
+    $data["createdAt"] = "nothing";
+    $data["type"] = "ADD";
 
-//$tess->createOrder($data);
-$tes_model->createOrder($data);
+    $tes_model->createOrder($data);
+}
