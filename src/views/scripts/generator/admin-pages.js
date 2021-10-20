@@ -12,7 +12,13 @@ const AdminHomePage = async () => {
 		stock: "Stock",
 	};
 
-	const table = new Table(table_id, head, getDorayakiPage);
+	const table = new Table(
+		table_id,
+		head,
+		getDorayakiPage,
+		"/admin/dorayaki-details",
+		"dorayaki_id"
+	);
 
 	const onAdd = `redirect("/admin/dorayaki-add")`;
 
@@ -30,14 +36,14 @@ const AdminHomePage = async () => {
 	target.innerHTML = components;
 };
 
-const DorayakiDetailsPage = async() => {
-  const target = document.getElementById("dorayaki-details-page");
+const DorayakiDetailsPage = async () => {
+	const target = document.getElementById("dorayaki-details-page");
 
 	const url = new URL(window.location.href);
 	const id = parseInt(url.searchParams.get("id"));
 
-  try{
-    const res = await getDorayakiDetail(id);
+	try {
+		const res = await getDorayakiDetail(id);
 		const data = JSON.parse(res);
 		const {name, price, stock, description, thumbnail} = data;
 
@@ -71,20 +77,20 @@ const DorayakiDetailsPage = async() => {
 	`;
 
 		target.innerHTML = components;
-  }catch(err){
-    console.log(err);
-    const components = `
+	} catch (err) {
+		console.log(err);
+		const components = `
       ${generateNavbarAdmin()}
       <div class="dorayaki-management-container">
         ${pageTitle("Dorayaki Management")}
         <div class="dorayaki-details">
-          ${Alert("error",err.response,"col-2")}
+          ${Alert("error", err.response, "col-2")}
         </div>
       </div>
     `;
 
-    target.innerHTML = components;
-  }
+		target.innerHTML = components;
+	}
 };
 
 const DorayakiEditPage = async () => {
@@ -132,10 +138,10 @@ const DorayakiEditPage = async () => {
 const DorayakiAddPage = () => {
 	const target = document.getElementById("dorayaki-add-page");
 
-  onSubmit = `createDorayaki()`;
+	onSubmit = `createDorayaki()`;
 	onCancel = `redirect("/admin/dorayaki")`;
 
-  const ddt = "dorayaki-details-text";
+	const ddt = "dorayaki-details-text";
 
 	const components = `
 		${generateNavbarAdmin()}
@@ -196,15 +202,20 @@ const AdminHistoryPage = async () => {
 	const table = new Table(
 		table_id,
 		type === "user" ? head : adminHead,
-		getOrderPage
+		getOrderPage,
+		"",
+		"",
+		false
 	);
+
+	const switchOptions = ["user", "admin"];
+	const active = type;
 
 	const components = `
     ${generateNavbarAdmin()}
     <div class="history-container">
       ${pageTitle("Dorayaki Order List")}
-      <div class="control-container">
-      </div>
+      ${Switch(switchOptions, active, "/admin/history", "type")}
       ${await table.generate_table()}
     </div>
   `;

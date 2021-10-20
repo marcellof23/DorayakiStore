@@ -1,10 +1,13 @@
 class Table {
-	constructor(table_id, head, onGet) {
+	constructor(table_id, head, onGet, urlOnClick, id_field, isClickable = true) {
 		const params = new URLSearchParams(window.location.search);
 		this.table_id = table_id;
 		this.pagination_id = `${table_id}-pagination`;
 		this.head = head;
 		this.onGet = onGet;
+		this.urlOnClick = urlOnClick;
+		this.id_field = id_field;
+		this.isClickable = isClickable;
 		this.page = parseInt(params.get("page")) || 1;
 	}
 
@@ -25,15 +28,15 @@ class Table {
 		let table_data = "";
 
 		data.forEach((row, i) => {
-			const url =
-				location.protocol +
-				"//" +
-				location.host +
-				`/admin/dorayaki-details?id=${row.dorayaki_id}`;
-			const onclick = `window.location.href="${url}"`;
-			let row_data = `<tr class="table-row" onclick='${onclick}'><td>${
-				i + 1
-			}</td>`;
+			const url = `${location.protocol}//${location.host}${
+				this.urlOnClick
+			}?id=${row[this.id_field]}`;
+
+			const onclick = this.isClickable ? `window.location.href="${url}"` : "";
+
+			let row_data = `<tr class="table-row ${
+				this.isClickable ? "clickable" : ""
+			}" onclick='${onclick}'><td>${i + 1}</td>`;
 
 			for (const [key, _] of Object.entries(this.head)) {
 				if (key === "No") continue;
@@ -52,18 +55,20 @@ class Table {
 	};
 
 	async generate_table() {
-		const data = JSON.parse(await this.onGet(this.page));
+		try {
+			const data = JSON.parse(await this.onGet(this.page));
+			console.log(data);
 
-		console.log(data);
+			const table_headings = this.generate_heading();
+			const table_body = this.generate_body(data.entries);
 
-		const table_headings = this.generate_heading();
-		const table_body = this.generate_body(data.entries);
+			const url = location.protocol + "//" + location.host + location.pathname;
+			const onPrev = `window.location.href="${url}?page=${this.page - 1}"`;
+			const onNext = `window.location.href="${url}?page=${this.page + 1}"`;
 
-		const url = location.protocol + "//" + location.host + location.pathname;
-		const onPrev = `window.location.href="${url}?page=${this.page - 1}"`;
-		const onNext = `window.location.href="${url}?page=${this.page + 1}"`;
+			const pagination = `<p id="${this.pagination_id}" class="pagination-number">${this.page}</p> `;
 
-		return `
+			return `
       <div class="table-container">
         <table class="table" id=${this.table_id}>
           ${table_headings}
@@ -75,9 +80,7 @@ class Table {
 							? "<div></div>"
 							: `<div class="pagination-btn" onclick='${onPrev}'> < </div>`
 					}
-          <p id="${this.pagination_id}" class="pagination-number">${
-			this.page
-		}</p> 
+          ${pagination}
           ${
 						this.page === data.page_count
 							? ""
@@ -86,5 +89,6 @@ class Table {
           
         </div>
       </div>`;
+		} catch (err) {}
 	}
 }
