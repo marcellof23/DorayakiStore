@@ -30,9 +30,18 @@ class DorayakiModel
         return $this->db->resultSet();
     }
 
+    public function getDorayakiByQuery($query)
+    {
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
+            " WHERE name LIKE :query");
+        $query = '%' . $query . '%';
+        $this->db->bind(':query', $query);
+        return $this->db->resultSet();
+    }
+
     public function getDorayakiPopularVariant()
     {
-        $limit = 5;
+        $limit = 10;
         $selection = "D.*, COUNT(O.order_id) as sold_count";
         $join = "Orders O ON O.dorayaki_id = D.dorayaki_id";
         $from = "Dorayakis D INNER JOIN";
@@ -48,6 +57,14 @@ class DorayakiModel
         $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
             ' WHERE dorayaki_id = :dorayaki_id');
         $this->db->bind(':dorayaki_id', $id);
+        return $this->db->single();
+    }
+
+    public function getDorayakiByName($name)
+    {
+        $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
+            ' WHERE name = :name');
+        $this->db->bind(':name', $name);
         return $this->db->single();
     }
 
@@ -131,22 +148,5 @@ class DorayakiModel
                 thumbnail TEXT
             )
         ");
-    }
-
-    public static function createDorayakiOrderTrigger(SQLite3 $db): void
-    {
-        $db->exec("
-            CREATE TRIGGER DorayakiOrderTrigger
-            AFTER INSERT ON Orders
-            BEGIN
-                UPDATE Dorayakis
-                SET stock = stock - new.amount
-                WHERE dorayaki_id = new.dorayaki_id;
-            END;
-        ");
-
-        // $db->exec("
-        //     DROP TRIGGER DorayakiOrderTrigger;
-        // ");
     }
 }

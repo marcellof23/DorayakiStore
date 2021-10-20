@@ -2,6 +2,7 @@
 
 require_once ROOT . '/config/db.php';
 require_once ROOT . '/models/dorayaki.php';
+require_once ROOT . '/models/order.php';
 require_once ROOT . '/models/user.php';
 
 class DorayakiController
@@ -80,6 +81,26 @@ class DorayakiController
         echo json_encode($res);
     }
 
+    public function getDorayakiByQuery()
+    {
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
+            echo 'Authentication required.';
+            return;
+        }
+
+        $query = $_GET["query"];
+        $dorayakiData = $this->dorayakiModel->getDorayakiByQuery($query);
+
+        if (!$dorayakiData) {
+            http_response_code(404);
+            echo 'Current dorayaki query is not found';
+            return;
+        }
+
+        echo json_encode($dorayakiData);
+    }
+
     public function getDorayakiPopularVariant()
     {
 
@@ -153,6 +174,22 @@ class DorayakiController
                 return;
             }
 
+            $dorayakiData = $this->dorayakiModel->getDorayakiByName($_POST["name"]);
+
+            // create order for the initial stock
+            if ($_POST["stock"] !== 0) {
+                $orderModel = new OrderModel($this->db);
+    
+                $orderData["user_id"] = $_SESSION["user_id"];
+                $orderData["dorayaki_id"] = $dorayakiData["dorayaki_id"];
+                $orderData["amount"] = $_POST["stock"];
+                $orderData["price"] = $_POST["price"];
+                $orderData["isOrder"] = false;
+                $orderData["type"] = "ADD";
+    
+                $orderModel->createOrder($orderData);
+            }
+
             echo 'Dorayaki is successfully created';
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
@@ -208,7 +245,6 @@ class DorayakiController
             $data["name"] = $_POST["name"];
             $data["description"] = $_POST["description"];
             $data["price"] = $_POST["price"];
-            $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
 
             $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
@@ -218,6 +254,24 @@ class DorayakiController
                 echo 'Dorayaki is not found';
                 return;
             }
+
+            $dorayakiData = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
+            
+            // create order if stock changed
+            if ($dorayakiData["stock"] !== $_POST["stock"]) {
+                $orderModel = new OrderModel($this->db);
+    
+                $orderData["user_id"] = $_SESSION["user_id"];
+                $orderData["dorayaki_id"] = $_POST["dorayaki_id"];
+                $orderData["amount"] = $_POST["stock"] - $dorayakiData["stock"];
+                $orderData["price"] = $_POST["price"];
+                $orderData["isOrder"] = false;
+                $orderData["type"] = $orderData["amount"] < 0 ? "MIN" : "ADD";
+                $orderData["amount"] = abs($orderData["amount"]);
+    
+                $orderModel->createOrder($orderData);
+            }
+
             echo 'Dorayaki is successfully updated';
 
         } catch (PDOException $pdo) {
@@ -271,14 +325,31 @@ class DorayakiController
             return;
         }
 
+        $dorayakiData = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
+
+        // create order for the initial stock
+        if ($dorayakiData["stock"] !== 0) {
+            $orderModel = new OrderModel($this->db);
+
+            $orderData["user_id"] = $_SESSION["user_id"];
+            $orderData["dorayaki_id"] = $_POST["dorayaki_id"];
+            $orderData["amount"] = $dorayakiData["stock"];
+            $orderData["price"] = $dorayakiData["price"];
+            $orderData["isOrder"] = false;
+            $orderData["type"] = "MIN";
+
+            $orderModel->createOrder($orderData);
+        }
+
         $dorayakiData = $this->dorayakiModel->deleteDorayaki($_POST["dorayaki_id"]);
+
         echo 'Deleted successfully';
     }
 
     public function uploadDorayakiImage()
     {
         if (!isset($_POST)) {
-          return;
+            return;
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
