@@ -245,7 +245,10 @@ class DorayakiController
             $data["name"] = $_POST["name"];
             $data["description"] = $_POST["description"];
             $data["price"] = $_POST["price"];
+            $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
+            
+            $oldDorayakiData = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
 
             $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
 
@@ -254,16 +257,14 @@ class DorayakiController
                 echo 'Dorayaki is not found';
                 return;
             }
-
-            $dorayakiData = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
             
             // create order if stock changed
-            if ($dorayakiData["stock"] !== $_POST["stock"]) {
+            if ($oldDorayakiData["stock"] !== $_POST["stock"]) {
                 $orderModel = new OrderModel($this->db);
     
                 $orderData["user_id"] = $_SESSION["user_id"];
                 $orderData["dorayaki_id"] = $_POST["dorayaki_id"];
-                $orderData["amount"] = $_POST["stock"] - $dorayakiData["stock"];
+                $orderData["amount"] = $_POST["stock"] - $oldDorayakiData["stock"];
                 $orderData["price"] = $_POST["price"];
                 $orderData["isOrder"] = false;
                 $orderData["type"] = $orderData["amount"] < 0 ? "MIN" : "ADD";
