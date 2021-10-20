@@ -60,12 +60,40 @@ const buildQuery = (object = {}, fields = [], page = 0) => {
 	return res;
 };
 
+const adminRoute = async () => {
+	const res = await getCurrentUser();
+	const user = JSON.parse(res);
+	const is_admin = parseInt(user.is_admin);
+
+	if (!is_admin) redirect("/home");
+};
+
+const userRoute = async () => {
+	const res = await getCurrentUser();
+	const user = JSON.parse(res);
+	const is_admin = parseInt(user.is_admin);
+
+	if (is_admin) redirect("/admin/dorayaki");
+};
+
+const notLoggedInRoute = async () => {
+	const res = await getCurrentUser();
+	const user = JSON.parse(res);
+	const is_admin = parseInt(user.is_admin);
+
+	if (is_admin) {
+		redirect("/admin/dorayaki");
+	} else {
+		redirect("/home");
+	}
+};
+
 const redirect = (url, duration = 0) => {
 	url = url[0] === "/" ? constructURL(url) : url;
 	setTimeout(() => {
 		window.location.href = url;
 	}, duration);
-};;;
+};
 
 const openTab = (url) => {
 	window.open(url, "_newtab");

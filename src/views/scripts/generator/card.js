@@ -1,5 +1,4 @@
-const HistoryCard = (thumbnail, createdAt, name, amount) => {
-	const pic = `<img src="${thumbnail}" class="history-img" alt="gambar-dorayaki"/>`;
+const HistoryCard = (createdAt, name, amount) => {
 	const timestamp = `<small class="history-time">${getDuration(
 		createdAt
 	)}</small>`;
@@ -8,14 +7,9 @@ const HistoryCard = (thumbnail, createdAt, name, amount) => {
 
 	return `
 	<div class="history-card">
-		<div class="left">
-			${pic}
-		</div>
-		<div class="right">
-			${timestamp}
-			${judul}
-			${jumlah}
-		</div>
+		${timestamp}
+    ${judul}
+    ${jumlah}
 	</div>
 	`;
 };

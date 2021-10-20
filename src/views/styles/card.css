@@ -2,14 +2,13 @@
 
 .history-card{
 	width : 100%;
-	height : 15vh;
+	height : 10vh;
 	overflow: hidden;
 	display: grid;
+  position: relative;
 	background-color: var(--white-secondary);
 	padding : var(--padding-small);
 	border-radius: var(--border-radius-small);
-	grid-template-columns: 10vh 1fr;
-	gap : var(--padding-small);
 }
 
 .history-img{
@@ -18,6 +17,9 @@
 
 .history-time{
 	color : var(--primary);
+  position: absolute;
+  top : 3vw;
+  right : 3vw;
 }
 
 .history-title, .history-amount{
@@ -26,6 +28,13 @@
 
 .history-amount{
 	font-family: var(--family_secondary);
+}
+
+@media only screen and (min-width: 768px) {
+  .history-time{
+    top : 1vh;
+    right : 1vh;
+  }
 }
 
 /* END OF HISTORY CARD */
