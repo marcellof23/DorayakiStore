@@ -225,7 +225,6 @@ class DorayakiController
             $data["name"] = $_POST["name"];
             $data["description"] = $_POST["description"];
             $data["price"] = $_POST["price"];
-            $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
 
             $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
@@ -323,7 +322,7 @@ class DorayakiController
         }
 
         $dorayakiData = $this->dorayakiModel->deleteDorayaki($_POST["dorayaki_id"]);
-        
+
         echo 'Deleted successfully';
     }
 

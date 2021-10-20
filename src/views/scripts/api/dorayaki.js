@@ -34,6 +34,7 @@ const updateDorayaki = async (dorayaki_id) => {
   
   try {
     const res = await axois.post(url, payload);
+    console.log(res);
     redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
     return res;
   } catch (err) {
