@@ -32,7 +32,7 @@ class DorayakiModel
 
     public function getDorayakiPopularVariant()
     {
-        $limit = 5;
+        $limit = 10;
         $selection = "D.*, COUNT(O.order_id) as sold_count";
         $join = "Orders O ON O.dorayaki_id = D.dorayaki_id";
         $from = "Dorayakis D INNER JOIN";
@@ -131,22 +131,5 @@ class DorayakiModel
                 thumbnail TEXT
             )
         ");
-    }
-
-    public static function createDorayakiOrderTrigger(SQLite3 $db): void
-    {
-        $db->exec("
-            CREATE TRIGGER DorayakiOrderTrigger
-            AFTER INSERT ON Orders
-            BEGIN
-                UPDATE Dorayakis
-                SET stock = stock - new.amount
-                WHERE dorayaki_id = new.dorayaki_id;
-            END;
-        ");
-
-        // $db->exec("
-        //     DROP TRIGGER DorayakiOrderTrigger;
-        // ");
     }
 }
