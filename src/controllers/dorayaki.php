@@ -245,8 +245,8 @@ class DorayakiController
 
     public function uploadDorayakiImage()
     {
-        if (!$_POST) {
-            return;
+        if (!isset($_POST)) {
+          return;
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {

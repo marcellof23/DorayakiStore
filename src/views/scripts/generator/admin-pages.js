@@ -38,47 +38,32 @@ const DorayakiDetailsPage = async () => {
 
 	const res = await axois.get(`dorayaki/get-details?dorayaki_id=${id}`);
 	const data = JSON.parse(res);
+	const {name, price, stock, description, thumbnail} = data;
 
 	const onEdit = `redirect("/admin/dorayaki-edit?id=${id}")`;
-	const onDelete = `openTab("/")`;
+
+	const ddt = "dorayaki-details-text";
 
 	const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        ${Image(data.thumbnail || "", false, "foto dorayaki", "dorayaki-photo")}
+        ${Image(thumbnail || "", false, "foto dorayaki", "dorayaki-photo")}
         <div class="dorayaki-details-main">
-          ${LabText(
-						"Name",
-						data.name || "name",
-						true,
-						"text",
-						"dorayaki-details-text name"
-					)}
-          ${LabText(
-						"Price",
-						data.price || "price",
-						true,
-						"text",
-						"dorayaki-details-text price"
-					)}
-          ${LabText(
-						"Stock",
-						data.stock || "stock",
-						true,
-						"text",
-						"dorayaki-details-text stock"
-					)}
+          ${LabText("Name", "name", name, true, "text", `${ddt} name`)}
+          ${LabText("Price", "price", price, true, "text", `${ddt} price`)}
+          ${LabText("Stock", "stock", stock, true, "text", `${ddt} stock`)}
           ${LabText(
 						"Description",
-						data.description || "description",
+						"description",
+						description,
 						true,
 						"text",
-						"dorayaki-details-text description"
+						`${ddt} description`
 					)}
           ${Button("Edit Dorayaki", true, onEdit)}
-          ${Button("Delete Dorayaki", false, onDelete)}
+          ${Button("Delete Dorayaki", false, `deleteDorayaki(${id})`)}
         </div>
       </div>
 		</div>
@@ -87,34 +72,41 @@ const DorayakiDetailsPage = async () => {
 	target.innerHTML = components;
 };
 
-const DorayakiEditPage = () => {
+const DorayakiEditPage = async () => {
 	const target = document.getElementById("dorayaki-edit-page");
+
+	const url = new URL(window.location.href);
+	const id = parseInt(url.searchParams.get("id"));
+
+	const res = await axois.get(`dorayaki/get-details?dorayaki_id=${id}`);
+	const data = JSON.parse(res);
+	const {name, price, stock, description, thumbnail} = data;
+	const ddt = "dorayaki-details-text";
+
+	onEdit = `updateDorayaki(${id})`;
+
+	onCancel = `redirect("/admin/dorayaki-details?id=${id}")`;
 
 	const components = `
 		${generateNavbarAdmin()}
 		<div class="dorayaki-management-container">
 			${pageTitle("Dorayaki Management")}
       <div class="dorayaki-details">
-        <img src="" alt="foto dorayaki" id="dorayaki-photo" />
+        ${Image(thumbnail || "", true, "foto dorayaki", "dorayaki-photo")}
         <form class="dorayaki-details-main">
-          <div class="dorayaki-details-text">
-            <h3>Name</h3>
-            <input name="name" value="{name}" />
-          </div>
-          <div class="dorayaki-details-text">
-            <h3>Price</h3>
-            <input name="price" type="number" />
-          </div>
-          <div class="dorayaki-details-text">
-            <h3>Stock</h3>
-            <input name="stock" type="number" />
-          </div>
-          <div class="dorayaki-details-text" style="margin-bottom:10px">
-            <h3>Description</h3>
-            <textarea name="description" rows="4" cols="50"></textarea>
-          </div>
-          <input type="submit" class="dorayaki-button primary" value="Save changes" />
-          <button class="dorayaki-button outline">Cancel</button>
+          ${LabText("Name", "name", name, false, "text", `${ddt} name`)}
+          ${LabText("Price", "price", price, false, "text", `${ddt} price`)}
+          ${LabText("Stock", "stock", stock, false, "text", `${ddt} stock`)}
+          ${LabText(
+						"Description",
+						"description",
+						description,
+						false,
+						"text",
+						`${ddt} description`
+					)}
+          ${Button("Save changes", true, onEdit)}
+          ${Button("Cancel", false, onCancel)}
         </form>
       </div>
 		</div>
