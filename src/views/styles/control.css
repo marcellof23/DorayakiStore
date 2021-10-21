@@ -144,6 +144,7 @@
 
 #form .form-title {
   font-weight: bold;
+  font-family: var(--family_secondary);
   color: white;
   font-size: 80px;
   margin-bottom: 1%;
