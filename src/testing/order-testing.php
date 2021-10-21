@@ -15,8 +15,8 @@ $testing = new Database();
 
 $tes_model = new OrderModel($testing);
 
-for ($x = 0; $x <= 10; $x++) {
-    $data["user_id"] = "1";
+for ($x = 0; $x <= 20; $x++) {
+    $data["user_id"] = "2";
     $data["dorayaki_id"] = "3";
     $data["amount"] = 1;
     $data["total_cost"] = 120;

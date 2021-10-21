@@ -15,11 +15,11 @@ const searchDorayaki = async (id, url) => {
   redirect(`${url}?query=${q}`);
 };
 
-const getSearchedDorayaki = async (query) => {
-  if (!query) return "[]";
-  const url = `dorayaki/get-by-query?query=${query}`;
-  const res = await axois.get(url);
-  return res;
+const getSearchedDorayaki = async (query, page) => {
+	if (!query) return "[]";
+	const url = `dorayaki/get-by-query?query=${query}&page=${page}`;
+	const res = await axois.get(url);
+	return res;
 };
 
 const getDorayakiDetail = async (id = 1) => {
