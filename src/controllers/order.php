@@ -120,21 +120,15 @@ class OrderController
             http_response_code(404);
             echo 'Current user not found';
             return;
-<<<<<<< HEAD
         } else {
             if (!$user["is_admin"]) {
                 $data["isOrder"] = 1;
                 $data["type"] = "MIN";
             } else {
-                $data["isOrder"] = 0;
-                $data["type"] = "ADD";
+                http_response_code(500);
+                echo 'Order is not created!';
+                return;
             }
-=======
-        } else if ($user && !$user["is_admin"]) {
-            http_response_code(403);
-            echo 'You are not admin';
-            return;
->>>>>>> c53f8e1e2c6e25c1d007af16f7b9199d501d007b
         }
 
         try {
