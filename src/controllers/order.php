@@ -117,7 +117,7 @@ class OrderController
         }
 
         try {
-            $data["user_id"] = $_POST["user_id"];
+            $data["user_id"] = $_SESSION["user_id"];
             $data["dorayaki_id"] = $_POST["dorayaki_id"];
             $data["amount"] = $_POST["amount"];
             $data["isOrder"] = $_POST["isOrder"];

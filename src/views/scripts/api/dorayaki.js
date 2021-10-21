@@ -5,35 +5,48 @@ const getDorayakiPage = async (page = 1) => {
 };
 
 const getPopularDorayaki = async () => {
-	const url = `dorayaki/get-popular-variant`;
-	const res = await axois.get(url);
-	return res;
+  const url = `dorayaki/get-popular-variant`;
+  const res = await axois.get(url);
+  return res;
 };
 
 const searchDorayaki = async (id, url) => {
-	const q = document.getElementById(id).value;
-	redirect(`${url}?query=${q}`);
+  const q = document.getElementById(id).value;
+  redirect(`${url}?query=${q}`);
 };
 
 const getSearchedDorayaki = async (query) => {
-	if (!query) return "[]";
-	const url = `dorayaki/get-by-query?query=${query}`;
-	const res = await axois.get(url);
-	return res;
+  if (!query) return "[]";
+  const url = `dorayaki/get-by-query?query=${query}`;
+  const res = await axois.get(url);
+  return res;
 };
 
 const getDorayakiDetail = async (id = 1) => {
-	const url = `dorayaki/get-details?dorayaki_id=${id}`;
-	const res = await axois.get(url);
-	return res;
+  const url = `dorayaki/get-details?dorayaki_id=${id}`;
+  const res = await axois.get(url);
+  return res;
 };
 
 const buyDorayaki = async (dorayaki_id, counter_id) => {
-	const amount = parseInt(document.getElementById(counter_id).innerHTML);
-	const payload = {dorayaki_id, amount};
-	console.log(payload);
+  const amount = parseInt(document.getElementById(counter_id).innerHTML);
+  const payload = { dorayaki_id, amount, isOrder: 1, type: "MIN" };
+  console.log(payload);
 
-	//tinggal tembak API BD
+  const url = `/order/create-order`;
+
+  try {
+    const res = await axois.post(url, payload);
+    console.log(res);
+    redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
+    return res;
+  } catch (err) {
+    console.log(err);
+    ShowAlert("error", err.response, "", "beforeBegin", "dorayaki-details");
+  }
+
+  return null;
+  //tinggal tembak API BD
 };
 
 const deleteDorayaki = async (dorayaki_id) => {
@@ -57,15 +70,15 @@ const updateDorayaki = async (dorayaki_id) => {
   console.log("UPDATING DORAYAKI...", payload);
 
   const url = `/dorayaki/update`;
-  
+
   try {
     const res = await axois.post(url, payload);
     console.log(res);
     redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
     return res;
   } catch (err) {
-    console.log(err)
-    ShowAlert('error', err.response, '', 'beforeBegin', 'dorayaki-details')
+    console.log(err);
+    ShowAlert("error", err.response, "", "beforeBegin", "dorayaki-details");
   }
 
   return null;
@@ -87,11 +100,17 @@ const createDorayaki = async () => {
 
   try {
     const res = await axois.post(url, payload);
-    ShowAlert('success', 'Dorayaki has been successfully created!', '', 'beforeBegin', 'dorayaki-details')
+    ShowAlert(
+      "success",
+      "Dorayaki has been successfully created!",
+      "",
+      "beforeBegin",
+      "dorayaki-details"
+    );
     return res;
   } catch (err) {
-    console.log(err)
-    ShowAlert('error', err.response, '', 'beforeBegin', 'dorayaki-details')
+    console.log(err);
+    ShowAlert("error", err.response, "", "beforeBegin", "dorayaki-details");
   }
 
   return null;

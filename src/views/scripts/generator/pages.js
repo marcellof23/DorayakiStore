@@ -1,46 +1,60 @@
 const HomePage = async () => {
-	await userRoute();
+  await userRoute();
 
-	const target = document.getElementById("home");
+  const target = document.getElementById("home");
 
-	const res = await getPopularDorayaki();
-	const data = JSON.parse(res);
+  let dorayakis = [];
+  try {
+    const res = await getPopularDorayaki();
+    const data = JSON.parse(res);
+    const dorayaki_array = data.map((row) =>
+      DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
+    );
+    dorayakis = dorayaki_array;
+  } catch (err) {
+    console.log(err);
+  }
 
-	const dorayakis = data.map((row) =>
-		DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
-	);
+  console.log(dorayakis.length);
 
-	const searchBar = new SearchBar("search-box", "/search");
+  const searchBar = new SearchBar("search-box", "/search");
 
-	const components = `
+  const components = `
 		${generateNavbar()}
 		${searchBar.render()}
 		<div class="home-container">
+			<div class="not-found-container">
+			</div>
       ${dorayakis.join("")}
 		</div>
 	`;
 
-	target.innerHTML = components;
+  target.innerHTML = components;
+
+  if (dorayakis.length == 0) {
+    const targets = document.querySelector(".not-found-container");
+    targets.innerHTML = "Dorayaki not found";
+  }
 };
 
 const SearchPage = async () => {
-	await userRoute();
+  await userRoute();
 
-	const target = document.getElementById("search");
+  const target = document.getElementById("search");
 
-	const searchBar = new SearchBar("search-box", "/search");
+  const searchBar = new SearchBar("search-box", "/search");
 
-	const url = new URL(window.location.href);
-	const q = url.searchParams.get("query");
+  const url = new URL(window.location.href);
+  const q = url.searchParams.get("query");
 
-	const res = await getSearchedDorayaki(q);
-	const data = JSON.parse(res);
+  const res = await getSearchedDorayaki(q);
+  const data = JSON.parse(res);
 
-	const dorayakis = data.map((row) =>
-		DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
-	);
+  const dorayakis = data.map((row) =>
+    DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
+  );
 
-	const components = `
+  const components = `
 		${generateNavbar()}
 		${searchBar.render()}
 		<div class="search-container">
@@ -48,54 +62,68 @@ const SearchPage = async () => {
 		</div>
 	`;
 
-	target.innerHTML = components;
+  target.innerHTML = components;
 };
 
 const HistoryPage = async () => {
-	await userRoute();
+  await userRoute();
 
-	const target = document.getElementById("history");
+  const target = document.getElementById("history");
+  let histories = [];
 
-	const res = await getOrderPage();
-	const data = JSON.parse(res);
+  try {
+    const res = await getOrderPage();
+    const data = JSON.parse(res);
 
-	const histories = data.entries.map((row) =>
-		HistoryCard(row.createdAt, row.dorayaki, row.amount)
-	);
+    const history_array = data.entries.map((row) =>
+      HistoryCard(row.createdAt, row.dorayaki, row.amount)
+    );
 
-	const components = `
+    histories = history_array;
+  } catch (err) {
+    console.log(err);
+  }
+
+  const components = `
 		${generateNavbar()}
 		<div class="history-container">
 			${pageTitle("Riwayat Pembelian")}
+			<div class="not-found-container">
+			</div>
 			${histories.join("")}
 		</div>
 	`;
 
-	target.innerHTML = components;
+  target.innerHTML = components;
+
+  if (histories.length == 0) {
+    const targets = document.querySelector(".not-found-container");
+    targets.innerHTML = "Histories is empty";
+  }
 };
 
 const BuyPage = async () => {
-	await userRoute();
+  await userRoute();
 
-	const target = document.getElementById("buy");
+  const target = document.getElementById("buy");
 
-	const url = new URL(window.location.href);
-	const id = url.searchParams.get("id");
-	const counter_id = "counter";
+  const url = new URL(window.location.href);
+  const id = url.searchParams.get("id");
+  const counter_id = "counter";
 
-	const res = await getDorayakiDetail(id);
-	const data = JSON.parse(res);
+  const res = await getDorayakiDetail(id);
+  const data = JSON.parse(res);
 
-	const counter_cb = (val) => `
+  const counter_cb = (val) => `
     const total = document.getElementById("total");
     total.innerHTML = formatCurrency(${val} * ${data.price});
   `;
-	const counter = new Counter(counter_id, counter_cb);
+  const counter = new Counter(counter_id, counter_cb);
 
-	const onSubmit = `buyDorayaki("${id}","${counter_id}")`;
-	const onCancel = `redirect("/home")`;
+  const onSubmit = `buyDorayaki("${id}","${counter_id}")`;
+  const onCancel = `redirect("/home")`;
 
-	const components = `
+  const components = `
     ${generateNavbar()}
     <div class="buy-container">
       ${pageTitle("Pemesanan")}
@@ -116,5 +144,5 @@ const BuyPage = async () => {
     </div>
   `;
 
-	target.innerHTML = components;
+  target.innerHTML = components;
 };
