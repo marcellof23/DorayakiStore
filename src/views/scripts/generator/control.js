@@ -151,41 +151,41 @@ const Switch = (options, active, baseUrl, queryParam) => {
 };
 
 class Pagination {
-	constructor(id, page, page_count, otherParams) {
-		this.id = id;
-		this.page = page;
-		this.page_count = page_count;
-		this.otherParams = otherParams;
-		this.url = location.protocol + "//" + location.host + location.pathname;
-	}
+  constructor(id, page = 0, page_count = 0, otherParams) {
+    this.id = id;
+    this.page = page;
+    this.page_count = page_count;
+    this.otherParams = otherParams;
+    this.url = location.protocol + "//" + location.host + location.pathname;
+  }
 
-	onPrev = () =>
-		`window.location.href="${this.url}?page=${this.page - 1}${
-			this.otherParams
-		}"`;
+  onPrev = () =>
+    `window.location.href="${this.url}?page=${this.page - 1}${
+      this.otherParams
+    }"`;
 
-	onNext = () =>
-		`window.location.href="${this.url}?page=${this.page + 1}${
-			this.otherParams
-		}"`;
+  onNext = () =>
+    `window.location.href="${this.url}?page=${this.page + 1}${
+      this.otherParams
+    }"`;
 
-	render() {
-		return `
+  render() {
+    return `
 				<div class='pagination-container'>
 					${
-						this.page === 1
-							? "<div></div>"
-							: `<div class="pagination-btn" onclick='${this.onPrev()}'> < </div>`
-					}
+            this.page === 1
+              ? "<div></div>"
+              : `<div class="pagination-btn" onclick='${this.onPrev()}'> < </div>`
+          }
           <p id="${this.pagination_id}" class="pagination-number">${
-			this.page
-		}</p>
+      this.page
+    }</p>
           ${
-						this.page === this.page_count
-							? ""
-							: `<div class="pagination-btn" onclick='${this.onNext()}'> > </div>`
-					}
+            this.page >= this.page_count
+              ? ""
+              : `<div class="pagination-btn" onclick='${this.onNext()}'> > </div>`
+          }
 				</div>
 			`;
-	}
+  }
 }

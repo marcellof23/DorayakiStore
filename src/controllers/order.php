@@ -70,7 +70,7 @@ class OrderController
             return;
         }
 
-        $user_id = 1;
+        $user_id = $_SESSION["user_id"];
         $user = $this->userModel->getUserById($user_id);
 
         $orderData = $user["is_admin"] ? $this->orderModel->getOrders($page, 1) : $this->orderModel->getOrderByUserId($page, $user["user_id"]);

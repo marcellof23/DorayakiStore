@@ -51,8 +51,6 @@ class UserController
                 $_SESSION["login"] = true;
                 $_SESSION["user_id"] = $user["user_id"];
                 $_SESSION["access_token"] = $token;
-
-                setcookie("username", $_POST["username"], time() + 3600, '/');
                 setcookie("access_token", $token, time() + 3600, '/');
 
                 header("Location: ../home");

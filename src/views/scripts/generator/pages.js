@@ -1,5 +1,6 @@
 const HomePage = async () => {
-  await userRoute();
+  const user = await userRoute();
+  console.log(user);
 
   const target = document.getElementById("home");
 
@@ -20,7 +21,7 @@ const HomePage = async () => {
 
   const components = `
 		${generateNavbar()}
-    ${generateUserChip()}
+    ${generateUserChip(user)}
 		${searchBar.render()}
 		<div class="home-container">
       ${
@@ -45,12 +46,15 @@ const SearchPage = async () => {
   const q = url.searchParams.get("query");
   const page = parseInt(url.searchParams.get("page")) || 1;
 
-  const pagination = new Pagination("pagination", page, 2, `&query=${q}`);
-
   try {
     const res = await getSearchedDorayaki(q, page);
     const data = JSON.parse(res);
-
+    const pagination = new Pagination(
+      "pagination",
+      page,
+      data.page_count,
+      `&query=${q}`
+    );
     const dorayakis = data.map((row) =>
       DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
     );
@@ -72,7 +76,6 @@ const SearchPage = async () => {
       <div class="search-container">
         DORAYAKI NOT FOUND :(
       </div>
-      ${pagination.render()}
     `;
 
     target.innerHTML = components;
@@ -80,49 +83,46 @@ const SearchPage = async () => {
 };
 
 const HistoryPage = async () => {
-  await userRoute();
-
+  const user = await userRoute();
   const target = document.getElementById("history");
   const url = new URL(window.location.href);
   const page = parseInt(url.searchParams.get("page")) || 1;
 
+  console.log({ target, url, page });
   let histories = [];
+  let res = "{}";
+
   try {
-    const res = await getOrderPage(page);
-    const data = JSON.parse(res);
+    res = await getOrderPage(page);
 
     data.entries.map((row) =>
       histories.push(HistoryCard(row.createdAt, row.dorayaki, row.total_cost))
     );
 
     console.log(histories);
-
-    const pagination = new Pagination(
-      "pagination",
-      page,
-      data["page_count"],
-      ""
-    );
-
-    const components = `
-		${generateNavbar()}
-		<div class="history-container">
-			${pageTitle("Riwayat Pembelian")}
-			<div class="history-inner-container">
-        ${
-          histories.length
-            ? histories.join("")
-            : "<div class='not-found-container'>History is empty</div>"
-        }
-      </div>
-      ${pagination.render()}
-		</div>
-	`;
-
-    target.innerHTML = components;
   } catch (err) {
     console.log(err);
   }
+
+  const data = JSON.parse(res);
+  const pagination = new Pagination("pagination", page, data["page_count"], "");
+
+  const components = `
+  ${generateNavbar()}
+  <div class="history-container">
+    ${pageTitle("Riwayat Pembelian")}
+    <div class="history-inner-container">
+      ${
+        histories.length
+          ? histories.join("")
+          : "<div class='not-found-container'>History is empty</div>"
+      }
+    </div>
+    ${pagination.render()}
+  </div>
+`;
+
+  target.innerHTML = components;
 };
 
 const BuyPage = async () => {

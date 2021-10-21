@@ -63,11 +63,11 @@ function pageTitle(title) {
   return `<h2 class="page-title">${title}</h2>`;
 }
 
-function generateUserChip() {
+function generateUserChip({ username }) {
   return `<div class="user-chip">
 		<div class="user-chip-content">
 			<div>	Welcome back</div>
-			<div>${getCookie("username")} !</div>
+			<div>${username} !</div>
 		</div>
 	</div>`;
 }

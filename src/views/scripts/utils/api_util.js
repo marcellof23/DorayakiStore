@@ -61,19 +61,30 @@ const buildQuery = (object = {}, fields = [], page = 0) => {
 };
 
 const adminRoute = async () => {
-  const res = await getCurrentUser();
-  const user = JSON.parse(res);
-  const is_admin = parseInt(user.is_admin);
+  try {
+    const res = await getCurrentUser();
+    const user = JSON.parse(res);
+    const is_admin = parseInt(user.is_admin);
 
-  if (!is_admin) redirect("/home");
+    if (!is_admin) redirect("/home");
+    return user;
+  } catch (err) {
+    redirect("/login");
+  }
 };
 
 const userRoute = async () => {
-  const res = await getCurrentUser();
-  const user = JSON.parse(res);
-  const is_admin = parseInt(user.is_admin);
+  try {
+    const res = await getCurrentUser();
+    const user = JSON.parse(res);
+    console.log(user);
+    const is_admin = parseInt(user.is_admin);
 
-  if (is_admin) redirect("/admin/dorayaki");
+    if (is_admin) redirect("/admin/dorayaki");
+    return user;
+  } catch (err) {
+    redirect("/login");
+  }
 };
 
 const notLoggedInRoute = async () => {
@@ -100,12 +111,12 @@ const openTab = (url) => {
 };
 
 const getCookie = (name = "username") => {
-	let cookiesArray = document.cookie.split(";");
-	let cookiesObject = {};
-	cookiesArray.map((row) => {
-		let temp = row.trim();
-		temp = temp.split("=");
-		cookiesObject[temp[0]] = temp[1];
-	});
-	return cookiesObject[name];
+  let cookiesArray = document.cookie.split(";");
+  let cookiesObject = {};
+  cookiesArray.map((row) => {
+    let temp = row.trim();
+    temp = temp.split("=");
+    cookiesObject[temp[0]] = temp[1];
+  });
+  return cookiesObject[name];
 };
