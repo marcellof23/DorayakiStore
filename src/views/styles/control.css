@@ -238,8 +238,8 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-columns: 5vw 1fr 5vw;
-  gap : var(--padding-med);
+  grid-template-columns: 5vw 5vw 5vw;
+  gap: var(--padding-med);
   margin: var(--padding-small) 0;
 }
 
@@ -267,7 +267,7 @@
 
 @media only screen and (min-width: 768px) {
   .pagination-container {
-    grid-template-columns: 3vw 1fr 3vw;
+    grid-template-columns: 3vw 3vw 3vw;
   }
 }
 /*END OF PAGINATION*/

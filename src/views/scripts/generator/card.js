@@ -1,11 +1,11 @@
 const HistoryCard = (createdAt, name, amount) => {
-	const timestamp = `<small class="history-time">${getDuration(
-		createdAt
-	)}</small>`;
-	const judul = `<p class="history-title">${name}</p>`;
-	const jumlah = `<h3 class="history-amount">IDR ${amount}</h3>`;
+  const timestamp = `<small class="history-time">${getDuration(
+    createdAt
+  )}</small>`;
+  const judul = `<p class="history-title">${name}</p>`;
+  const jumlah = `<h3 class="history-amount">${formatCurrency(amount)}</h3>`;
 
-	return `
+  return `
 	<div class="history-card">
 		${timestamp}
     ${judul}
@@ -15,17 +15,17 @@ const HistoryCard = (createdAt, name, amount) => {
 };
 
 const DorayakiCard = (thumbnail, price, name, id) => {
-	const pic = `<img src="${thumbnail}" class="dorayaki-img" alt="gambar-dorayaki"/>`;
-	const text = `<div class="dorayaki-text">
+  const pic = `<img src="${thumbnail}" class="dorayaki-img" alt="gambar-dorayaki"/>`;
+  const text = `<div class="dorayaki-text">
 		<p class="dorayaki-name">${name}</p>
-		<h2 class="dorayaki-price">${price}</h2>
+		<h3 class="dorayaki-price">${formatCurrency(price)}</h3>
 	</div>`;
-	const cart_icon = `<div class="dorayaki-cart-icon-container" onclick="redirect('/buy?id=${id}')">
+  const cart_icon = `<div class="dorayaki-cart-icon-container" onclick="redirect('/buy?id=${id}')">
 			<img class="dorayaki-cart-icon" src="${constructPublicURL("icons/cart.svg")}"/>
 		</div>
 	`;
 
-	return `
+  return `
 		<div class="dorayaki-card">
 			${pic}
 			<div class="dorayaki-control">

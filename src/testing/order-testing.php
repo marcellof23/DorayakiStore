@@ -25,7 +25,7 @@ for ($x = 0; $x <= 20; $x++) {
     $data["createdAt"] = "nothing";
     $data["type"] = "MIN";
 
-    $tes_model->createOrder($data);
+    // $tes_model->createOrder($data);
 }
 
-//echo json_encode($tes_model->getOrders(1,0));
+echo json_encode($tes_model->getOrders(1, 1));

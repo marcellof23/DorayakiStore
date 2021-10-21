@@ -20,7 +20,7 @@ $_POST["email"] = "pegessasfdf@gmail.com";
 $_POST["password"] = "adads";
 $_POST["is_admin"] = "true";
 
-$_POST["user_id"] = "1";
-$_SESSION["user_id"] = "1";
+$_POST["user_id"] = "3";
+$_SESSION["user_id"] = "3";
 
 $tes->promoteAdmin();
