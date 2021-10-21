@@ -24,6 +24,7 @@
 	position: absolute;
 	z-index: 2;
 	padding: var(--padding-med);
+  overflow-y: hidden;
 }
 
 .text{
@@ -52,7 +53,7 @@
 	justify-self: center;
 	position: absolute;
 	bottom : 30vh;
-	left: 50%;
+  left: 50%;
 	transform: translate(-50%,-50%) scale(1);
 	padding: var(--padding-med);
 	border-radius: var(--border-radius-circle);
@@ -96,4 +97,20 @@
 	0%{transform : translate(-50%,-50%);}
 	50%{transform : translate(-50%,-55%);}
 	100%{transform : translate(-50%,-50%);}
+}
+
+@media only screen and (min-width: 768px) {
+  .button, .button-ripple-1, .button-ripple-2, .button-ripple-3{
+    width: 15vh;
+    height: 15vh;
+    bottom : 20vh;
+    cursor: pointer;
+  }
+
+  .click-here{
+    position: absolute;
+    bottom : 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

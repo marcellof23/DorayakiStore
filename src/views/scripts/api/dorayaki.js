@@ -4,10 +4,36 @@ const getDorayakiPage = async (page = 1) => {
   return res;
 };
 
+const getPopularDorayaki = async () => {
+	const url = `dorayaki/get-popular-variant`;
+	const res = await axois.get(url);
+	return res;
+};
+
+const searchDorayaki = async (id, url) => {
+	const q = document.getElementById(id).value;
+	redirect(`${url}?query=${q}`);
+};
+
+const getSearchedDorayaki = async (query) => {
+	if (!query) return "[]";
+	const url = `dorayaki/get-by-query?query=${query}`;
+	const res = await axois.get(url);
+	return res;
+};
+
 const getDorayakiDetail = async (id = 1) => {
-  const url = `dorayaki/get-details?dorayaki_id=${id}`;
-  const res = await axois.get(url);
-  return res;
+	const url = `dorayaki/get-details?dorayaki_id=${id}`;
+	const res = await axois.get(url);
+	return res;
+};
+
+const buyDorayaki = async (dorayaki_id, counter_id) => {
+	const amount = parseInt(document.getElementById(counter_id).innerHTML);
+	const payload = {dorayaki_id, amount};
+	console.log(payload);
+
+	//tinggal tembak API BD
 };
 
 const deleteDorayaki = async (dorayaki_id) => {

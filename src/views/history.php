@@ -5,9 +5,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="scripts/__init.js"></script>
+	<script src="scripts/utils/constant.js"></script>
 	<script src="scripts/utils/api_util.js"></script>
 	<script src="scripts/utils/formatting.js"></script>
+  <script src="scripts/api/user.js"></script>
 	<script src="scripts/lib/axois.js"></script>
+	<script src="scripts/api/order.js"></script>
 	<script src="scripts/generator/template.js"></script>
 	<script src="scripts/generator/card.js"></script>
 	<script src="scripts/generator/control.js"></script>

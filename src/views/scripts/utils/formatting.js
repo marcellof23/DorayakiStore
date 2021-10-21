@@ -10,15 +10,13 @@ const getDuration = (date) => {
 	if (day === 0 && hour === 0 && min === 0 && sec < 60) {
 		return "Baru Saja";
 	} else {
-		if (day > 0) return formatDate(temp);
+		if (day > 0)
+			return `${temp.getDate()} ${
+				MONTH_NAME[temp.getMonth()]
+			} ${temp.getFullYear()} | ${hour}:${min}`;
 		if (hour > 0) return `${hour} jam yang lalu`;
 		if (min > 0) return `${min} menit yang lalu`;
 	}
-};
-
-const formatDate = (date) => {
-	date = new Date(date);
-	return `${date.getDate()} ${date.getMonth()} ${date.getFullYear()}`;
 };
 
 const formatCurrency = (num) => {

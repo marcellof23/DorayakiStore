@@ -1,15 +1,75 @@
 //all css must be defined on control.css
 
-const SearchBar = (onchange) =>
-	`<div class='searchbox'>
-		<input type="text" class="search-input" onchange='debounce(${onchange})'/>
-		<img src=${constructPublicURL(
-			"icons/search-primary.svg"
-		)} alt="search-icon" class="search-icon"/>
-	</div>`;
+class SearchBar {
+	constructor(id, targetURL) {
+		this.id = id;
+		this.targetURL = targetURL;
+		this.icon = constructPublicURL("icons/search-primary.svg");
+		const url = new URL(window.location.href);
+		const q = url.searchParams.get("query");
+		this.value = q || "";
+	}
 
+	onChange() {
+		return `searchDorayaki("${this.id}","${this.targetURL}")`;
+	}
 
-// type consist of : "input" : "disabled"
+	render() {
+		return `<div class='searchbox'>
+      <input id="${
+				this.id
+			}" type="text" class="search-input" onChange='${this.onChange()}' value="${
+			this.value
+		}"/>
+      <img src=${this.icon} alt="search-icon" class="search-icon"/>
+    </div>`;
+	}
+}
+
+class Counter {
+	constructor(id, cb) {
+		this.id = id;
+		this.cb = cb;
+	}
+
+	onAdd() {
+		return `
+      const dom = document.getElementById("${this.id}");
+      const val = parseInt(dom.innerHTML) + 1;
+      dom.innerHTML = val;
+      ${this.cb("val")};
+    `;
+	}
+
+	onMin() {
+		return `
+      const dom = document.getElementById("${this.id}");
+      let val = parseInt(dom.innerHTML);
+      val =(val-1 > 0) ? val-1 : val;
+      dom.innerHTML = val;
+      ${this.cb("val")}
+    `;
+	}
+
+	getValue() {
+		return `
+      const dom = document.getElementById("${this.id}");
+      let val = parseInt(dom.innerHTML);
+      return val;
+    `;
+	}
+
+	render() {
+		return `
+      <div class='counter'>
+        <h3 onclick='${this.onMin()}'>-</h3>
+        <div id='${this.id}'>1</div>
+        <h3 onclick='${this.onAdd()}'>+</h3>
+      </div>
+    `;
+	}
+}
+
 const LabText = (
 	label,
 	name,

@@ -28,7 +28,7 @@
 			<div class="button-ripple-1"></div>
 			<div class="button-ripple-2"></div>
 			<div class="button-ripple-3"></div>
-			<p>Click Here to Continue</p>
+			<p class="click-here">Click Here to Continue</p>
 		</div>
 	</div>
 </body>

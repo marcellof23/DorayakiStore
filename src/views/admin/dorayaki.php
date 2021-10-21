@@ -10,6 +10,7 @@ $num = 1;
 	<script src="../scripts/__init.js"></script>
 	<script src="../scripts/utils/api_util.js"></script>
 	<script src="../scripts/utils/formatting.js"></script>
+  <script src="../scripts/api/user.js"></script>
 	<script src="../scripts/lib/axois.js"></script>
 	<script src="../scripts/lib/table.js"></script>
 	<script src="../scripts/api/dorayaki.js"></script>

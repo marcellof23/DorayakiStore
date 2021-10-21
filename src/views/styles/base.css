@@ -1,13 +1,13 @@
 .app{
   height: 100vh;
-  padding : var(--padding-large) var(--padding-xlarge) var(--padding-large) 15%;
+  padding : var(--padding-med) var(--padding-large);
 }
 
 .navigation {
   width: fit-content;
   height: fit-content;
 
-  position: absolute;
+  position: fixed;
   bottom: 10vh;
   left: 50%;
   z-index: 1;
@@ -40,6 +40,10 @@
 }
 
 @media only screen and (min-width: 768px) {
+  .app{
+    padding : var(--padding-large) var(--padding-xlarge) var(--padding-large) 15%;
+  }
+
   .navigation {
     width: 10vw;
     height: 100vh;

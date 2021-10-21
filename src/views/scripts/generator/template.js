@@ -17,7 +17,7 @@ function generateNavbar() {
 	const navigation = [
 		{path: "/search", icon: "search"},
 		{path: "/home", icon: "home"},
-		{path: "/history", iczon: "history"},
+		{path: "/history", icon: "history"},
 		{path: "/logout", icon: "logout"},
 	];
 

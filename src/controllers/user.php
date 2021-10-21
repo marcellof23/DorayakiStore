@@ -174,7 +174,7 @@ class UserController
             return;
         }
 
-        var_dump($user);
+        echo json_encode($user);
     }
 
     public function updateCurrentUser()

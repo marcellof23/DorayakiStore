@@ -1,28 +1,30 @@
 const AdminHomePage = async () => {
-  const target = document.getElementById("home-admin");
+	await adminRoute();
 
-  const table_id = "dorayaki-table";
+	const target = document.getElementById("home-admin");
 
-  const head = {
-    No: "No",
-    thumbnail: "Thumbnail",
-    name: "Nama Dorayaki",
-    description: "Deskripsi",
-    price: "Harga",
-    stock: "Stock",
-  };
+	const table_id = "dorayaki-table";
 
-  const table = new Table(
-    table_id,
-    head,
-    getDorayakiPage,
-    "/admin/dorayaki-details",
-    "dorayaki_id"
-  );
+	const head = {
+		No: "No",
+		thumbnail: "Thumbnail",
+		name: "Nama Dorayaki",
+		description: "Deskripsi",
+		price: "Harga",
+		stock: "Stock",
+	};
 
-  const onAdd = `redirect("/admin/dorayaki-add")`;
+	const table = new Table(
+		table_id,
+		head,
+		getDorayakiPage,
+		"/admin/dorayaki-details",
+		"dorayaki_id"
+	);
 
-  const components = `
+	const onAdd = `redirect("/admin/dorayaki-add")`;
+
+	const components = `
     ${generateNavbarAdmin()}
     <div class="dorayaki-management-container">
       ${pageTitle("Dorayaki Management")}
@@ -33,10 +35,12 @@ const AdminHomePage = async () => {
       ${await table.generate_table()}
     </div>
   `;
-  target.innerHTML = components;
+	target.innerHTML = components;
 };
 
 const DorayakiDetailsPage = async () => {
+	await adminRoute();
+
 	const target = document.getElementById("dorayaki-details-page");
 	const modaldom = document.getElementById("modal-portal");
 
@@ -110,6 +114,8 @@ const DorayakiDetailsPage = async () => {
 };
 
 const DorayakiEditPage = async () => {
+	await adminRoute();
+
 	const target = document.getElementById("dorayaki-edit-page");
 
 	const url = new URL(window.location.href);
@@ -156,13 +162,15 @@ const DorayakiEditPage = async () => {
 	target.innerHTML = components;
 };
 
-const DorayakiAddPage = () => {
+const DorayakiAddPage = async () => {
 	const target = document.getElementById("dorayaki-add-page");
 	const modaldom = document.getElementById("modal-portal");
 
+	await adminRoute();
+
 	const modal = new Modal("confirm-delete", false, "Dorayaki berhasil dibuat!");
 
-  onSubmit = `createDorayaki(); ${modal.open()}; redirect("/admin/dorayaki",1000)`;
+	onSubmit = `createDorayaki(); ${modal.open()}; redirect("/admin/dorayaki",1000)`;
 	onCancel = `redirect("/admin/dorayaki")`;
 
 	const ddt = "dorayaki-details-text";
@@ -202,34 +210,36 @@ const DorayakiAddPage = () => {
 };
 
 const AdminHistoryPage = async () => {
-  const target = document.getElementById("admin-history-page");
+	const target = document.getElementById("admin-history-page");
 
-  const url = new URL(window.location.href);
-  const type = url.searchParams.get("type") || "user";
+	await adminRoute();
 
-  const table_id =
-    type === "user" ? "user-pov-history-table" : "admin-pov-history-table";
+	const url = new URL(window.location.href);
+	const type = url.searchParams.get("type") || "user";
 
-  const head = {
-    No: "No",
-    createdAt: "Tanggal",
-    user: "User",
-    dorayaki: "Dorayaki",
-    amount: "Quantity",
-    total_cost: "Total",
-  };
+	const table_id =
+		type === "user" ? "user-pov-history-table" : "admin-pov-history-table";
 
-  const adminHead = {
-    No: "No",
-    createdAt: "Tanggal",
-    user: "User",
-    dorayaki: "Dorayaki",
-    amount: "Quantity",
-    type: "Type",
-    total_cost: "Total",
-  };
+	const head = {
+		No: "No",
+		createdAt: "Tanggal",
+		user: "User",
+		dorayaki: "Dorayaki",
+		amount: "Quantity",
+		total_cost: "Total",
+	};
 
-  const table = new Table(
+	const adminHead = {
+		No: "No",
+		createdAt: "Tanggal",
+		user: "User",
+		dorayaki: "Dorayaki",
+		amount: "Quantity",
+		type: "Type",
+		total_cost: "Total",
+	};
+
+	const table = new Table(
 		table_id,
 		type === "user" ? head : adminHead,
 		getOrderPage,
@@ -239,10 +249,10 @@ const AdminHistoryPage = async () => {
 		`&type=${type}`
 	);
 
-  const switchOptions = ["user", "admin"];
-  const active = type;
+	const switchOptions = ["user", "admin"];
+	const active = type;
 
-  const components = `
+	const components = `
     ${generateNavbarAdmin()}
     <div class="history-container">
       ${pageTitle("Dorayaki Order List")}
@@ -250,5 +260,5 @@ const AdminHistoryPage = async () => {
       ${await table.generate_table()}
     </div>
   `;
-  target.innerHTML = components;
+	target.innerHTML = components;
 };
