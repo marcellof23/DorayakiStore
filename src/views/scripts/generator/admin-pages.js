@@ -5,6 +5,8 @@ const AdminHomePage = async () => {
 
 	const table_id = "dorayaki-table";
 
+  const searchBar = new SearchBar("search-box", "/admin/dorayaki");
+
 	const head = {
 		No: "No",
 		thumbnail: "Thumbnail",
@@ -29,7 +31,7 @@ const AdminHomePage = async () => {
     <div class="dorayaki-management-container">
       ${pageTitle("Dorayaki Management")}
       <div class="search-container">
-        ${SearchBar()}
+        ${searchBar.render()}
         ${Button("Add Dorayaki", "primary", onAdd)}
       </div>
       ${await table.generate_table()}
