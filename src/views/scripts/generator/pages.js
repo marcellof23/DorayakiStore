@@ -1,61 +1,61 @@
 const HomePage = async () => {
-	await userRoute();
+  await userRoute();
 
-	const target = document.getElementById("home");
+  const target = document.getElementById("home");
 
-	let dorayakis = [];
-	try {
-		const res = await getPopularDorayaki();
-		const data = JSON.parse(res);
-		data.map((row) =>
-			dorayakis.push(
-				DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
-			)
-		);
-	} catch (err) {
-		console.log(err);
-	}
+  let dorayakis = [];
+  try {
+    const res = await getPopularDorayaki();
+    const data = JSON.parse(res);
+    data.map((row) =>
+      dorayakis.push(
+        DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
+      )
+    );
+  } catch (err) {
+    console.log(err);
+  }
 
-	const searchBar = new SearchBar("search-box", "/search");
+  const searchBar = new SearchBar("search-box", "/search");
 
-	const components = `
+  const components = `
 		${generateNavbar()}
     ${generateUserChip()}
 		${searchBar.render()}
 		<div class="home-container">
       ${
-				dorayakis.length
-					? dorayakis.join("")
-					: "<div class='not-found-container'>Dorayaki is not found</div>"
-			}
+        dorayakis.length
+          ? dorayakis.join("")
+          : "<div class='not-found-container'>Dorayaki is not found</div>"
+      }
 		</div>
 	`;
 
-	target.innerHTML = components;
+  target.innerHTML = components;
 };
 
 const SearchPage = async () => {
-	await userRoute();
+  await userRoute();
 
-	const target = document.getElementById("search");
+  const target = document.getElementById("search");
 
-	const searchBar = new SearchBar("search-box", "/search");
+  const searchBar = new SearchBar("search-box", "/search");
 
-	const url = new URL(window.location.href);
-	const q = url.searchParams.get("query");
-	const page = parseInt(url.searchParams.get("page")) || 1;
+  const url = new URL(window.location.href);
+  const q = url.searchParams.get("query");
+  const page = parseInt(url.searchParams.get("page")) || 1;
 
-	const pagination = new Pagination("pagination", page, 2, `&query=${q}`);
+  const pagination = new Pagination("pagination", page, 2, `&query=${q}`);
 
-	try {
-		const res = await getSearchedDorayaki(q, page);
-		const data = JSON.parse(res);
+  try {
+    const res = await getSearchedDorayaki(q, page);
+    const data = JSON.parse(res);
 
-		const dorayakis = data.map((row) =>
-			DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
-		);
+    const dorayakis = data.map((row) =>
+      DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
+    );
 
-		const components = `
+    const components = `
 		${generateNavbar()}
 		${searchBar.render()}
 		<div class="search-container">
@@ -64,9 +64,9 @@ const SearchPage = async () => {
     ${pagination.render()}
 	`;
 
-		target.innerHTML = components;
-	} catch (err) {
-		const components = `
+    target.innerHTML = components;
+  } catch (err) {
+    const components = `
       ${generateNavbar()}
       ${searchBar.render()}
       <div class="search-container">
@@ -75,54 +75,54 @@ const SearchPage = async () => {
       ${pagination.render()}
     `;
 
-		target.innerHTML = components;
-	}
+    target.innerHTML = components;
+  }
 };
 
 const HistoryPage = async () => {
-	await userRoute();
+  await userRoute();
 
-	const target = document.getElementById("history");
+  const target = document.getElementById("history");
   const url = new URL(window.location.href);
-	const page = parseInt(url.searchParams.get("page")) || 1;
+  const page = parseInt(url.searchParams.get("page")) || 1;
 
-	let histories = [];
-	try {
-		const res = await getOrderPage();
-		const data = JSON.parse(res);
+  let histories = [];
+  try {
+    const res = await getOrderPage(page);
+    const data = JSON.parse(res);
 
-		data.entries.map((row) =>
-			histories.push(HistoryCard(row.createdAt, row.dorayaki, row.total_cost))
-		);
-	} catch (err) {
-		console.log(err);
-	}
+    data.entries.map((row) =>
+      histories.push(HistoryCard(row.createdAt, row.dorayaki, row.total_cost))
+    );
 
-	console.log(histories);
+    console.log(histories);
 
-	const pagination = new Pagination("pagination", page, 2, "");
+    const pagination = new Pagination(
+      "pagination",
+      page,
+      data["page_count"],
+      ""
+    );
 
-	const components = `
+    const components = `
 		${generateNavbar()}
 		<div class="history-container">
 			${pageTitle("Riwayat Pembelian")}
 			<div class="history-inner-container">
         ${
-					histories.length
-						? histories.join("")
-						: "<div class='not-found-container'>History is empty</div>"
-				}
+          histories.length
+            ? histories.join("")
+            : "<div class='not-found-container'>History is empty</div>"
+        }
       </div>
       ${pagination.render()}
 		</div>
 	`;
 
-	target.innerHTML = components;
-
-	if (histories.length == 0) {
-		const targets = document.querySelector(".not-found-container");
-		targets.innerHTML = "Histories is empty";
-	}
+    target.innerHTML = components;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const BuyPage = async () => {

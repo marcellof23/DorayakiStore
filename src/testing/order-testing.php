@@ -20,7 +20,7 @@ for ($x = 0; $x <= 20; $x++) {
     $data["dorayaki_id"] = "3";
     $data["amount"] = 1;
     $data["total_cost"] = 120;
-    $data["price"] = 1000;
+    $data["price"] = 20000;
     $data["isOrder"] = "1";
     $data["createdAt"] = "nothing";
     $data["type"] = "MIN";

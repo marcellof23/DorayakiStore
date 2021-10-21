@@ -1,22 +1,71 @@
-## Panduan Pengerjaan
-Berikut adalah hal yang harus diperhatikan untuk pengumpulan tugas ini:
-1. Buatlah grup pada Gitlab dengan format "IF3110-2021-KXX-01-pYY", dengan XX adalah nomor kelas dan YY adalah nomor kelompok.
-2. Tambahkan anggota tim pada grup anda.
-3. **Fork** pada repository ini dengan organisasi yang telah dibuat.
-4. Ubah hak akses repository hasil Fork anda menjadi **private**.
-5. Silakan commit pada repository anda (hasil fork). Lakukan beberapa commit dengan pesan yang bermakna, contoh: `add register form`, `fix logout bug`, jangan seperti `final`, `benerin dikit`, `fix bug`. Disarankan untuk tidak melakukan commit dengan perubahan yang besar karena akan mempengaruhi penilaian (contoh: hanya melakukan satu commit kemudian dikumpulkan). Sebaiknya commit dilakukan setiap ada penambahan fitur. Commit dari setiap anggota tim akan mempengaruhi penilaian. Jadi, setiap anggota tim harus melakukan commit yang berpengaruh terhadap proses pembuatan aplikasi.
-6. Buatlah file README yang berisi:
-    * Deskripsi aplikasi web
-    * Daftar requirement
-    * Cara instalasi
-    * Cara menjalankan server
-    * Screenshot tampilan aplikasi (tidak perlu semua kasus, minimal 1 per halaman), dan 
-    * Penjelasan mengenai pembagian tugas masing-masing anggota (lihat formatnya pada bagian pembagian tugas).
+# Aplikasi Yoshiyaki
+
+## Deskripsi Aplikasi Web
+
+Secara umum, sistem ini merupakan sebuah sistem informasi yang digunakan untuk melakukan manajemen / pengelolaan stok dorayaki. Berikut ada beberapa ketentuan umum
+yang dimiliki oleha aplikasi kami :
+1. Untuk client-side, gunakan Javascript, HTML, dan CSS. Tidak boleh
+menggunakan library atau framework CSS atau JS (e.g. JQuery, lodash, atau
+Bootstrap). CSS sebisa mungkin ada di file yang berbeda dengan HTML (tidak
+inline styling).
+2. Untuk server-side, wajib menggunakan PHP murni tanpa framework apapun (e.g
+laravel, codeigniter). Harap diperhatikan, Anda harus mengimplementasikan fitur
+menggunakan HTTP method yang tepat.
+3. Untuk basis data, wajib menggunakan SQLite. Skema database dibebaskan,
+namun dapat memenuhi seluruh fitur dari sistem. Disarankan untuk membuat
+database sample yang terpisah dari database asli yang digunakan oleh sistem.
+4. Sistem yang dibangun ini bersifat monolithic, artinya interface dan logika
+pemrosesan digabung menjadi satu.
+
+## Daftar Requirement
+
+Membangun sistem yang dapat melakukan pengelolaan stok dorayaki.
+1. Seluruh pengguna harus melakukan autentikasi untuk dapat mengakses seluruh
+fitur lainnya. Pengguna dibedakan menjadi 2 kategori: user dan admin.
+2. Admin dapat melakukan pengelolaan varian dorayaki.
+3. Admin dapat melakukan manajemen stok dorayaki.
+4. Admin dapat melihat riwayat perubahan stok dorayaki.
+5. User dapat melihat daftar varian dorayaki
+6. User dapat melakukan pembelian dorayaki
+7. User dapat melihat riwayat pembelian dorayaki.
+
+## Cara Instalasi && Cara menjalankan server
+
+Karena sistem ini dikontenirasi dengan docker, sehingga semua dependensi sudah terinstall dan dikonfigurasi pada docker image dan docker compose, maka hanya diperlukan command sebagai berikut  : 
+
+Untuk Linux :
+```shell
+./serve.sh 
+```
+Untuk windows : 
+```shell
+docker-compose up --build
+```
+
+## Screenshot tampilan aplikasi 
+
+## Penjelasan mengenai pembagian tugas masing-masing anggota
+
+Marcello Faria 13519086 
+- Membuat model dorayaki dan order
+- Membuat controller dorayaki
+- Membuat styling login dan register
+- Membuat api tabel
+- Mengkonfigurasi dan membuat koneksi database 
+- Mengkonfigurasi docker
+- Menyusun struktur folder
+- Membuat testing dan seeds
+- Membuat beberapa file api dorayaki dan order
 
 
-## Link Penting
-* ~~Link spesifikasi: https://docs.google.com/document/d/1-xHgBLsVC2TaNPAH3JI4qoqzNRKTnJWPXgfH1gqFg/edit?usp=sharing~~
-* ~~Link pembagian anggota kelompok: https://docs.google.com/spreadsheets/d/13UB4S0bkTCSkLoj3ZrpMyvblzY7fQhSdlVq_Snjww/edit?usp=sharing~~
-* ~~Link daftar pertanyaan: https://docs.google.com/spreadsheets/d/1-iGI3CAkSkelqSaRFuzPcxws0njWD-2mqCICE3ddc/edit?usp=sharing~~
-* ~~Link responsi: https://docs.google.com/spreadsheets/d/1ij3fge9YFFO3oRjdgnPNIBo03S-JgWcGbtvzYMS7Y/edit?usp=sharing~~
-* Semua file terkait dapat diakses melalui channel teams "Tubes 1", di dalamnya mencakup keempat dokumen di atas
+Michael Philip 13519121
+
+- Membuat controller order
+- Membuat paginasi 
+- Membuat tabel
+
+Frederic Ronaldi 13519134
+
+- Membuat controller user
+- Membuat controller login dan register
+- 
