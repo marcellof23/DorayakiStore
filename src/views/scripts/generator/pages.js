@@ -83,6 +83,8 @@ const HistoryPage = async () => {
 	await userRoute();
 
 	const target = document.getElementById("history");
+  const url = new URL(window.location.href);
+	const page = parseInt(url.searchParams.get("page")) || 1;
 
 	let histories = [];
 	try {
@@ -98,6 +100,8 @@ const HistoryPage = async () => {
 
 	console.log(histories);
 
+	const pagination = new Pagination("pagination", page, 2, "");
+
 	const components = `
 		${generateNavbar()}
 		<div class="history-container">
@@ -109,6 +113,7 @@ const HistoryPage = async () => {
 						: "<div class='not-found-container'>History is empty</div>"
 				}
       </div>
+      ${pagination.render()}
 		</div>
 	`;
 
