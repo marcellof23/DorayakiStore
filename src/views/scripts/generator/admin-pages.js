@@ -5,7 +5,7 @@ const AdminHomePage = async () => {
 
 	const table_id = "dorayaki-table";
 
-  const searchBar = new SearchBar("search-box", "/admin/dorayaki");
+	const searchBar = new SearchBar("search-box", "/admin/dorayaki");
 
 	const head = {
 		No: "No",
@@ -25,19 +25,35 @@ const AdminHomePage = async () => {
 	);
 
 	const onAdd = `redirect("/admin/dorayaki-add")`;
-
-	const components = `
-    ${generateNavbarAdmin()}
-    <div class="dorayaki-management-container">
-      ${pageTitle("Dorayaki Management")}
-      <div class="search-container">
-        ${searchBar.render()}
-        ${Button("Add Dorayaki", "primary", onAdd)}
-      </div>
-      ${await table.generate_table()}
-    </div>
-  `;
-	target.innerHTML = components;
+	
+	async function render() {
+		const components = `
+		${generateNavbarAdmin()}
+			<div class="dorayaki-management-container">
+				${pageTitle("Dorayaki Management")}
+				<div class="search-container">
+					${searchBar.render()}
+					${Button("Add Dorayaki", "primary", onAdd)}
+				</div>
+				${await table.generate_table()}
+			</div>
+		`;
+		target.innerHTML = components;
+	}
+	
+	setInterval(async () => {
+		const data = JSON.parse(
+			await table.onGet(table.page)
+		);
+			
+		if (JSON.stringify(data) !== JSON.stringify(table.data)) {			
+			table.data = data;
+			await render();
+		}
+	}, 2000);
+		
+	await table.init();
+	await render();
 };
 
 const DorayakiDetailsPage = async () => {
@@ -254,13 +270,29 @@ const AdminHistoryPage = async () => {
 	const switchOptions = ["user", "admin"];
 	const active = type;
 
-	const components = `
-    ${generateNavbarAdmin()}
-    <div class="history-container">
-      ${pageTitle("Dorayaki Order List")}
-      ${Switch(switchOptions, active, "/admin/history", "type")}
-      ${await table.generate_table()}
-    </div>
-  `;
-	target.innerHTML = components;
+	async function render() {
+		const components = `
+			${generateNavbarAdmin()}
+			<div class="history-container">
+				${pageTitle("Dorayaki Order List")}
+				${Switch(switchOptions, active, "/admin/history", "type")}
+				${await table.generate_table()}
+			</div>
+		`;
+		target.innerHTML = components;
+	}
+
+	setInterval(async () => {
+		const data = JSON.parse(
+			await table.onGet(table.page)
+		);
+
+		if (JSON.stringify(data) !== JSON.stringify(table.data)) {
+			table.data = data;
+			await render();
+		}
+	}, 2000);
+
+	await table.init();
+	await render();
 };
