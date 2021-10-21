@@ -18,8 +18,8 @@
   margin-bottom: var(--padding-small);
 }
 
-#home-admin .table-container #dorayaki-table tr{
-  display : grid;
+#home-admin .table-container #dorayaki-table tr {
+  display: grid;
   grid-template-columns: 1fr 6vh 2fr 3fr 1fr 1fr;
   grid-template-rows: 6vh;
 }
@@ -27,7 +27,7 @@
 #home-admin .search-container {
   display: grid;
   grid-template-columns: 1fr 10vw;
-  gap : var(--padding-med);
+  gap: var(--padding-med);
   padding: var(--padding-small) 0;
   margin-bottom: var(--padding-small);
 }
@@ -47,11 +47,11 @@
   cursor: pointer;
 }
 
-.dorayaki-management-container > *{
+.dorayaki-management-container > * {
   margin-bottom: var(--padding-large);
 }
 
-.dorayaki-details{
+.dorayaki-details {
   display: grid;
   grid-template-columns: 0.35fr 1fr;
   grid-gap: 30px;
@@ -72,17 +72,17 @@
   grid-gap: 16px;
 }
 
-#admin-history-page .table-container #user-pov-history-table tr{
-  display : grid;
+#admin-history-page .table-container #user-pov-history-table tr {
+  display: grid;
   grid-template-columns: 1fr 2fr 2fr 3fr 1fr 1fr;
 }
 
-#admin-history-page .table-container #admin-pov-history-table tr{
-  display : grid;
+#admin-history-page .table-container #admin-pov-history-table tr {
+  display: grid;
   grid-template-columns: 1fr 2fr 2fr 3fr 1fr 1fr 1fr;
 }
 
-.history-container > *{
+.history-container > * {
   margin-bottom: var(--padding-large);
 }
 
