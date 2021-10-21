@@ -4,6 +4,5 @@ const getOrderPage = async (page = 1) => {
 
   const url = `order/get-orders?page=${page}&type=${type}`;
   const res = await axois.get(url);
-  console.log(res);
   return res;
 };

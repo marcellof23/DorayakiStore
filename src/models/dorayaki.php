@@ -21,6 +21,13 @@ class DorayakiModel
         return $this->db->resultSet();
     }
 
+    public function countDorayakisQuery($query)
+    {
+        $where = 'WHERE name LIKE %'.$query.'%';
+        $this->db->query('SELECT COUNT(dorayaki_id) as total_dorayaki FROM ' . DorayakiModel::$table) . ' '.$where;
+        return $this->db->resultSet();
+    }
+
     public function getDorayakis($page)
     {
         $limit = 10;

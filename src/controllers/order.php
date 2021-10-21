@@ -52,10 +52,10 @@ class OrderController
 
         $res = array();
         $res['entries'] = $orderData;
-        $res["item_per_page"] = 10;
+        $res["items_per_page"] = 10;
         $res["item_count"] = $this->orderModel->countOrders(0)[0]["total_order"];
         $res["page"] = $page;
-        $res["page_count"] = floor($res["item_count"] / $res["item_per_page"]) + 1;
+        $res["page_count"] = floor($res["item_count"] / $res["items_per_page"]) + 1;
 
         echo json_encode($res);
     }
@@ -83,10 +83,10 @@ class OrderController
 
         $res = array();
         $res['entries'] = $orderData;
-        $res["item_per_page"] = 10;
+        $res["items_per_page"] = 10;
         $res["item_count"] = $user["is_admin"] ? $this->orderModel->countOrders(1)[0]["total_order"] : $this->orderModel->countOrderByUserId($user["user_id"])[0]["total_order"];
         $res["page"] = $page;
-        $res["page_count"] = floor($res["item_count"] / $res["item_per_page"]) + 1;
+        $res["page_count"] = floor($res["item_count"] / $res["items_per_page"]) + 1;
 
         echo json_encode($res);
     }

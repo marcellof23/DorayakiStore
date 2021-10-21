@@ -6,7 +6,8 @@ class Table {
 		urlOnClick,
 		id_field,
 		isClickable = true,
-		otherParams = ""
+		otherParams = "",
+		withTopPagination = false
 	) {
 		const params = new URLSearchParams(window.location.search);
 		this.table_id = table_id;
@@ -19,6 +20,7 @@ class Table {
 		this.isClickable = isClickable;
 		this.page = parseInt(params.get("page")) || 1;
 		this.otherParams = otherParams;
+		this.withTopPagination = withTopPagination;
 	}
 
 	generate_heading() {
@@ -37,6 +39,9 @@ class Table {
 	generate_body = (data) => {
 		let table_data = "";
 
+		console.log(this.data);
+		console.log(this.page, this.data.items_per_page);
+
 		data.forEach((row, i) => {
 			const url = `${location.protocol}//${location.host}${
 				this.urlOnClick
@@ -46,7 +51,9 @@ class Table {
 
 			let row_data = `<tr class="table-row ${
 				this.isClickable ? "clickable" : ""
-			}" onclick='${onclick}'><td>${i + 1}</td>`;
+			}" onclick='${onclick}'><td>${
+				i + 1 + (this.page - 1) * this.data.items_per_page
+			}</td>`;
 
 			for (const [key, _] of Object.entries(this.head)) {
 				if (key === "No") continue;
@@ -74,7 +81,7 @@ class Table {
 	async generate_table() {
 		try {
 			const table_headings = this.generate_heading();
-			const table_body = this.generate_body(this.data.entries);
+			const table_body = this.generate_body(this.data.entries, this.data);
 
 			const pagination = new Pagination(
 				this.pagination_id,
@@ -84,6 +91,13 @@ class Table {
 			);
 
 			return `
+      ${
+				this.withTopPagination
+					? `<div class="pagination-container">
+        ${pagination.render()}
+      </div>`
+					: ``
+			}
       <div class="table-container">
         <table class="table" id=${this.table_id}>
           ${table_headings}
@@ -94,7 +108,7 @@ class Table {
         </div>
       </div>`;
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 		}
 	}
 }

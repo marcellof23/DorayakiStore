@@ -57,8 +57,8 @@
 
 #home-admin .table-container #dorayaki-table tr {
   display: grid;
-  grid-template-columns: 1fr 6vh 2fr 3fr 1fr 1fr;
-  grid-template-rows: 6vh;
+  grid-template-columns: 1fr 10vh 2fr 3fr 1fr 1fr;
+  grid-template-rows: 10vh;
 }
 
 #home-admin .search-container {

@@ -101,7 +101,7 @@ td {
 }
 
 th {
-  height: 60px;
+  height: 100%;
   color: #f3f4f3;
   font-family: var(--family_secondary);
   background-color: var(--primary);

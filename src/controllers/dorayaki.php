@@ -93,13 +93,20 @@ class DorayakiController
         $page = $_GET["page"];
         $dorayakiData = $this->dorayakiModel->getDorayakiByQuery($query, $page);
 
+        $res['entries'] = $dorayakiData;
+        $res['items_per_page'] = 10;
+        $res['item_count'] = $this->dorayakiModel->countDorayakisQuery($query)[0]["total_dorayaki"];
+        $res["page"] = $page;
+        $res['page_count'] = floor($res["item_count"]
+            / $res['items_per_page']) + 1;
+
         if (!$dorayakiData) {
             http_response_code(404);
             echo 'Current dorayaki query is not found';
             return;
         }
 
-        echo json_encode($dorayakiData);
+        echo json_encode($res);
     }
 
     public function getDorayakiPopularVariant()

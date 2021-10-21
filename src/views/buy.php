@@ -17,6 +17,7 @@ if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
   <script src="scripts/api/user.js"></script>
   <script src="scripts/api/dorayaki.js"></script>
 	<script src="scripts/lib/axois.js"></script>
+	<script src="scripts/lib/modal.js"></script>
 	<script src="scripts/generator/template.js"></script>
 	<script src="scripts/generator/card.js"></script>
 	<script src="scripts/generator/control.js"></script>
@@ -31,6 +32,7 @@ if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
 </head>
 <body>
 	<div id="buy" class="app"></div>
+	<div id="modal-portal"></div>
 </body>
 <script>
 	BuyPage()
