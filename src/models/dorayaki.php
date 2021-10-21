@@ -104,6 +104,7 @@ class DorayakiModel
                     name = :name,
                     description = :description,
                     price = :price,
+                    stock = :stock,
                     thumbnail = :thumbnail
                   WHERE dorayaki_id = :dorayaki_id";
 
@@ -113,6 +114,7 @@ class DorayakiModel
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':description', $data['description']);
         $this->db->bind(':price', $data['price']);
+        $this->db->bind(':stock', $data['stock']);
         $this->db->bind(':thumbnail', $data['thumbnail']);
 
         $this->db->execute();
