@@ -14,13 +14,13 @@ const HistoryCard = (createdAt, name, amount) => {
 	`;
 };
 
-const DorayakiCard = (thumbnail, price, name) => {
+const DorayakiCard = (thumbnail, price, name, id) => {
 	const pic = `<img src="${thumbnail}" class="dorayaki-img" alt="gambar-dorayaki"/>`;
 	const text = `<div class="dorayaki-text">
 		<p class="dorayaki-name">${name}</p>
 		<h2 class="dorayaki-price">${price}</h2>
 	</div>`;
-	const cart_icon = `<div class="dorayaki-cart-icon-container">
+	const cart_icon = `<div class="dorayaki-cart-icon-container" onclick="redirect('/buy?id=${id}')">
 			<img class="dorayaki-cart-icon" src="${constructPublicURL("icons/cart.svg")}"/>
 		</div>
 	`;

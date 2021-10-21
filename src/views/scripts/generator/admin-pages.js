@@ -1,7 +1,7 @@
 const AdminHomePage = async () => {
-	const target = document.getElementById("home-admin");
-
 	await adminRoute();
+
+	const target = document.getElementById("home-admin");
 
 	const table_id = "dorayaki-table";
 
@@ -39,10 +39,10 @@ const AdminHomePage = async () => {
 };
 
 const DorayakiDetailsPage = async () => {
+	await adminRoute();
+
 	const target = document.getElementById("dorayaki-details-page");
 	const modaldom = document.getElementById("modal-portal");
-
-	await adminRoute();
 
 	const url = new URL(window.location.href);
 	const id = parseInt(url.searchParams.get("id"));
@@ -114,9 +114,9 @@ const DorayakiDetailsPage = async () => {
 };
 
 const DorayakiEditPage = async () => {
-	const target = document.getElementById("dorayaki-edit-page");
-
 	await adminRoute();
+
+	const target = document.getElementById("dorayaki-edit-page");
 
 	const url = new URL(window.location.href);
 	const id = parseInt(url.searchParams.get("id"));

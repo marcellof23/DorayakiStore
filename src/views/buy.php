@@ -7,8 +7,8 @@
 	<script src="scripts/__init.js"></script>
 	<script src="scripts/utils/api_util.js"></script>
 	<script src="scripts/utils/formatting.js"></script>
-	<script src="scripts/api/user.js"></script>
-	<script src="scripts/api/dorayaki.js"></script>
+  <script src="scripts/api/user.js"></script>
+  <script src="scripts/api/dorayaki.js"></script>
 	<script src="scripts/lib/axois.js"></script>
 	<script src="scripts/generator/template.js"></script>
 	<script src="scripts/generator/card.js"></script>
@@ -19,14 +19,13 @@
 	<link rel="stylesheet" href="./styles/pages.css">
 	<link rel="stylesheet" href="./styles/control.css">
 	<link rel="stylesheet" href="./styles/card.css">
-	<link rel="stylesheet" href="./styles/home.css">
 	<title>Dorayaki</title>
 	<link rel="shortcut icon" type="image/png" href="../public/dorayaki.png"/>
 </head>
 <body>
-	<div id="home" class="app"></div>
+	<div id="buy" class="app"></div>
 </body>
 <script>
-	HomePage();
+	BuyPage()
 </script>
 </html>
