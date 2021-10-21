@@ -5,7 +5,8 @@ require_once ROOT . '/models/dorayaki.php';
 require_once ROOT . '/models/order.php';
 require_once ROOT . '/models/user.php';
 
-class OrderController{
+class OrderController
+{
     private $db;
     private $orderModel;
     private $userModel;
@@ -19,9 +20,10 @@ class OrderController{
         session_start();
     }
 
-    public function getAdminOrders(){
+    public function getAdminOrders()
+    {
         $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
-        
+
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';
             return;
@@ -49,14 +51,15 @@ class OrderController{
         $res["item_per_page"] = 20;
         $res["item_count"] = $this->orderModel->countOrders(0)[0]["total_order"];
         $res["page"] = $page;
-        $res["page_count"] = floor($res["item_count"]/$res["item_per_page"]) + 1;
+        $res["page_count"] = floor($res["item_count"] / $res["item_per_page"]) + 1;
 
         echo json_encode($res);
     }
-    
-    public function getUserOrders(){
+
+    public function getUserOrders()
+    {
         $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
-        
+
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
             echo 'Authentication required.';
             return;
@@ -77,12 +80,13 @@ class OrderController{
         $res["item_per_page"] = 20;
         $res["item_count"] = $user["is_admin"] ? $this->orderModel->countOrders(1)[0]["total_order"] : $this->orderModel->countOrderByUserId($user["user_id"])[0]["total_order"];
         $res["page"] = $page;
-        $res["page_count"] = floor($res["item_count"]/$res["item_per_page"]) + 1;
+        $res["page_count"] = floor($res["item_count"] / $res["item_per_page"]) + 1;
 
         echo json_encode($res);
     }
 
-    public function createOrder(){
+    public function createOrder()
+    {
         if (!$_POST) {
             return;
         }
@@ -93,7 +97,6 @@ class OrderController{
         }
 
         if (
-            $_POST["user_id"] == '' ||
             $_POST['dorayaki_id'] == '' ||
             $_POST['amount'] == '' ||
             $_POST['isOrder'] == '' ||
@@ -114,7 +117,7 @@ class OrderController{
         }
 
         try {
-            $data["user_id"] = $_POST["user_id"];
+            $data["user_id"] = $_SESSION["user_id"];
             $data["dorayaki_id"] = $_POST["dorayaki_id"];
             $data["amount"] = $_POST["amount"];
             $data["isOrder"] = $_POST["isOrder"];
@@ -123,7 +126,7 @@ class OrderController{
             $dorayakiModel = new DorayakiModel($this->db);
             $dorayakiData = $dorayakiModel->getDorayakiById($data["dorayaki_id"]);
 
-            if(!$dorayakiData){
+            if (!$dorayakiData) {
                 echo 'Dorayaki not valid!';
                 // echo json_encode($data);
                 // echo json_encode($dorayakiData);
@@ -150,7 +153,8 @@ class OrderController{
         }
     }
 
-    public function deleteOrder(){
+    public function deleteOrder()
+    {
         if (!$_POST) {
             return;
         }
@@ -188,5 +192,3 @@ class OrderController{
         echo 'Order with id : ' . $_POST["order_id"] . ' is successfully deleted';
     }
 }
-
-?>

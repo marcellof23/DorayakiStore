@@ -11,7 +11,7 @@
 .search-input {
   width: 100%;
   height: 100%;
-  padding-left : var(--padding-large);
+  padding-left: var(--padding-large);
 }
 
 .search-icon {
@@ -24,7 +24,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .searchbox{
+  .searchbox {
     margin-bottom: var(--padding-med);
   }
 }
@@ -33,53 +33,53 @@
 
 /*Button Component*/
 
-.btn{
+.btn {
   width: 100%;
-  height : fit-content;
+  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border: none;
   font-size: var(--p_size);
-  padding : var(--padding-small);
+  padding: var(--padding-small);
   border-radius: var(--border-radius-small);
   transition: all 0.3s ease;
 }
 
-.btn:hover{
+.btn:hover {
   transform: scale(1.01);
 }
 
-.btn-primary{
+.btn-primary {
   background: var(--primary);
   outline: 1px solid var(--primary);
   color: var(--white);
 }
 
-.btn-secondary{
+.btn-secondary {
   background: transparent;
   outline: 1px solid var(--primary);
   color: var(--primary);
 }
 
-.button-container{
+.button-container {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
 
-.button-container > *{
-  margin-bottom : var(--padding-small);
+.button-container > * {
+  margin-bottom: var(--padding-small);
 }
 
-@media only screen and (min-width: 768px){
-  .button-container{
+@media only screen and (min-width: 768px) {
+  .button-container {
     flex-direction: row;
   }
 
-  .button-container > *{
+  .button-container > * {
     margin-bottom: 0;
     margin: 0 var(--padding-small);
   }
@@ -120,13 +120,13 @@
 }
 
 .alert.success {
-  background: #C6F6D5;
-  border-left: 5px solid #38A169;
+  background: #c6f6d5;
+  border-left: 5px solid #38a169;
 }
 
 .alert.error {
-  background: #FED7D7;
-  border-left: 5px solid #E53E3E;
+  background: #fed7d7;
+  border-left: 5px solid #e53e3e;
 }
 
 /*End Of Alert Component*/
@@ -212,14 +212,14 @@
 /*END OF FORM*/
 
 /*LABTEXT*/
-.labtext{
+.labtext {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 }
 
-.labtext label{
+.labtext label {
   margin-bottom: var(--padding-small);
 }
 /*END OF LABTEXT*/
@@ -231,7 +231,7 @@
   align-items: center;
   justify-content: center;
   grid-template-columns: 3vw 3vw 3vw;
-  margin : var(--padding-small) 0;
+  margin: var(--padding-small) 0;
 }
 
 .pagination-number {
@@ -239,28 +239,28 @@
   background-color: var(--white);
   border-radius: var(--border-radius-small);
   text-align: center;
-  color : var(--primary);
+  color: var(--primary);
 }
 
-.pagination-btn{
+.pagination-btn {
   display: flex;
   align-items: center;
-  justify-content : center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size : var(--h4_size);
-  color : var(--primary);
+  font-size: var(--h4_size);
+  color: var(--primary);
 }
 
-.pagination-btn:hover{
+.pagination-btn:hover {
   transform: scale(1.1);
 }
 /*END OF PAGINATION*/
 
 /*SWITCH*/
-.switch{
+.switch {
   width: 100%;
-  height : fit-content;
+  height: fit-content;
   background-color: var(--white-secondary);
   display: flex;
   align-items: center;
@@ -269,66 +269,65 @@
   border-radius: var(--border-radius-small);
 }
 
-.switch > *{
-  flex : 1;
+.switch > * {
+  flex: 1;
 }
 
-.option{
+.option {
   text-align: center;
   font-size: var(--p_size);
   font-family: var(--family_primary);
   cursor: pointer;
   transition: all 0.3s ease;
-  padding : var(--padding-small);
+  padding: var(--padding-small);
   border-radius: var(--border-radius-small);
 }
 
-.option:hover{
+.option:hover {
   transform: scale(1.01);
   background-color: var(--secondary);
 }
 
-.option.active{
+.option.active {
   background-color: var(--primary);
-  color : var(--white);
+  color: var(--white);
 }
 /*END OF SWITCH*/
 
 /*MODAL*/
-.modal{
-  width : 100vw;
+.modal {
+  width: 100vw;
   height: 100vh;
   position: absolute;
-  top : 0;
-  left : 0;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
 }
 
-.modal.hidden{
+.modal.hidden {
   transform: translateY(-100vw);
-  
 }
 
-.modal.visible{
+.modal.visible {
   transform: translateY(0);
 }
 
-.modal-background{
+.modal-background {
   width: 100%;
   height: 100%;
   position: absolute;
-  top : 0;
-  left : 0;
+  top: 0;
+  left: 0;
   background-color: var(--black);
   filter: opacity(0.8) blur(5px);
   cursor: pointer;
 }
 
-.modal-content{
-  width : fit-content;
+.modal-content {
+  width: fit-content;
   height: fit-content;
   min-width: 50vw;
   min-height: 50vh;
@@ -336,28 +335,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content : center;
+  justify-content: center;
 
   background-color: var(--white);
   border-radius: var(--border-radius-small);
-  padding : var(--padding-med);
+  padding: var(--padding-med);
 
   transform: translateY(-100vw);
   transition: all 0.3s ease;
   z-index: 3;
 }
 
-.modal.visible .modal-content{
+.modal.visible .modal-content {
   transform: translateY(0vw);
 }
 
-.modal-content p{
+.modal-content p {
   text-align: center;
-  color : var(--primary);
+  color: var(--primary);
   margin-bottom: var(--padding-med);
 }
 
-.modal .button-container{
+.modal .button-container {
   width: 80%;
 
   display: flex;
@@ -365,18 +364,25 @@
   justify-content: center;
 }
 
-.modal .button-container > *{
-  margin : 0 var(--padding-small);
+.modal .button-container > * {
+  margin: 0 var(--padding-small);
+}
+/*END OF MODAL*/
+
+@media only screen and (max-width: 600px) {
+  #form .form-container-inner {
+    width: 300px;
+  }
 }
 /*END OF MODAL*/
 
 /*COUNTER*/
-.counter{
+.counter {
   display: grid;
   grid-template-columns: 10vw 1fr 10vw;
 }
 
-.counter div{
+.counter div {
   width: 100%;
   height: 100%;
   display: flex;
@@ -384,11 +390,11 @@
   justify-content: center;
 }
 
-.counter h3{
+.counter h3 {
   padding: var(--padding-small);
   background-color: var(--secondary);
   border-radius: var(--border-radius-small);
-  color : var(--white);
+  color: var(--white);
   cursor: pointer;
   text-align: center;
 }
