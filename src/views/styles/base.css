@@ -57,6 +57,18 @@
   font-weight: 600;
   color: var(--white);
   margin-bottom: var(--padding-small);
+  animation: MoveUpDown 1.5s linear infinite;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes MoveUpDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 .user-chip-content > * {
