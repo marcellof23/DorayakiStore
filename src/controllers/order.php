@@ -25,6 +25,7 @@ class OrderController
         $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -32,9 +33,11 @@ class OrderController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
             echo 'You are not admin';
             return;
         }
@@ -42,6 +45,7 @@ class OrderController
         $orderData = $this->orderModel->getOrders($page, 0);
 
         if (!$orderData) {
+            http_response_code(404);
             echo 'Order data not found';
             return;
         }
@@ -61,6 +65,7 @@ class OrderController
         $page = $_GET && isset($_GET["page"]) ? $_GET["page"] : 1;
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -71,6 +76,7 @@ class OrderController
         $orderData = $user["is_admin"] ? $this->orderModel->getOrders($page, 1) : $this->orderModel->getOrderByUserId($page, $user["user_id"]);
 
         if (!$orderData) {
+            http_response_code(404);
             echo 'Order data not found';
             return;
         }
@@ -92,6 +98,7 @@ class OrderController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -102,6 +109,7 @@ class OrderController
             $_POST['isOrder'] == '' ||
             $_POST['type'] == ''
         ) {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -109,9 +117,11 @@ class OrderController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
             echo 'You are not admin';
             return;
         }
@@ -127,6 +137,7 @@ class OrderController
             $dorayakiData = $dorayakiModel->getDorayakiById($data["dorayaki_id"]);
 
             if (!$dorayakiData) {
+                http_response_code(400);
                 echo 'Dorayaki not valid!';
                 // echo json_encode($data);
                 // echo json_encode($dorayakiData);
@@ -138,6 +149,7 @@ class OrderController
             $orderData = $this->orderModel->createOrder($data);
 
             if (!$orderData) {
+                http_response_code(500);
                 echo 'Order is not created!';
                 return;
             }
@@ -146,6 +158,7 @@ class OrderController
             $msg = $pdo->getMessage();
 
             if (str_contains($msg, 'Integrity constraint violation')) {
+                http_response_code(400);
                 echo 'Doriyaki name have been used.';
             } else {
                 echo $msg;
@@ -160,6 +173,7 @@ class OrderController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -167,14 +181,17 @@ class OrderController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
             echo 'You are not admin';
             return;
         }
 
         if (isset($_POST["order_id"]) && $_POST["order_id"] == '') {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -184,6 +201,7 @@ class OrderController
         if (
             !$idFound
         ) {
+            http_response_code(404);
             echo 'Order not found';
             return;
         }

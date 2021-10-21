@@ -168,11 +168,13 @@ class UserController
     public function getUser()
     {
         if (!$_GET) {
+            http_response_code(400);
             echo 'Please provide user id';
             return;
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -180,6 +182,7 @@ class UserController
         if (
             $_GET["user_id"] == ''
         ) {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -187,6 +190,7 @@ class UserController
         $user = $this->userModel->getUserById($_GET["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'User not found';
             return;
         }
@@ -197,6 +201,7 @@ class UserController
     public function getCurrentUser()
     {
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -204,6 +209,7 @@ class UserController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         }
@@ -218,6 +224,7 @@ class UserController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -227,6 +234,7 @@ class UserController
             $_POST['username'] == '' ||
             $_POST['email'] == ''
         ) {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -240,6 +248,7 @@ class UserController
             $isSuccess = $this->userModel->updateUser($_POST);
 
             if (!$isSuccess) {
+                http_response_code(404);
                 echo 'User not found';
                 return;
             }
@@ -248,6 +257,7 @@ class UserController
             $msg = $pdo->getMessage();
 
             if (str_contains($msg, 'Integrity constraint violation')) {
+                http_response_code(400);
                 echo 'Email or username have been used.';
             } else {
                 echo $msg;
@@ -255,7 +265,6 @@ class UserController
         }
     }
 
-    //TODO: Testing
     public function updateUser()
     {
         if (!$_POST) {
@@ -263,6 +272,7 @@ class UserController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -273,6 +283,7 @@ class UserController
             $_POST['username'] == '' ||
             $_POST['email'] == ''
         ) {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -280,9 +291,11 @@ class UserController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
             echo 'You are not admin';
             return;
         }
@@ -291,6 +304,7 @@ class UserController
             $isSuccess = $this->userModel->updateUser($_POST);
 
             if (!$isSuccess) {
+                http_response_code(404);
                 echo 'User not found';
                 return;
             }
@@ -299,6 +313,7 @@ class UserController
             $msg = $pdo->getMessage();
 
             if (str_contains($msg, 'Integrity constraint violation')) {
+                http_response_code(400);
                 echo 'Email or username have been used.';
             } else {
                 echo $msg;
@@ -306,7 +321,6 @@ class UserController
         }
     }
 
-    //TODO: Testing
     public function promoteAdmin()
     {
         if (!$_POST) {
@@ -314,6 +328,7 @@ class UserController
         }
 
         if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
             echo 'Authentication required.';
             return;
         }
@@ -322,6 +337,7 @@ class UserController
             $_POST['is_admin'] == '' ||
             $_POST['user_id'] == ''
         ) {
+            http_response_code(400);
             echo 'Incomplete data';
             return;
         }
@@ -329,9 +345,11 @@ class UserController
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
         if (!$user) {
+            http_response_code(404);
             echo 'Current user not found';
             return;
         } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
             echo 'You are not admin';
             return;
         }
@@ -339,6 +357,7 @@ class UserController
         $isSuccess = $this->userModel->updateAdmin($_POST);
 
         if (!$isSuccess) {
+            http_response_code(404);
             echo 'Target user not found';
             return;
         }
