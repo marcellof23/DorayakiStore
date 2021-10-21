@@ -62,3 +62,7 @@ function generateNavbarAdmin() {
 function pageTitle(title) {
 	return `<h2 class="page-title">${title}</h2>`;
 }
+
+function generateUserChip() {
+	return `<div class="user-chip">Welcome back! ${getCookie("username")}</div>`;
+}

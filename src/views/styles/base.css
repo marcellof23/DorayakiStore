@@ -39,6 +39,18 @@
   text-align: center;
 }
 
+.user-chip{
+  width : fit-content;
+  height : fit-content;
+  padding : var(--padding-med);
+  border-radius: var(--border-radius-large);
+  background-color: var(--primary);
+  font-size: var(--small_size);
+  color : var(--white);
+  margin: auto;
+  margin-bottom: var(--padding-small);
+}
+
 @media only screen and (min-width: 768px) {
   .app{
     padding : var(--padding-large) var(--padding-xlarge) var(--padding-large) 15%;
