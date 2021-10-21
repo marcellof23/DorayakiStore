@@ -29,6 +29,7 @@ for ($x = 0; $x <= 10; $x++) {
     // var_dump($tes_controller->getDorayakis());
 }
 
-$_GET["query"] = "asem";
-var_dump($tes_controller->getDorayakiPopularVariant());
+$_GET["query"] = "asem21";
+$_GET["page"] = 1;
+var_dump($tes_controller->getDorayakiByQuery());
 //var_dump($tes_model->getDorayakiByQuery("sem"));
