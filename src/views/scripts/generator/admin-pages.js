@@ -26,18 +26,48 @@ const AdminHomePage = async () => {
 
   const onAdd = `redirect("/admin/dorayaki-add")`;
 
-  const components = `
-    ${generateNavbarAdmin()}
-    <div class="dorayaki-management-container">
-      ${pageTitle("Dorayaki Management")}
-      <div class="search-container">
-        ${searchBar.render()}
-        ${Button("Add Dorayaki", "primary", onAdd)}
-      </div>
-      ${await table.generate_table()}
-    </div>
-  `;
-  target.innerHTML = components;
+  async function render() {
+    const components = `
+		${generateNavbarAdmin()}
+			<div class="dorayaki-management-container">
+				${pageTitle("Dorayaki Management")}
+				<div class="search-container">
+					${searchBar.render()}
+					${Button("Add Dorayaki", "primary", onAdd)}
+				</div>
+				${await table.generate_table()}
+			</div>
+		`;
+    target.innerHTML = components;
+  }
+
+  const interval = setInterval(async () => {
+    const data = JSON.parse(await table.onGet(table.page));
+
+    if (JSON.stringify(data) !== JSON.stringify(table.data)) {
+      table.data = data;
+      await render();
+    }
+  }, 2000);
+
+  try {
+    await table.init();
+    await render();
+  } catch (err) {
+    clearInterval(interval);
+    const components = `
+		${generateNavbarAdmin()}
+			<div class="dorayaki-management-container">
+				${pageTitle("Dorayaki Management")}
+				<div class="search-container">
+					${searchBar.render()}
+					${Button("Add Dorayaki", "primary", onAdd)}
+				</div>
+				<span>No data found</span>
+			</div>
+		`;
+    target.innerHTML = components;
+  }
 };
 
 const DorayakiDetailsPage = async () => {
@@ -49,10 +79,54 @@ const DorayakiDetailsPage = async () => {
   const url = new URL(window.location.href);
   const id = parseInt(url.searchParams.get("id"));
 
+  let interval;
+
+  async function render(data, ddt, onEdit, modal) {
+    const components = `
+		${generateNavbarAdmin()}
+		<div class="dorayaki-management-container">
+			${pageTitle("Dorayaki Management")}
+      <div class="dorayaki-details">
+        ${Image(
+          data.thumbnail || "/public/placeholder.jpg",
+          false,
+          "foto dorayaki",
+          "dorayaki-photo"
+        )}
+        <div class="dorayaki-details-main">
+          ${LabText("Name", "name", data.name, true, "text", `${ddt} name`)}
+          ${LabText("Price", "price", data.price, true, "text", `${ddt} price`)}
+          ${LabText("Stock", "stock", data.stock, true, "text", `${ddt} stock`)}
+          ${LabText(
+            "Description",
+            "description",
+            data.description,
+            true,
+            "text",
+            `${ddt} description`
+          )}
+					${Button("Edit Dorayaki", true, onEdit)}
+					${Button("Delete Dorayaki", false, modal.open())}
+				</div>
+			</div>
+		</div>
+		`;
+
+    target.innerHTML = components;
+  }
+
   try {
     const res = await getDorayakiDetail(id);
     const data = JSON.parse(res);
-    const { name, price, stock, description, thumbnail } = data;
+
+    interval = setInterval(async () => {
+      const newRes = await getDorayakiDetail(id);
+      const newData = JSON.parse(newRes);
+
+      if (JSON.stringify(data) !== JSON.stringify(newData)) {
+        await render(newData, ddt, onEdit, modal);
+      }
+    }, 2000);
 
     const ddt = "dorayaki-details-text";
 
@@ -67,40 +141,12 @@ const DorayakiDetailsPage = async () => {
       "Apakah anda yakin akan menghapus dorayaki ini?"
     );
 
-    const components = `
-		${generateNavbarAdmin()}
-		<div class="dorayaki-management-container">
-			${pageTitle("Dorayaki Management")}
-      <div class="dorayaki-details">
-        ${Image(
-          thumbnail || "/public/placeholder.jpg",
-          false,
-          "foto dorayaki",
-          "dorayaki-photo"
-        )}
-        <div class="dorayaki-details-main">
-          ${LabText("Name", "name", name, true, "text", `${ddt} name`)}
-          ${LabText("Price", "price", price, true, "text", `${ddt} price`)}
-          ${LabText("Stock", "stock", stock, true, "text", `${ddt} stock`)}
-          ${LabText(
-            "Description",
-            "description",
-            description,
-            true,
-            "text",
-            `${ddt} description`
-          )}
-          ${Button("Edit Dorayaki", true, onEdit)}
-          ${Button("Delete Dorayaki", false, modal.open())}
-        </div>
-      </div>
-		</div>
-	`;
-
-    target.innerHTML = components;
+    await render(data, ddt, onEdit, modal);
     modaldom.innerHTML = modal.render();
   } catch (err) {
     console.log(err);
+    clearInterval(interval);
+
     const components = `
       ${generateNavbarAdmin()}
       <div class="dorayaki-management-container">
@@ -254,13 +300,41 @@ const AdminHistoryPage = async () => {
   const switchOptions = ["user", "admin"];
   const active = type;
 
-  const components = `
-    ${generateNavbarAdmin()}
-    <div class="history-container">
-      ${pageTitle("Dorayaki Order List")}
-      ${Switch(switchOptions, active, "/admin/history", "type")}
-      ${await table.generate_table()}
-    </div>
-  `;
-  target.innerHTML = components;
+  async function render() {
+    const components = `
+			${generateNavbarAdmin()}
+			<div class="history-container">
+				${pageTitle("Dorayaki Order List")}
+				${Switch(switchOptions, active, "/admin/history", "type")}
+				${await table.generate_table()}
+			</div>
+		`;
+    target.innerHTML = components;
+  }
+
+  const interval = setInterval(async () => {
+    const data = JSON.parse(await table.onGet(table.page));
+
+    if (JSON.stringify(data) !== JSON.stringify(table.data)) {
+      table.data = data;
+      await render();
+    }
+  }, 2000);
+
+  try {
+    await table.init();
+    await render();
+  } catch (err) {
+    clearInterval(interval);
+
+    const components = `
+			${generateNavbarAdmin()}
+			<div class="history-container">
+				${pageTitle("Dorayaki Order List")}
+				${Switch(switchOptions, active, "/admin/history", "type")}
+				<span>No data found</span>
+			</div>
+		`;
+    target.innerHTML = components;
+  }
 };

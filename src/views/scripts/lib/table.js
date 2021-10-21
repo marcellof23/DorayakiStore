@@ -12,6 +12,7 @@ class Table {
 		this.table_id = table_id;
 		this.pagination_id = `${table_id}-pagination`;
 		this.head = head;
+		this.data = [];
 		this.onGet = onGet;
 		this.urlOnClick = urlOnClick;
 		this.id_field = id_field;
@@ -65,16 +66,20 @@ class Table {
 		return table_data;
 	};
 
+	async init() {
+		const data = JSON.parse(await this.onGet(this.page));
+		this.data = data;
+	}
+
 	async generate_table() {
 		try {
-			const data = JSON.parse(await this.onGet(this.page));
 			const table_headings = this.generate_heading();
-			const table_body = this.generate_body(data.entries);
+			const table_body = this.generate_body(this.data.entries);
 
 			const pagination = new Pagination(
 				this.pagination_id,
 				this.page,
-				data.page_count,
+				this.data.page_count,
 				this.otherParams
 			);
 
@@ -88,6 +93,8 @@ class Table {
           ${pagination.render()}
         </div>
       </div>`;
-		} catch (err) {}
+		} catch (err) {
+			console.log(err)
+		}
 	}
 }
