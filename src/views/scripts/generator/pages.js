@@ -54,10 +54,9 @@ const SearchPage = async () => {
 			data.page_count,
 			`&query=${q}`
 		);
-		const dorayakis = data.map((row) =>
+		const dorayakis = data.entries.map((row) =>
 			DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
 		);
-
 		const components = `
 		${generateNavbar()}
 		${searchBar.render()}
@@ -69,6 +68,7 @@ const SearchPage = async () => {
 
 		target.innerHTML = components;
 	} catch (err) {
+		console.log("KE CATRCH GAN");
 		const components = `
       ${generateNavbar()}
       ${searchBar.render()}
@@ -140,7 +140,7 @@ const BuyPage = async () => {
 	const modal = new Modal(
 		"confirm-purchase",
 		false,
-		"Dorayaki berhasil dibeli!"
+		"<h3>Dorayaki berhasil dibeli!</h3>"
 	);
 
 	const onSubmit = `buyDorayaki("${id}","${counter_id}"); ${modal.open()}; redirect("/history",1000)`;
@@ -148,12 +148,15 @@ const BuyPage = async () => {
 
 	const components = `
     ${generateNavbar()}
+    ${pageTitle("Pemesanan")}
     <div class="buy-container">
-      ${pageTitle("Pemesanan")}
-      <img class="dorayaki-image" src="${data.thumbnail}">
-      <p class="dorayaki-name">${data.name}</p>
-      <h4 class="dorayaki-price">IDR ${formatCurrency(data.price)}</h4>
+      <div class="detail">
+        <img class="dorayaki-image" src="${data.thumbnail}">
+      </div>
       <div class="form">
+        <h5 class="dorayaki-name">${data.name}</h5>
+        <p>${data.description}</p>
+        <h4 class="dorayaki-price">IDR ${formatCurrency(data.price)}</h4>
         ${counter.render()}
         <div class="total-cost">
           <p>Total Cost</p>

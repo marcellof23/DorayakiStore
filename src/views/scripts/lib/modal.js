@@ -21,7 +21,7 @@ class Modal {
 		}">
         <div class="modal-background" onclick='${this.close()}'></div>
         <div class="modal-content" class="${this.classname}">
-          <p>${this.children}</p>
+          ${this.children}
         </div>
       </div>
     `;

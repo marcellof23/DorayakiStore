@@ -6,6 +6,7 @@
 #buy {
   width: 100%;
   height: fit-content;
+  margin-bottom: 20vh;
 }
 
 .history-container > *,
@@ -35,6 +36,12 @@
 }
 
 @media only screen and (min-width: 768px) {
+  #home,
+  #search,
+  #history,
+  #buy {
+    margin-bottom: 0vh;
+  }
   #home .home-container,
   #search .search-container {
     display: grid;
@@ -43,6 +50,18 @@
   }
   .buy-container .button-container {
     flex-direction: row-reverse;
+  }
+  .buy-container{
+    display: flex;
+    flex-direction: row;
+  }
+  .buy-container .dorayaki-image {
+    width: 100%;
+    height: 50vh;
+  }
+  .buy-container > *{
+    flex : 1;
+    padding : var(--padding-med);
   }
 }
 

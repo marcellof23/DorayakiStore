@@ -66,8 +66,7 @@ function pageTitle(title) {
 function generateUserChip({ username }) {
   return `<div class="user-chip">
 		<div class="user-chip-content">
-			<div>	Welcome back</div>
-			<div>${username} !</div>
+			<p>	Welcome back, ${username}!</p>
 		</div>
 	</div>`;
 }
