@@ -14,51 +14,60 @@ function generateHeader(user) {
 }
 
 function generateNavbar() {
-	const navigation = [
-		{path: "/search", icon: "search"},
-		{path: "/home", icon: "home"},
-		{path: "/history", icon: "history"},
-		{path: "/logout", icon: "logout"},
-	];
+  const navigation = [
+    { path: "/search", icon: "search" },
+    { path: "/home", icon: "home" },
+    { path: "/history", icon: "history" },
+    { path: "/logout", icon: "logout" },
+  ];
 
-	const url = window.location.pathname;
-	const Navs = navigation.map((row) => {
-		const active = url.includes(row.path);
-		const icon = `../public/icons/${
-			active ? `${row.icon}_active.svg` : `${row.icon}.svg`
-		}`;
+  const url = window.location.pathname;
+  const Navs = navigation.map((row) => {
+    const active = url.includes(row.path);
+    const icon = `../public/icons/${
+      active ? `${row.icon}_active.svg` : `${row.icon}.svg`
+    }`;
 
-		return `<div class="navigation-item" onclick="redirect('${row.path}')">
+    return `<div class="navigation-item" onclick="redirect('${row.path}')">
 			<img src=${icon} class="navigation-icon"/>
 		</div>`;
-	});
+  });
 
-	return `<nav class="navigation">${Navs.join("")}</nav>`;
+  return `<nav class="navigation">${Navs.join("")}</nav>`;
 }
 
 function generateNavbarAdmin() {
-	const navigation = [
-		{path: "/admin/dorayaki", icon: "home"},
-		{path: "/admin/history", icon: "history"},
-		{path: "/logout", icon: "logout"},
-	];
+  const navigation = [
+    { path: "/admin/dorayaki", icon: "home" },
+    { path: "/admin/history", icon: "history" },
+    { path: "/logout", icon: "logout" },
+  ];
 
-	const url = window.location.pathname;
-	const Navs = navigation.map((row) => {
-		const active = url.includes(row.path);
-		const icon = `../public/icons/${
-			active ? `${row.icon}_active.svg` : `${row.icon}.svg`
-		}`;
+  const url = window.location.pathname;
+  const Navs = navigation.map((row) => {
+    const active = url.includes(row.path);
+    const icon = `../public/icons/${
+      active ? `${row.icon}_active.svg` : `${row.icon}.svg`
+    }`;
 
-		return `<div class="navigation-item" onclick="redirect('${row.path}')">
+    return `<div class="navigation-item" onclick="redirect('${row.path}')">
 			
 		<img src=${icon} class="navigation-icon"/>
 		</div>`;
-	});
+  });
 
-	return `<nav class="navigation">${Navs.join("")}</nav>`;
+  return `<nav class="navigation">${Navs.join("")}</nav>`;
 }
 
 function pageTitle(title) {
-	return `<h2 class="page-title">${title}</h2>`;
+  return `<h2 class="page-title">${title}</h2>`;
+}
+
+function generateUserChip() {
+  return `<div class="user-chip">
+		<div class="user-chip-content">
+			<div>	Welcome back</div>
+			<div>${getCookie("username")} !</div>
+		</div>
+	</div>`;
 }

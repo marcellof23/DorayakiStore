@@ -76,15 +76,12 @@ class Table {
 			const table_headings = this.generate_heading();
 			const table_body = this.generate_body(this.data.entries);
 
-			const url = location.protocol + "//" + location.host + location.pathname;
-			const onPrev = `window.location.href="${url}?page=${this.page - 1}${
+			const pagination = new Pagination(
+				this.pagination_id,
+				this.page,
+				data.page_count,
 				this.otherParams
-			}"`;
-			const onNext = `window.location.href="${url}?page=${this.page + 1}${
-				this.otherParams
-			}"`;
-
-			const pagination = `<p id="${this.pagination_id}" class="pagination-number">${this.page}</p> `;
+			);
 
 			return `
       <div class="table-container">
@@ -93,18 +90,7 @@ class Table {
           ${table_body}
         </table>
         <div class="pagination-container">
-          ${
-						this.page === 1
-							? "<div></div>"
-							: `<div class="pagination-btn" onclick='${onPrev}'> < </div>`
-					}
-          ${pagination}
-          ${
-						this.page === this.data.page_count
-							? ""
-							: `<div class="pagination-btn" onclick='${onNext}'> > </div>`
-					}
-          
+          ${pagination.render()}
         </div>
       </div>`;
 		} catch (err) {

@@ -30,10 +30,12 @@ class DorayakiModel
         return $this->db->resultSet();
     }
 
-    public function getDorayakiByQuery($query)
+    public function getDorayakiByQuery($query, $page)
     {
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
         $this->db->query('SELECT * FROM ' . DorayakiModel::$table .
-            " WHERE name LIKE :query");
+            " WHERE name LIKE :query" . " LIMIT " . $limit . " OFFSET " . $offset);
         $query = '%' . $query . '%';
         $this->db->bind(':query', $query);
         return $this->db->resultSet();

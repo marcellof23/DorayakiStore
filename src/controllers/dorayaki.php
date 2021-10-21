@@ -90,7 +90,8 @@ class DorayakiController
         }
 
         $query = $_GET["query"];
-        $dorayakiData = $this->dorayakiModel->getDorayakiByQuery($query);
+        $page = $_GET["page"];
+        $dorayakiData = $this->dorayakiModel->getDorayakiByQuery($query, $page);
 
         if (!$dorayakiData) {
             http_response_code(404);
@@ -179,14 +180,14 @@ class DorayakiController
             // create order for the initial stock
             if ($_POST["stock"] !== 0) {
                 $orderModel = new OrderModel($this->db);
-    
+
                 $orderData["user_id"] = $_SESSION["user_id"];
                 $orderData["dorayaki_id"] = $dorayakiData["dorayaki_id"];
                 $orderData["amount"] = $_POST["stock"];
                 $orderData["price"] = $_POST["price"];
                 $orderData["isOrder"] = false;
                 $orderData["type"] = "ADD";
-    
+
                 $orderModel->createOrder($orderData);
             }
 
@@ -247,7 +248,7 @@ class DorayakiController
             $data["price"] = $_POST["price"];
             $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
-            
+
             $oldDorayakiData = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
 
             $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
@@ -257,11 +258,11 @@ class DorayakiController
                 echo 'Dorayaki is not found';
                 return;
             }
-            
+
             // create order if stock changed
             if ($oldDorayakiData["stock"] !== $_POST["stock"]) {
                 $orderModel = new OrderModel($this->db);
-    
+
                 $orderData["user_id"] = $_SESSION["user_id"];
                 $orderData["dorayaki_id"] = $_POST["dorayaki_id"];
                 $orderData["amount"] = $_POST["stock"] - $oldDorayakiData["stock"];
@@ -269,7 +270,7 @@ class DorayakiController
                 $orderData["isOrder"] = false;
                 $orderData["type"] = $orderData["amount"] < 0 ? "MIN" : "ADD";
                 $orderData["amount"] = abs($orderData["amount"]);
-    
+
                 $orderModel->createOrder($orderData);
             }
 

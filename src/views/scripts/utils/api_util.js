@@ -98,3 +98,14 @@ const redirect = (url, duration = 0) => {
 const openTab = (url) => {
   window.open(url, "_newtab");
 };
+
+const getCookie = (name = "username") => {
+	let cookiesArray = document.cookie.split(";");
+	let cookiesObject = {};
+	cookiesArray.map((row) => {
+		let temp = row.trim();
+		temp = temp.split("=");
+		cookiesObject[temp[0]] = temp[1];
+	});
+	return cookiesObject[name];
+};
