@@ -48,7 +48,7 @@ class OrderController
 
         $res = array();
         $res['entries'] = $orderData;
-        $res["item_per_page"] = 20;
+        $res["item_per_page"] = 10;
         $res["item_count"] = $this->orderModel->countOrders(0)[0]["total_order"];
         $res["page"] = $page;
         $res["page_count"] = floor($res["item_count"] / $res["item_per_page"]) + 1;
@@ -77,7 +77,7 @@ class OrderController
 
         $res = array();
         $res['entries'] = $orderData;
-        $res["item_per_page"] = 20;
+        $res["item_per_page"] = 10;
         $res["item_count"] = $user["is_admin"] ? $this->orderModel->countOrders(1)[0]["total_order"] : $this->orderModel->countOrderByUserId($user["user_id"])[0]["total_order"];
         $res["page"] = $page;
         $res["page_count"] = floor($res["item_count"] / $res["item_per_page"]) + 1;
@@ -98,9 +98,7 @@ class OrderController
 
         if (
             $_POST['dorayaki_id'] == '' ||
-            $_POST['amount'] == '' ||
-            $_POST['isOrder'] == '' ||
-            $_POST['type'] == ''
+            $_POST['amount'] == ''
         ) {
             echo 'Incomplete data';
             return;
@@ -108,20 +106,25 @@ class OrderController
 
         $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
+        $data = array();
+
         if (!$user) {
             echo 'Current user not found';
             return;
-        } else if ($user && !$user["is_admin"]) {
-            echo 'You are not admin';
-            return;
+        } else {
+            if (!$user["is_admin"]) {
+                $data["isOrder"] = 1;
+                $data["type"] = "MIN";
+            } else {
+                $data["isOrder"] = 0;
+                $data["type"] = "ADD";
+            }
         }
 
         try {
             $data["user_id"] = $_SESSION["user_id"];
             $data["dorayaki_id"] = $_POST["dorayaki_id"];
             $data["amount"] = $_POST["amount"];
-            $data["isOrder"] = $_POST["isOrder"];
-            $data["type"] = $_POST["type"];
 
             $dorayakiModel = new DorayakiModel($this->db);
             $dorayakiData = $dorayakiModel->getDorayakiById($data["dorayaki_id"]);

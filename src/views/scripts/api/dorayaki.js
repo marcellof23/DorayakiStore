@@ -30,7 +30,7 @@ const getDorayakiDetail = async (id = 1) => {
 
 const buyDorayaki = async (dorayaki_id, counter_id) => {
   const amount = parseInt(document.getElementById(counter_id).innerHTML);
-  const payload = { dorayaki_id, amount, isOrder: 1, type: "MIN" };
+  const payload = { dorayaki_id, amount };
   console.log(payload);
 
   const url = `/order/create-order`;
@@ -38,7 +38,7 @@ const buyDorayaki = async (dorayaki_id, counter_id) => {
   try {
     const res = await axois.post(url, payload);
     console.log(res);
-    redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
+    //redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
     return res;
   } catch (err) {
     console.log(err);

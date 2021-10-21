@@ -41,6 +41,9 @@
     gap: var(--padding-med) var(--padding-med);
     grid-template-columns: 1fr 1fr 1fr;
   }
+  .buy-container .button-container {
+    flex-direction: row-reverse;
+  }
 }
 
 .not-found-container {
@@ -137,4 +140,8 @@
   font-size: 20px;
   font-weight: 600;
   color: var(--black);
+}
+
+.history-inner-container > * {
+  margin-bottom: var(--padding-small);
 }

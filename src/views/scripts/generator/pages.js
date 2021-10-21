@@ -7,15 +7,14 @@ const HomePage = async () => {
   try {
     const res = await getPopularDorayaki();
     const data = JSON.parse(res);
-    const dorayaki_array = data.map((row) =>
-      DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
+    data.map((row) =>
+      dorayakis.push(
+        DorayakiCard(row.thumbnail, row.price, row.name, row.dorayaki_id)
+      )
     );
-    dorayakis = dorayaki_array;
   } catch (err) {
     console.log(err);
   }
-
-  console.log(dorayakis.length);
 
   const searchBar = new SearchBar("search-box", "/search");
 
@@ -23,19 +22,17 @@ const HomePage = async () => {
 		${generateNavbar()}
 		${searchBar.render()}
 		<div class="home-container">
-			<div class="not-found-container">
-			</div>
-      ${dorayakis.join("")}
+      <div>
+        ${
+          dorayakis.length
+            ? dorayakis.join("")
+            : "<div class='not-found-container'>Dorayaki is not found</div>"
+        }
+      </div>
 		</div>
 	`;
 
   target.innerHTML = components;
-
-  if (dorayakis.length == 0) {
-    console.log("WOI");
-    const targets = document.querySelector(".not-found-container");
-    targets.innerHTML = "Dorayaki not found";
-  }
 };
 
 const SearchPage = async () => {
@@ -70,28 +67,32 @@ const HistoryPage = async () => {
   await userRoute();
 
   const target = document.getElementById("history");
-  let histories = [];
 
+  let histories = [];
   try {
     const res = await getOrderPage();
     const data = JSON.parse(res);
 
-    const history_array = data.entries.map((row) =>
-      HistoryCard(row.createdAt, row.dorayaki, row.amount)
+    data.entries.map((row) =>
+      histories.push(HistoryCard(row.createdAt, row.dorayaki, row.total_cost))
     );
-
-    histories = history_array;
   } catch (err) {
     console.log(err);
   }
+
+  console.log(histories);
 
   const components = `
 		${generateNavbar()}
 		<div class="history-container">
 			${pageTitle("Riwayat Pembelian")}
-			<div class="not-found-container">
-			</div>
-			${histories.join("")}
+			<div class="history-inner-container">
+        ${
+          histories.length
+            ? histories.join("")
+            : "<div class='not-found-container'>History is empty</div>"
+        }
+      </div>
 		</div>
 	`;
 

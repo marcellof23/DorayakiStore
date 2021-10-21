@@ -5,10 +5,8 @@ require_once ROOT . '/controllers/order.php';
 
 $controller = new OrderController();
 
-if($_GET["type"]=="admin"){
-  $controller->getAdminOrders();
-}else{
-  $controller->getUserOrders();
+if ($_GET["type"] == "admin") {
+    $controller->getAdminOrders();
+} else {
+    $controller->getUserOrders();
 }
-
-?>

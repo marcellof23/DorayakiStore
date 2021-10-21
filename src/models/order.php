@@ -17,7 +17,7 @@ class OrderModel
 
     public function getOrders($page, $isOrder)
     {
-        $limit = 20;
+        $limit = 10;
         $offset = ($page - 1) * $limit;
 
         $selection = "O.*, D.name AS dorayaki, U.name AS user";
@@ -31,17 +31,18 @@ class OrderModel
 
     public function countOrders($isOrder)
     {
-      $where = 'isOrder = '.$isOrder;
-      $query = 'SELECT COUNT(order_id) as total_order FROM ' . OrderModel::$table . ' WHERE ' . $where;
-      $this->db->query($query);
-      return $this->db->resultSet();
+        $where = 'isOrder = ' . $isOrder;
+        $query = 'SELECT COUNT(order_id) as total_order FROM ' . OrderModel::$table . ' WHERE ' . $where;
+        $this->db->query($query);
+        return $this->db->resultSet();
     }
 
-    public function countOrderByUserId($user_id){
-      $where = 'user_id = '.$user_id;
-      $query = 'SELECT COUNT(order_id) as total_order FROM ' . OrderModel::$table . ' WHERE ' . $where;
-      $this->db->query($query);
-      return $this->db->resultSet();
+    public function countOrderByUserId($user_id)
+    {
+        $where = 'user_id = ' . $user_id;
+        $query = 'SELECT COUNT(order_id) as total_order FROM ' . OrderModel::$table . ' WHERE ' . $where;
+        $this->db->query($query);
+        return $this->db->resultSet();
     }
 
     public function getOrderById($id)
@@ -54,7 +55,7 @@ class OrderModel
 
     public function getOrderByUserId($page, $user_id)
     {
-        $limit = 20;
+        $limit = 10;
         $offset = ($page - 1) * $limit;
 
         $selection = "O.*, D.name AS dorayaki, U.name AS user";
