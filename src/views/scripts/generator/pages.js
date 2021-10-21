@@ -32,6 +32,7 @@ const HomePage = async () => {
   target.innerHTML = components;
 
   if (dorayakis.length == 0) {
+    console.log("WOI");
     const targets = document.querySelector(".not-found-container");
     targets.innerHTML = "Dorayaki not found";
   }

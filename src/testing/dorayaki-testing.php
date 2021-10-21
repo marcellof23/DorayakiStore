@@ -30,5 +30,5 @@ for ($x = 0; $x <= 10; $x++) {
 }
 
 $_GET["query"] = "asem";
-var_dump($tes_controller->getDorayakiByQuery());
+var_dump($tes_controller->getDorayakiPopularVariant());
 //var_dump($tes_model->getDorayakiByQuery("sem"));
