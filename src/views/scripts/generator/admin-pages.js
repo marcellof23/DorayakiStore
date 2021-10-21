@@ -41,7 +41,7 @@ const AdminHomePage = async () => {
 		target.innerHTML = components;
 	}
 	
-	setInterval(async () => {
+	const interval = setInterval(async () => {
 		const data = JSON.parse(
 			await table.onGet(table.page)
 		);
@@ -51,9 +51,25 @@ const AdminHomePage = async () => {
 			await render();
 		}
 	}, 2000);
-		
-	await table.init();
-	await render();
+	
+	try {
+		await table.init();
+		await render();
+	} catch (err) {
+		clearInterval(interval);
+		const components = `
+		${generateNavbarAdmin()}
+			<div class="dorayaki-management-container">
+				${pageTitle("Dorayaki Management")}
+				<div class="search-container">
+					${searchBar.render()}
+					${Button("Add Dorayaki", "primary", onAdd)}
+				</div>
+				<span>No data found</span>
+			</div>
+		`;
+		target.innerHTML = components;
+	}
 };
 
 const DorayakiDetailsPage = async () => {
@@ -282,7 +298,7 @@ const AdminHistoryPage = async () => {
 		target.innerHTML = components;
 	}
 
-	setInterval(async () => {
+	const interval = setInterval(async () => {
 		const data = JSON.parse(
 			await table.onGet(table.page)
 		);
@@ -293,6 +309,20 @@ const AdminHistoryPage = async () => {
 		}
 	}, 2000);
 
-	await table.init();
-	await render();
+	try {
+		await table.init();
+		await render();
+	} catch (err) {
+		clearInterval(interval)
+
+		const components = `
+			${generateNavbarAdmin()}
+			<div class="history-container">
+				${pageTitle("Dorayaki Order List")}
+				${Switch(switchOptions, active, "/admin/history", "type")}
+				<span>No data found</span>
+			</div>
+		`;
+		target.innerHTML = components;
+	}
 };
