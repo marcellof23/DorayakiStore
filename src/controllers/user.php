@@ -131,6 +131,40 @@ class UserController
         header('Location: /');
     }
 
+    public function checkUsername()
+    {
+        if (!isset($_GET["username"]) || $_GET["username"] == "") {
+            echo '0';
+            return;
+        }
+
+        $user = $this->userModel->getUserByUsername($_GET["username"]);
+
+        if (!$user) {
+            echo '0';
+            return;
+        }
+
+        echo ($user ? '1' : '0');
+    }
+
+    public function checkEmail()
+    {
+        if (!isset($_GET["email"]) || $_GET["email"] == "") {
+            echo '0';
+            return;
+        }
+
+        $user = $this->userModel->getUserByUsername($_GET["email"]);
+
+        if (!$user) {
+            echo '0';
+            return;
+        }
+
+        echo ($user ? '1' : '0');
+    }
+
     public function getUser()
     {
         if (!$_GET) {

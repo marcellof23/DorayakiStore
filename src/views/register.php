@@ -15,7 +15,9 @@ if (isset($_SESSION["login"]) && isset($_SESSION["user_id"])) {
 	<script src="scripts/__init.js"></script>
 	<script src="scripts/utils/api_util.js"></script>
 	<script src="scripts/lib/axois.js"></script>
+	<script src="scripts/api/user.js"></script>
 	<script src="scripts/generator/template.js"></script>
+	<script src="scripts/generator/control.js"></script>
 	<link rel="stylesheet" href="./styles/index.css">
 	<link rel="stylesheet" href="./styles/base.css">
 	<link rel="stylesheet" href="./styles/control.css">
@@ -50,11 +52,11 @@ if (isset($_SESSION["login"]) && isset($_SESSION["user_id"])) {
 				<div class="form-login">
 					Username
 				</div>
-				<input class="form-login input"  name="username" placeholder="username" required></input>
+				<input class="form-login input username"  name="username" placeholder="username" required></input>
 				<div class="form-login">
 					Email
 				</div>
-				<input class="form-login input" name="email" type="email" placeholder="email" required></input>
+				<input class="form-login input email" name="email" type="email" placeholder="email" required></input>
 				<div class="form-login">
 					Password
 				</div>
@@ -69,6 +71,31 @@ if (isset($_SESSION["login"]) && isset($_SESSION["user_id"])) {
 	</div>
 </body>
 <script>
+
+const handleUsernameChange = debounce(async () => {
+	const username = document.querySelector('.form-login.input.username').value;
+	const res = Number(await checkUsername(username))
+	if (res === 1) {
+		ShowAlert('info', 'This username has been used', '" style="margin-bottom: 16px', 'afterBegin', 'form-container-inner');
+		document.querySelector('.input').disabled = true;
+	} else {
+		document.querySelector('.input').disabled = false;
+	}
+})
+
+const handleEmailChange = debounce(async () => {
+	const email = document.querySelector('.form-login.input.email').value;
+	const res = Number(await checkEmail(email))
+	if (res === 1) {
+		ShowAlert('info', 'This email has been used', '" style="margin-bottom: 16px', 'afterBegin', 'form-container-inner');
+		document.querySelector('.input').disabled = true;
+	} else {
+		document.querySelector('.input').disabled = false;
+	}
+})
+
+document.querySelector('.form-login.input.username').addEventListener('input', handleUsernameChange);
+document.querySelector('.form-login.input.email').addEventListener('input', handleEmailChange);
 
 </script>
 </html>
