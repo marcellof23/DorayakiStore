@@ -189,6 +189,12 @@
   width: 100%;
   border-radius: 6px;
   margin-top: 3%;
+  cursor: pointer;
+}
+
+#form .submit:disabled {
+  opacity: 0.7;
+  cursor: default;
 }
 
 #form .form-bottom-container {

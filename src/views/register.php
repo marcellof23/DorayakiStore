@@ -77,9 +77,9 @@ const handleUsernameChange = debounce(async () => {
 	const res = Number(await checkUsername(username))
 	if (res === 1) {
 		ShowAlert('info', 'This username has been used', '" style="margin-bottom: 16px', 'afterBegin', 'form-container-inner');
-		document.querySelector('.input').disabled = true;
+		document.querySelector('.submit').disabled = true;
 	} else {
-		document.querySelector('.input').disabled = false;
+		document.querySelector('.submit').disabled = false;
 	}
 })
 
@@ -88,9 +88,9 @@ const handleEmailChange = debounce(async () => {
 	const res = Number(await checkEmail(email))
 	if (res === 1) {
 		ShowAlert('info', 'This email has been used', '" style="margin-bottom: 16px', 'afterBegin', 'form-container-inner');
-		document.querySelector('.input').disabled = true;
+		document.querySelector('.submit').disabled = true;
 	} else {
-		document.querySelector('.input').disabled = false;
+		document.querySelector('.submit').disabled = false;
 	}
 })
 
