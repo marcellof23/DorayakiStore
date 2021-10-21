@@ -79,7 +79,7 @@ class Table {
 			const pagination = new Pagination(
 				this.pagination_id,
 				this.page,
-				data.page_count,
+				this.data.page_count,
 				this.otherParams
 			);
 
