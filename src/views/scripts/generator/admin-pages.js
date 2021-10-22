@@ -202,14 +202,14 @@ const DorayakiEditPage = async () => {
 				)}
         <form class="dorayaki-details-main">
           ${LabText("Name", "name", name, false, "text", `${ddt} name`)}
-          ${LabText("Price", "price", price, false, "text", `${ddt} price`)}
-          ${LabText("Stock", "stock", stock, false, "text", `${ddt} stock`)}
+          ${LabText("Price", "price", price, false, "number", `${ddt} price`)}
+          ${LabText("Stock", "stock", stock, false, "number", `${ddt} stock`)}
           ${LabText(
 						"Description",
 						"description",
 						description,
 						false,
-						"text",
+						"textarea",
 						`${ddt} description`
 					)}
           ${Button("Save changes", true, onSubmit)}
@@ -248,14 +248,14 @@ const DorayakiAddPage = async () => {
 				)}
         <form class="dorayaki-details-main">
           ${LabText("Name", "name", "", false, "text", `${ddt} name`)}
-          ${LabText("Price", "price", "", false, "text", `${ddt} price`)}
-          ${LabText("Stock", "stock", "", false, "text", `${ddt} stock`)}
+          ${LabText("Price", "price", "", false, "number", `${ddt} price`)}
+          ${LabText("Stock", "stock", "", false, "number", `${ddt} stock`)}
           ${LabText(
 						"Description",
 						"description",
 						"",
 						false,
-						"text",
+						"textarea",
 						`${ddt} description`
 					)}
           ${Button("Add New Dorayaki", true, onSubmit)}

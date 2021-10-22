@@ -66,7 +66,7 @@ const updateDorayaki = async (dorayaki_id) => {
   const ddt = "dorayaki-details-text";
 
   const name = document.querySelector(`.${ddt}.name input`).value;
-  const description = document.querySelector(`.${ddt}.description input`).value;
+  const description = document.querySelector(`.${ddt}.description textarea`).value;
   const price = Number(document.querySelector(`.${ddt}.price input`).value);
   const stock = Number(document.querySelector(`.${ddt}.stock input`).value);
   const thumbnail = document.querySelector(`#dorayaki-photo`).src;
@@ -93,7 +93,7 @@ const createDorayaki = async () => {
   const ddt = "dorayaki-details-text";
 
   const name = document.querySelector(`.${ddt}.name input`).value;
-  const description = document.querySelector(`.${ddt}.description input`).value;
+  const description = document.querySelector(`.${ddt}.description textarea`).value;
   const price = Number(document.querySelector(`.${ddt}.price input`).value);
   const stock = Number(document.querySelector(`.${ddt}.stock input`).value);
   const thumbnail = document.querySelector(`#dorayaki-photo`).src;
