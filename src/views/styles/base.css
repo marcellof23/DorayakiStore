@@ -120,7 +120,7 @@ th {
 }
 
 td {
-  height: 50px;
+  max-height: 150px;
 }
 
 tr:nth-child(even) {

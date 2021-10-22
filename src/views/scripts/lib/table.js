@@ -62,7 +62,7 @@ class Table {
 						row[key] || "/public/placeholder.jpg"
 					}"/></td>`;
 				} else {
-					row_data += `<td class="table-data">${row[key]}</td>`;
+					row_data += `<td class="table-data">${truncate(row[key], 15)}</td>`;
 				}
 			}
 
