@@ -49,6 +49,88 @@ docker-compose up --build
 
 ## Screenshot tampilan aplikasi
 
+## Halaman User
+
+Potongan gambar halaman login
+
+![Halaman Login](./public/ss3.png)
+
+Potongan gambar halaman register
+
+![Halaman Register](./public/ss2.png)
+
+Potongan gambar halaman utama
+
+![Halaman Login](./public/ss5.png)
+
+Potongan gambar halaman landing page
+
+![Halaman Login](./public/ss4.png)
+
+Potongan gambar halaman search
+
+![Halaman Login](./public/ss1.png)
+
+Potongan gambar halaman riwayat pembelian
+
+![Halaman Login](./public/ss6.png)
+
+Potongan gambar halaman pemesanan dorayaki
+
+![Halaman Login](./public/ss8.png)
+
+Potongan gambar halaman bukti dorayaki berhasil dibeli
+
+![Halaman Login](./public/ss7.png)
+
+Potongan gambar halaman search yang dipagniasi
+
+![Halaman Login](./public/ss9.png)
+
+## Halaman admin
+
+Potongan gambar halaman pengelolaan dorayaki
+
+![Halaman Login](./public/ss1001.jpg)
+
+Potongan gambar halaman paginasi pengelolaan dorayaki
+
+![Halaman Login](./public/ss1002.jpg)
+
+Potongan gambar halaman table list riwayat pengubahan user
+
+![Halaman Login](./public/ss1003.jpg)
+
+Potongan gambar halaman table list riwayat pengubahan admin
+
+![Halaman Login](./public/ss1004.jpg)
+
+Potongan gambar halaman table list pengubahan admin
+
+![Halaman Login](./public/ss1005.jpg)
+
+Potongan gambar halaman menampilkan edit dorayaki
+
+![Halaman Login](./public/ss1006.jpg)
+
+
+Potongan gambar halaman menampilkan delete dorayaki
+
+![Halaman Login](./public/ss1007.jpg)
+
+
+Potongan gambar halaman menampilkan edit dorayaki
+
+![Halaman Login](./public/ss1008.jpg)
+
+## Halaman mobile responsive
+
+![Halaman Login](./public/ss_1.png)
+![Halaman Login](./public/ss_2.png)
+![Halaman Login](./public/ss_3.png)
+![Halaman Login](./public/ss_4.png)
+![Halaman Login](./public/ss_5.png)
+
 ## Penjelasan mengenai pembagian tugas masing-masing anggota
 
 Marcello Faria 13519086
@@ -62,12 +144,16 @@ Marcello Faria 13519086
 - Menyusun struktur folder
 - Membuat testing dan seeds
 - Membuat beberapa file api dorayaki dan order
+- Membuat design Figma
 
 Michael Philip 13519121
 
 - Membuat controller order
 - Membuat paginasi
 - Membuat tabel
+- Mengkofigurasi frontend
+- Menyusun komponen frontend
+- Menyusun variable css
 
 Frederic Ronaldi 13519134
 
