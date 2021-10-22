@@ -30,6 +30,11 @@ const AdminHomePage = async () => {
 	const onAdd = `redirect("/admin/dorayaki-add")`;
 
 	async function render() {
+		table.data.entries = table.data.entries.map(val => ({
+			...val,
+			price: formatCurrency(Number(val.price))
+		}));
+
 		const components = `
 		${generateNavbarAdmin()}
 			<div class="dorayaki-management-container">
@@ -46,6 +51,10 @@ const AdminHomePage = async () => {
 
 	const interval = setInterval(async () => {
 		const data = JSON.parse(await table.onGet(table.page));
+		data.entries = data.entries.map(val => ({
+			...val,
+			price: formatCurrency(Number(val.price))
+		}));
 
 		if (JSON.stringify(data) !== JSON.stringify(table.data)) {
 			table.data = data;
@@ -98,7 +107,7 @@ const DorayakiDetailsPage = async () => {
 				)}
         <div class="dorayaki-details-main">
           ${LabText("Name", "name", data.name, true, "text", `${ddt} name`)}
-          ${LabText("Price", "price", data.price, true, "text", `${ddt} price`)}
+          ${LabText("Price", "price", formatCurrency(data.price), true, "text", `${ddt} price`)}
           ${LabText("Stock", "stock", data.stock, true, "text", `${ddt} stock`)}
           ${LabText(
 						"Description",
@@ -303,7 +312,12 @@ const AdminHistoryPage = async () => {
   const switchOptions = ["user", "admin"];
   const active = type;
 
-  async function render() {
+	async function render() {
+		table.data.entries = table.data.entries.map(val => ({
+			...val,
+			total_cost: formatCurrency(Number(val.total_cost))
+		}));
+
     const components = `
 			${generateNavbarAdmin()}
 			<div class="history-container">
@@ -316,7 +330,11 @@ const AdminHistoryPage = async () => {
   }
 
   const interval = setInterval(async () => {
-    const data = JSON.parse(await table.onGet(table.page));
+		const data = JSON.parse(await table.onGet(table.page));
+		data.entries = data.entries.map(val => ({
+			...val,
+			total_cost: formatCurrency(Number(val.total_cost))
+		}));
 
     if (JSON.stringify(data) !== JSON.stringify(table.data)) {
       table.data = data;
