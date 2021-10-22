@@ -149,6 +149,8 @@ Marcello Faria 13519086
 - Membuat testing dan seeds
 - Membuat beberapa file api dorayaki dan order
 - Membuat design Figma
+- Membuat cookies dan session
+- Membuat styling table
 
 Michael Philip 13519121
 
