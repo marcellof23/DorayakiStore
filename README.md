@@ -152,7 +152,7 @@ Marcello Faria 13519086
 - Membuat cookies dan session
 - Membuat styling table
 
-Michael Philip 13519121
+Michael Philip Gunardi 13519121
 
 - Membuat controller order
 - Membuat paginasi
