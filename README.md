@@ -124,11 +124,15 @@ Potongan gambar halaman menampilkan edit dorayaki
 ![Halaman Login](./public/ss1008.jpg)
 
 ## Halaman mobile responsive
-
+Potongan gambar halaman login
 ![Halaman Login](./public/ss_1.png)
+Potongan gambar halaman register
 ![Halaman Login](./public/ss_2.png)
+Potongan gambar halaman search dorayaki
 ![Halaman Login](./public/ss_3.png)
+Potongan gambar halaman riwayat pembelian
 ![Halaman Login](./public/ss_4.png)
+Potongan gambar halaman search dorayaki
 ![Halaman Login](./public/ss_5.png)
 
 ## Penjelasan mengenai pembagian tugas masing-masing anggota
