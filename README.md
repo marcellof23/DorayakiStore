@@ -158,6 +158,7 @@ Michael Philip 13519121
 - Mengkofigurasi frontend
 - Menyusun komponen frontend
 - Menyusun variable css
+- Membuat desain figma
 
 Frederic Ronaldi 13519134
 
