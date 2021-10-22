@@ -42,12 +42,22 @@
   #buy {
     margin-bottom: 0vh;
   }
+  #home > *{
+    margin-bottom : var(--padding-med)
+  }
   #home .home-container,
   #search .search-container {
     display: grid;
     gap: var(--padding-med) var(--padding-med);
     grid-template-columns: 1fr 1fr 1fr;
   }
+
+  .history-inner-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap : var(--padding-med);
+  }
+
   .buy-container .button-container {
     flex-direction: row-reverse;
   }

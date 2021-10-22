@@ -106,14 +106,14 @@ const Button = (text, isPrimary = true, onclick, isSubmit = false) =>
   `;
 
 const Image = (url, isUpload, alt, id) =>
-  `
+	`
     <div class="image-container" onclick="${
-      isUpload
-        ? `handleUploadPhoto((file) => {
+			isUpload
+				? `handleUploadPhoto((file) => {
 				document.querySelector('#${id}').src = \`/public/upload/\${file.name}\`
 			})`
-        : `openTab("${url}")`
-    }">
+				: `openTab('${url}')`
+		}">
       <img alt="${alt}" src="${url}" id="${id}"/>
     </div>
   `;

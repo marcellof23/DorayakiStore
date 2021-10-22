@@ -3,7 +3,6 @@
 .searchbox {
   width: 100%;
   position: relative;
-  margin-top: 5%;
   background-color: var(--white-secondary);
   border-radius: var(--border-radius-small);
   margin-bottom: var(--padding-small);
@@ -25,9 +24,6 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .searchbox {
-    margin-bottom: var(--padding-med);
-  }
 }
 
 /*End Of Search Component*/
@@ -87,6 +83,17 @@
 }
 
 /*End Of Button Component*/
+
+/*Image component*/
+.image-container{
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.image-container:hover{
+  transform: scale(1.025) translateY(-2.5%);
+}
+/*End of Image Component*/
 
 /*Alert Component*/
 
