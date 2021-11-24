@@ -10,4 +10,3 @@ $db = new SQLite3('db/dorayaki.db');
 // DorayakiModel::createDorayakiDatabase($db);
 // OrderModel::createOrderDatabase($db);
 // DorayakiModel::createDorayakiOrderTrigger($db);
-$db->exec('')
