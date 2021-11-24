@@ -19,18 +19,21 @@ class DorayakiController
         session_start();
     }
 
+    private function getRecipe()
+    {
+        $client = new SoapClient("http://172.17.0.1:8085/api/dorayakiService?wsdl");
+
+        $log_request_id = 1;
+        $response = $client->__soapCall("getDorayakis", array($log_request_id));
+        return;
+    }
+
     public function getLogTest()
     {
 
         $client = new SoapClient("http://172.17.0.1:8085/api/logService?wsdl");
 
         $log_request_id = 1;
-        // $params = array(
-        //     "Contact" => $contact,
-        //     "description" => "Barrel of Oil",
-        //     "amount" => 500,
-        // );
-
         $response = $client->__soapCall("getLogs", array($log_request_id));
 
         var_dump($response);
@@ -191,6 +194,21 @@ class DorayakiController
             $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
 
+            $isExist = false;
+
+            foreach (getRecipe() as $recipe) {
+                if ($recipe["name"] == $data["name"]) {
+                    $isExist = true;
+                    break;
+                }
+            }
+
+            if (!$isExist) {
+                http_response_code(500);
+                echo 'Dorayaki is not exists in factory';
+                return;
+            }
+
             $dorayakiData = $this->dorayakiModel->createDorayaki($data);
 
             if (!$dorayakiData) {
@@ -274,6 +292,17 @@ class DorayakiController
             $data["thumbnail"] = $_POST["thumbnail"];
 
             $oldDorayakiData = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
+
+            $client = new SoapClient("http://172.17.0.1:8085/api/dorayakiService?wsdl");
+            $dorayaki_name = $data["name"];
+            $dorayaki_stock = $data["stock"] - $oldDorayakiData["stock"];
+            $response = $client->__soapCall("updateDorayaki", array($dorayaki_name, $dorayaki_stock));
+
+            if ($response["code"] != 201) {
+                http_response_code(500);
+                echo 'Dorayaki request for stock is not available';
+                return;
+            }
 
             $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
 
