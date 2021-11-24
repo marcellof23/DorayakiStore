@@ -147,10 +147,16 @@ class OrderController
                 return;
             }
 
+            if ($data["amount"] > $dorayakiData["stock"]) {
+                http_response_code(400);
+                echo 'Stock not enough';
+                return;
+            }
+
             $data["price"] = $dorayakiData["price"];
 
             $orderData = $this->orderModel->createOrder($data);
-
+            
             $dorayakiData["stock"] = $dorayakiData["stock"] - $data["amount"];
             $rc = $dorayakiModel->updateDorayaki($dorayakiData);
 
