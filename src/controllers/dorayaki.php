@@ -19,6 +19,23 @@ class DorayakiController
         session_start();
     }
 
+    public function getLogTest()
+    {
+
+        $client = new SoapClient("http://172.17.0.1:8085/api/logService?wsdl");
+
+        $log_request_id = 1;
+        // $params = array(
+        //     "Contact" => $contact,
+        //     "description" => "Barrel of Oil",
+        //     "amount" => 500,
+        // );
+
+        $response = $client->__soapCall("getLogs", array($log_request_id));
+
+        var_dump($response);
+    }
+
     public function getDorayakiById()
     {
         if (!$_GET || !isset($_GET["dorayaki_id"])) {

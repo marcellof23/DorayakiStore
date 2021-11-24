@@ -4,6 +4,10 @@ RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get  install -y sqlite3 libsqlite3-dev
 
+RUN apt-get update && apt-get install -y libxml2-dev
+
+RUN docker-php-ext-install soap
+
 RUN a2enmod rewrite && service apache2 restart
 
 COPY src/ /var/www/html/
