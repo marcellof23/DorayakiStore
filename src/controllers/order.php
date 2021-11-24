@@ -151,6 +151,15 @@ class OrderController
 
             $orderData = $this->orderModel->createOrder($data);
 
+            $dorayakiData["stock"] = $dorayakiData["stock"] - $data["amount"];
+            $rc = $dorayakiModel->updateDorayaki($dorayakiData);
+
+            if (!$rc) {
+                http_response_code(500);
+                echo 'Failed to update dorayaki stock';
+                return;
+            }
+
             if (!$orderData) {
                 http_response_code(500);
                 echo 'Order is not created!';
