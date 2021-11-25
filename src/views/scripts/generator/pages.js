@@ -142,13 +142,28 @@ const BuyPage = async () => {
     total.innerHTML = formatCurrency(${val} * ${data.price});
   `;
   const counter = new Counter(counter_id, counter_cb);
-  const modal = new Modal(
-    "confirm-purchase",
-    false,
+  const createModal = (message) => {
+    return new Modal(
+      "confirm-purchase",
+      false,
+      message
+    )
+  }
+
+  const successModal = createModal(
     "<h3>Dorayaki berhasil dibeli!</h3>"
   );
 
-  const onSubmit = `buyDorayaki("${id}","${counter_id}"); ${modal.open()}; redirect("/history",1000)`;
+  const onSubmit = `async function start() {
+    const res = await buyDorayaki("${id}","${counter_id}");
+    if (res) {
+      ${successModal.open()}
+      redirect("/history",1000);
+    }
+  }
+  start();
+  `;
+
   const onCancel = `redirect("/home")`;
 
   const components = `
@@ -176,5 +191,5 @@ const BuyPage = async () => {
   `;
 
   target.innerHTML = components;
-  modaldom.innerHTML = modal.render();
+  modaldom.innerHTML = successModal.render();
 };

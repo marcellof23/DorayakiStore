@@ -47,7 +47,7 @@ const buyDorayaki = async (dorayaki_id, counter_id) => {
     return res;
   } catch (err) {
     console.log(err);
-    ShowAlert("error", err.response, "", "beforeBegin", "dorayaki-details");
+    ShowAlert("error", err.response, "", "afterBegin", "buy-container .form");
   }
 
   return null;
