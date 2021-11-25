@@ -25,7 +25,19 @@ class DorayakiController
 
         $log_request_id = 1;
         $response = $client->__soapCall("getDorayakis", array($log_request_id));
-        return;
+        $result = json_decode(json_encode($response), true);
+
+        $dorayakis = array();
+        $result = $result['dorayakis'];
+        foreach ($result as $res) {
+            $dorayaki = array(
+                "id" => $res['id'],
+            );
+            array_push($dorayakis, $dorayaki);
+        }
+
+        echo json_encode($dorayakis);
+        return json_encode($dorayakis);
     }
 
     public function getLogTest()
@@ -35,8 +47,21 @@ class DorayakiController
 
         $log_request_id = 1;
         $response = $client->__soapCall("getLogs", array($log_request_id));
+        $result = json_decode(json_encode($response), true);
 
-        var_dump($response);
+        $logreqs = array();
+        $result = $result['logs'];
+        foreach ($result as $res) {
+            $logreq = array(
+                "ip" => $res['ip'],
+                "endpoint" => $res['endpoint'],
+                "timestamp" => $res['timestamp'],
+            );
+            array_push($logreqs, $logreq);
+        }
+
+        echo json_encode($logreqs);
+        // print_r($stdClass['logs'][0]['ip']);
     }
 
     public function getDorayakiById()
@@ -296,9 +321,9 @@ class DorayakiController
                 echo 'Stock cannot be negative';
                 return;
             }
-            
+
             $oldDorayakiData = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
-            
+
             if ($data["stock"] < $oldDorayakiData["stock"]) {
                 http_response_code(400);
                 echo 'You cannot decrease the stock';
