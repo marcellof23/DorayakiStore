@@ -21,7 +21,7 @@ class DorayakiController
 
     private function getRecipe()
     {
-        $client = new SoapClient("http://172.17.0.1:8085/api/dorayakiService?wsdl");
+        $client = new SoapClient(JAXWS_URL . "/api/dorayakiService?wsdl");
 
         $log_request_id = 1;
         $response = $client->__soapCall("getDorayakis", array($log_request_id));
@@ -31,7 +31,7 @@ class DorayakiController
     public function getLogTest()
     {
 
-        $client = new SoapClient("http://172.17.0.1:8085/api/logService?wsdl");
+        $client = new SoapClient(JAXWS_URL . "/api/logService?wsdl");
 
         $log_request_id = 1;
         $response = $client->__soapCall("getLogs", array($log_request_id));
@@ -305,7 +305,7 @@ class DorayakiController
                 return;
             }
 
-            $client = new SoapClient("http://172.17.0.1:8085/api/dorayakiService?wsdl");
+            $client = new SoapClient(JAXWS_URL . "/api/dorayakiService?wsdl");
             $dorayaki_name = $data["name"];
             $dorayaki_stock = $data["stock"] - $oldDorayakiData["stock"];
             $response = $client->__soapCall("updateDorayaki", array($dorayaki_name, $dorayaki_stock));
