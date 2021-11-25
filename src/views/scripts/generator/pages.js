@@ -138,20 +138,6 @@ const BuyPage = async () => {
   let data;
   let prevData = null;
 
-  const interval = setInterval(async () => {
-    try {
-      res = await getDorayakiDetail(id);
-      data = JSON.parse(res);
-    } catch (e) {
-      clearInterval(interval);
-    }
-
-    if (JSON.stringify(data) !== JSON.stringify(prevData)) {
-      prevData = data;
-      render();
-    }
-  }, 2000);
-
   const counter_cb = (val) => `
     const total = document.getElementById("total");
     total.innerHTML = formatCurrency(${val} * ${data.price});
@@ -181,6 +167,23 @@ const BuyPage = async () => {
 
   const onCancel = `redirect("/home")`;
 
+  const fetch = async () => {
+    try {
+      res = await getDorayakiDetail(id);
+      data = JSON.parse(res);
+    } catch (e) {
+      clearInterval(interval);
+    }
+
+    if (JSON.stringify(data) !== JSON.stringify(prevData)) {
+      prevData = data;
+      render();
+    }
+  }
+  await fetch();
+
+  const interval = setInterval(fetch, 2000);
+
   function render() {
     const components = `
       ${generateNavbar()}
@@ -209,8 +212,6 @@ const BuyPage = async () => {
   
     target.innerHTML = components;
   }
-
-  render();
 
   modaldom.innerHTML = successModal.render();
 };
