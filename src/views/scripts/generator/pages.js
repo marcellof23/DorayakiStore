@@ -134,8 +134,23 @@ const BuyPage = async () => {
   const id = url.searchParams.get("id");
   const counter_id = "counter";
 
-  const res = await getDorayakiDetail(id);
-  const data = JSON.parse(res);
+  let res;
+  let data;
+  let prevData = null;
+
+  const interval = setInterval(async () => {
+    try {
+      res = await getDorayakiDetail(id);
+      data = JSON.parse(res);
+    } catch (e) {
+      clearInterval(interval);
+    }
+
+    if (JSON.stringify(data) !== JSON.stringify(prevData)) {
+      prevData = data;
+      render();
+    }
+  }, 2000);
 
   const counter_cb = (val) => `
     const total = document.getElementById("total");
@@ -166,30 +181,36 @@ const BuyPage = async () => {
 
   const onCancel = `redirect("/home")`;
 
-  const components = `
-    ${generateNavbar()}
-    ${pageTitle("Pemesanan")}
-    <div class="buy-container">
-      <div class="detail">
-        <img class="dorayaki-image" src="${data.thumbnail}">
-      </div>
-      <div class="form">
-        <h5 class="dorayaki-name">${data.name}</h5>
-        <p>${data.description}</p>
-        <h4 class="dorayaki-price">${formatCurrency(data.price)}</h4>
-        ${counter.render()}
-        <div class="total-cost">
-          <p>Total Cost</p>
-          <h3 id="total">${formatCurrency(data.price)}</h3>
+  function render() {
+    const components = `
+      ${generateNavbar()}
+      ${pageTitle("Pemesanan")}
+      <div class="buy-container">
+        <div class="detail">
+          <img class="dorayaki-image" src="${data.thumbnail}">
         </div>
-        <div class="button-container">
-          ${Button("Gas, Saya Sultan!", true, onSubmit)}
-          ${Button("Gajadi gan, masih miskin :(", false, onCancel)}
+        <div class="form">
+          <h5 class="dorayaki-name">${data.name}</h5>
+          <p>${data.description}</p>
+          <p>Available stocks: ${data.stock}</p>
+          <h4 class="dorayaki-price">${formatCurrency(data.price)}</h4>
+          ${counter.render()}
+          <div class="total-cost">
+            <p>Total Cost</p>
+            <h3 id="total">${formatCurrency(data.price)}</h3>
+          </div>
+          <div class="button-container">
+            ${Button("Gas, Saya Sultan!", true, onSubmit)}
+            ${Button("Gajadi gan, masih miskin :(", false, onCancel)}
+          </div>
         </div>
       </div>
-    </div>
-  `;
+    `;
+  
+    target.innerHTML = components;
+  }
 
-  target.innerHTML = components;
+  render();
+
   modaldom.innerHTML = successModal.render();
 };
