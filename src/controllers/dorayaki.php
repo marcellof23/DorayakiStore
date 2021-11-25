@@ -291,7 +291,19 @@ class DorayakiController
             $data["stock"] = $_POST["stock"];
             $data["thumbnail"] = $_POST["thumbnail"];
 
+            if ($data["stock"] < 0) {
+                http_response_code(400);
+                echo 'Stock cannot be negative';
+                return;
+            }
+            
             $oldDorayakiData = $this->dorayakiModel->getDorayakiById($_POST["dorayaki_id"]);
+            
+            if ($data["stock"] < $oldDorayakiData["stock"]) {
+                http_response_code(400);
+                echo 'You cannot decrease the stock';
+                return;
+            }
 
             $client = new SoapClient("http://172.17.0.1:8085/api/dorayakiService?wsdl");
             $dorayaki_name = $data["name"];
