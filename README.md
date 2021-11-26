@@ -16,11 +16,11 @@ Kami melakukan perubahan pada sisi admin dorayaki store dimana pada halaman pena
 
 Potongan gambar halaman penambahan varian dorayaki
 
-![Halaman Tambah Dorayaki](./public/tubes2/1.jpg)
+![Halaman Tambah Dorayaki](./public/changes/1.jpg)
 
 Potongan gambar halaman edit dorayaki
 
-![Halaman Edit Dorayaki](./public/tubes2/2.jpg)
+![Halaman Edit Dorayaki](./public/changes/2.jpg)
 
 ## Pembagian Tugas
 
