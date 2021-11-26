@@ -155,6 +155,20 @@ class DorayakiController
         echo json_encode($res);
     }
 
+    public function getAllDorayaki()
+    {
+
+        $dorayakiData = $this->dorayakiModel->getAllDorayaki();
+
+        if (!$dorayakiData) {
+            http_response_code(404);
+            echo 'Current dorayaki page is not found';
+            return;
+        }
+
+        echo json_encode($dorayakiData);
+    }
+
     public function getDorayakiPopularVariant()
     {
 
