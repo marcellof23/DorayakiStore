@@ -65,7 +65,11 @@ const deleteDorayaki = async (dorayaki_id) => {
 const updateDorayaki = async (dorayaki_id) => {
   const ddt = "dorayaki-details-text";
 
-  const name = document.querySelector(`.${ddt}.name input`).value;
+  const btn = document.querySelector(`.btn.btn-primary`);
+  btn.textContent = 'Loading...';
+  btn.classList.toggle('btn-secondary');
+
+  const name = document.querySelector(`.${ddt}.name span`).textContent;
   const description = document.querySelector(`.${ddt}.description textarea`).value;
   const price = Number(document.querySelector(`.${ddt}.price input`).value);
   const stock = Number(document.querySelector(`.${ddt}.stock input`).value);
@@ -78,12 +82,16 @@ const updateDorayaki = async (dorayaki_id) => {
 
   try {
     const res = await axois.post(url, payload);
+    btn.textContent = 'Save changes';
+    btn.classList.toggle('btn-secondary');
     console.log(res);
     redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
     return res;
   } catch (err) {
     console.log(err);
     ShowAlert("error", err.response, "", "beforeBegin", "dorayaki-details");
+    btn.textContent = 'Save changes';
+    btn.classList.toggle('btn-secondary');
   }
 
   return null;

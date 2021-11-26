@@ -274,54 +274,48 @@ class DorayakiController
 
     public function updateDorayaki()
     {
-        // if (!$_POST) {
-        //     return;
-        // }
+        if (!$_POST) {
+            return;
+        }
 
-        // if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
-        //     http_response_code(401);
-        //     echo 'Authentication required.';
-        //     return;
-        // }
+        if (!isset($_SESSION["login"]) && !isset($_SESSION["user_id"])) {
+            http_response_code(401);
+            echo 'Authentication required.';
+            return;
+        }
 
-        // if (
-        //     $_POST["dorayaki_id"] == '' ||
-        //     $_POST["name"] == '' ||
-        //     $_POST['description'] == '' ||
-        //     $_POST['price'] == '' ||
-        //     $_POST['stock'] == '' ||
-        //     $_POST['thumbnail'] == ''
-        // ) {
-        //     http_response_code(400);
-        //     echo 'Incomplete data';
-        //     return;
-        // }
+        if (
+            $_POST["dorayaki_id"] == '' ||
+            $_POST["name"] == '' ||
+            $_POST['description'] == '' ||
+            $_POST['price'] == '' ||
+            $_POST['stock'] == '' ||
+            $_POST['thumbnail'] == ''
+        ) {
+            http_response_code(400);
+            echo 'Incomplete data';
+            return;
+        }
 
-        // $user = $this->userModel->getUserById($_SESSION["user_id"]);
+        $user = $this->userModel->getUserById($_SESSION["user_id"]);
 
-        // if (!$user) {
-        //     http_response_code(404);
-        //     echo 'Current user not found';
-        //     return;
-        // } else if ($user && !$user["is_admin"]) {
-        //     http_response_code(403);
-        //     echo 'You are not admin';
-        //     return;
-        // }
+        if (!$user) {
+            http_response_code(404);
+            echo 'Current user not found';
+            return;
+        } else if ($user && !$user["is_admin"]) {
+            http_response_code(403);
+            echo 'You are not admin';
+            return;
+        }
 
         try {
-            $data["dorayaki_id"] = 1;
-            $data["name"] = "Dorayaki Kecap";
-            $data["description"] = "Gada";
-            $data["price"] = 3;
-            $data["stock"] = 300;
-            $data["thumbnail"] = "tes";
-            // $data["dorayaki_id"] = $_POST["dorayaki_id"];
-            // $data["name"] = $_POST["name"];
-            // $data["description"] = $_POST["description"];
-            // $data["price"] = $_POST["price"];
-            // $data["stock"] = $_POST["stock"];
-            // $data["thumbnail"] = $_POST["thumbnail"];
+            $data["dorayaki_id"] = $_POST["dorayaki_id"];
+            $data["name"] = $_POST["name"];
+            $data["description"] = $_POST["description"];
+            $data["price"] = $_POST["price"];
+            $data["stock"] = $_POST["stock"];
+            $data["thumbnail"] = $_POST["thumbnail"];
 
             if ($data["stock"] < 0) {
                 http_response_code(400);
@@ -337,32 +331,53 @@ class DorayakiController
                 return;
             }
 
-            $client = new SoapClient(JAXWS_URL . "/api/dorayakiService?wsdl");
-            $dorayaki_id = $data["dorayaki_id"];
-            $dorayaki_stock = $data["stock"] - $oldDorayakiData["stock"];
+            // create dorayaki request if stock changed
+            if ($oldDorayakiData["stock"] !== $_POST["stock"]) {
+                $client = new SoapClient(JAXWS_URL . "/api/dorayakiService?wsdl");
 
-            $dorayakireqitem = array(
-                "dorayakirequest_id" => $dorayaki_id,
-                "recipe_id" => $dorayaki_id,
-                "qty" => 100,
-            );
+                $log_request_id = 1;
+                $response = $client->__soapCall("getDorayakis", array($log_request_id));
+                $result = json_decode(json_encode($response), true);
 
-            $dorayakireq = array(
-                "dorayakirequests" => $dorayakireqitem,
-            );
+                $result = $result['dorayakirequests'];
+                foreach ($result as $res) {
+                    if ($res["name"] == $data["name"]) {
+                        $recipe_id = $res["recipe_id"];
+                    }
+                }
 
-            var_dump($dorayakireq);
+                if (!isset($recipe_id)) {
+                    http_response_code(400);
+                    echo 'Recipe not found in factory';
+                    return;
+                }
 
-            $response = $client->__soapCall("updateDorayaki", $dorayakireq);
-
-            $result = json_decode(json_encode($response), true);
-
-            if ($result["code"] != 200) {
-                http_response_code(500);
-                echo 'Dorayaki request for stock is not available';
-                return;
+                $client = new SoapClient(JAXWS_URL . "/api/dorayakiService?wsdl");
+                $dorayaki_id = $data["dorayaki_id"];
+                $dorayaki_stock = $data["stock"] - $oldDorayakiData["stock"];
+    
+                $dorayakireqitem = array(
+                    "dorayakirequest_id" => 1,
+                    "recipe_id" => $dorayaki_id,
+                    "qty" => $dorayaki_stock,
+                );
+    
+                $dorayakireq = array(
+                    "dorayakirequests" => $dorayakireqitem,
+                );
+    
+                $response = $client->__soapCall("updateDorayaki", $dorayakireq);
+    
+                $result = json_decode(json_encode($response), true);
+    
+                if ($result["code"] != 200) {
+                    http_response_code(500);
+                    echo 'Failed to request a new dorayaki request to factory';
+                    return;
+                }
             }
 
+            $data["stock"] = $oldDorayakiData["stock"];
             $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
 
             if (!$dorayakiData) {
@@ -371,23 +386,7 @@ class DorayakiController
                 return;
             }
 
-            // create order if stock changed
-            if ($oldDorayakiData["stock"] !== $_POST["stock"]) {
-                $orderModel = new OrderModel($this->db);
-
-                $orderData["user_id"] = $_SESSION["user_id"];
-                $orderData["dorayaki_id"] = $data["dorayaki_id"];
-                $orderData["amount"] = $data["stock"] - $oldDorayakiData["stock"];
-                $orderData["price"] = $data["price"];
-                $orderData["isOrder"] = false;
-                $orderData["type"] = $orderData["amount"] < 0 ? "MIN" : "ADD";
-                $orderData["amount"] = abs($orderData["amount"]);
-
-                $orderModel->createOrder($orderData);
-            }
-
             echo 'Dorayaki is successfully updated';
-
         } catch (PDOException $pdo) {
             $msg = $pdo->getMessage();
             if (str_contains($msg, 'Integrity constraint violation')) {

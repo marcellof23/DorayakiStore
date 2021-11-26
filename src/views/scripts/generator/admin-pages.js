@@ -201,7 +201,7 @@ const DorayakiEditPage = async () => {
 					"dorayaki-photo"
 				)}
         <form class="dorayaki-details-main">
-          ${LabText("Name", "name", name, false, "text", `${ddt} name`)}
+          ${LabText("Name", "name", name, true, "text", `${ddt} name`)}
           ${LabText("Price", "price", price, false, "number", `${ddt} price`)}
           ${LabText("Stock", "stock", stock, false, "number", `${ddt} stock`)}
           ${LabText(
