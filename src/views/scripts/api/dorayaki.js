@@ -85,7 +85,12 @@ const updateDorayaki = async (dorayaki_id) => {
     btn.textContent = 'Save changes';
     btn.classList.toggle('btn-secondary');
     console.log(res);
-    redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
+    if (res == 'Dorayaki request submitted') {
+      ShowAlert("success", res, "", "beforeBegin", "dorayaki-details");
+      setTimeout(() => redirect(`/admin/dorayaki-details?id=${dorayaki_id}`), 2000);
+    } else {
+      redirect(`/admin/dorayaki-details?id=${dorayaki_id}`);
+    }
     return res;
   } catch (err) {
     console.log(err);
