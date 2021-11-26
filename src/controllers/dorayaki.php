@@ -28,6 +28,13 @@ class DorayakiController
         $result = json_decode(json_encode($response), true);
 
         $dorayakis = array();
+        
+        if (!isset($result['dorayakirecipes'])) {
+            http_response_code(400);
+            echo 'Rate limitted';
+            return;
+        }
+
         $result = $result['dorayakirecipes'];
         foreach ($result as $res) {
             $dorayaki = array(
@@ -50,6 +57,12 @@ class DorayakiController
         $result = json_decode(json_encode($response), true);
 
         $logreqs = array();
+        if (!isset($result['logs'])) {
+            http_response_code(400);
+            echo 'Rate limitted';
+            return;
+        }
+
         $result = $result['logs'];
         foreach ($result as $res) {
             $logreq = array(
@@ -338,6 +351,12 @@ class DorayakiController
                 $response = $client->__soapCall("getDorayakiRecipes", array($log_request_id));
                 $result = json_decode(json_encode($response), true);
 
+                if (!isset($result['dorayakirecipes'])) {
+                    http_response_code(400);
+                    echo 'Rate limitted';
+                    return;
+                }
+
                 $result = $result['dorayakirecipes'];
                 foreach ($result as $res) {
                     if ($res["name"] == $data["name"]) {
@@ -369,6 +388,12 @@ class DorayakiController
                 $response = $client->__soapCall("updateDorayaki", $dorayakireq);
     
                 $result = json_decode(json_encode($response), true);
+
+                if (!isset($result['code'])) {
+                    http_response_code(400);
+                    echo 'Rate limitted';
+                    return;
+                }
     
                 if ($result["code"] != 200) {
                     http_response_code(500);
