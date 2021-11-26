@@ -1,22 +1,22 @@
-<?php
+<?
+  ini_set( "soap.wsdl_cache_enabled", 0 );
+  ini_set( 'soap.wsdl_cache_ttl', 0 );
 
-require_once '../../../config/constant.php';
-require_once ROOT . '/controllers/dorayaki.php';
+  function login( $login, $password )
+  {
+    echo "some string";
+    return "some string";
+  }
 
-ini_set('soap.wsdl_cache_enabled', '0');
+  function statusReq( $recipe_id, $recipe_name, $qty )
+  {
+    $controller = new DorayakiController();
 
-function celsiusToFahrenheit($celsius)
-{
-    $fahrenheit = $celsius * 9 / 5 + 32;
+    $controller->updateDorayaki();
+  }
 
-    return $fahrenheit;
-}
-
-// initialize SOAP Server
-$server = new SoapServer('ctof.wsdl');
-
-// register available function
-$server->addFunction('celsiusToFahrenheit');
-
-// start handling requests
-$server->handle();
+  $server = new SoapServer( "test.wsdl" );
+  $server->addFunction( "login" );
+  $server->addFunction( "statusReq" );
+  $server->handle();
+?>
