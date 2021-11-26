@@ -155,6 +155,7 @@
 .dorayaki-details-text input,
 .dorayaki-details-text textarea {
   width: 100%;
+  height: 5vh;
 }
 
 .dorayaki-details h3 {

@@ -428,3 +428,21 @@
   }
 }
 /*END OF COUNTER*/
+
+/*DROPDOWN*/
+
+.dropdown{
+  width : 100%;
+  height : 5vh;
+  border : none;
+  border-radius: var(--border-radius-small);
+  background-color: var(--white-secondary);
+  padding: var(--padding-small);
+  cursor: pointer;
+  text-align: left;
+}
+
+.option{
+  height : 3vh;
+  text-align: left;
+}
