@@ -19,7 +19,7 @@ class DorayakiController
         session_start();
     }
 
-    private function getRecipe()
+    public function getRecipe()
     {
         $client = new SoapClient(JAXWS_URL . "/api/dorayakiService?wsdl");
 
@@ -28,16 +28,17 @@ class DorayakiController
         $result = json_decode(json_encode($response), true);
 
         $dorayakis = array();
-        $result = $result['dorayakis'];
+        $result = $result['dorayakirequests'];
         foreach ($result as $res) {
             $dorayaki = array(
-                "id" => $res['id'],
+                "dorayakirequest_id" => $res['dorayakirequest_id'],
+                "recipe_id" => $res['recipe_id'],
+                "qty" => $res['qty'],
             );
             array_push($dorayakis, $dorayaki);
         }
 
         echo json_encode($dorayakis);
-        return json_encode($dorayakis);
     }
 
     public function getLogTest()
