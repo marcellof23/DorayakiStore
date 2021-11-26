@@ -92,18 +92,17 @@ const LabText = (
     </div>
   `;
 
-const Dropdown = (
-  label,
-  name,
-  value,
-  isDisabled = false,
-  classname
-) => 
-  `
-    <div class="labtext ${isDisabled ? "disabled" : ""} ${classname}">
+const Dropdown = (label, name, options, isDisabled = false, classname) =>
+	`
+    <div class="labtext ${isDisabled ? "disabled" : ""}">
       <label>${label}</label>
-      <select name=${name}>
-      ${value.map(val => `<option value=${val.id}>${val.name}</option>`).join('')}
+      <select name=${name} class="${classname} dropdown">
+      ${options
+				.map(
+					(option) =>
+						`<option class="option" value="${option.name}">${option.name}</option>`
+				)
+				.join("")}
       </select>
     </div>
   `;

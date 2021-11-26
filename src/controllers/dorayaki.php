@@ -21,19 +21,18 @@ class DorayakiController
 
     public function getRecipe()
     {
-        $client = new SoapClient(JAXWS_URL . "/api/dorayakiService?wsdl");
+        $client = new SoapClient(JAXWS_URL . '/api/dorayakiService?wsdl');
 
-        $log_request_id = 1;
-        $response = $client->__soapCall("getDorayakis", array($log_request_id));
+        $recipe_id = 1;
+        $response = $client->__soapCall("getDorayakiRecipes", array($recipe_id));
         $result = json_decode(json_encode($response), true);
 
         $dorayakis = array();
-        $result = $result['dorayakirequests'];
+        $result = $result['dorayakirecipes'];
         foreach ($result as $res) {
             $dorayaki = array(
-                "dorayakirequest_id" => $res['dorayakirequest_id'],
                 "recipe_id" => $res['recipe_id'],
-                "qty" => $res['qty'],
+                "name" => $res['name'],
             );
             array_push($dorayakis, $dorayaki);
         }
@@ -92,6 +91,20 @@ class DorayakiController
         if (!$dorayakiData) {
             http_response_code(404);
             echo 'Current dorayaki is not found';
+            return;
+        }
+
+        echo json_encode($dorayakiData);
+    }
+
+    public function getAllDorayaki()
+    {
+
+        $dorayakiData = $this->dorayakiModel->getAllDorayakis();
+
+        if (!$dorayakiData) {
+            http_response_code(404);
+            echo 'Current dorayaki page is not found';
             return;
         }
 
@@ -222,7 +235,23 @@ class DorayakiController
 
             $isExist = false;
 
-            foreach (getRecipe() as $recipe) {
+            $client = new SoapClient(JAXWS_URL . '/api/dorayakiService?wsdl');
+
+            $recipe_id = 1;
+            $response = $client->__soapCall("getDorayakiRecipes", array($recipe_id));
+            $result = json_decode(json_encode($response), true);
+
+            $dorayakis = array();
+            $result = $result['dorayakirecipes'];
+            foreach ($result as $res) {
+                $dorayaki = array(
+                    "recipe_id" => $res['recipe_id'],
+                    "name" => $res['name'],
+                );
+                array_push($dorayakis, $dorayaki);
+            }
+
+            foreach ($dorayakis as $recipe) {
                 if ($recipe["name"] == $data["name"]) {
                     $isExist = true;
                     break;

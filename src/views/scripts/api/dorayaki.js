@@ -98,33 +98,53 @@ const updateDorayaki = async (dorayaki_id) => {
 };
 
 const createDorayaki = async () => {
-  const ddt = "dorayaki-details-text";
+	const ddt = "dorayaki-details-text";
 
-  const name = document.querySelector(`.${ddt}.name input`).value;
-  const description = document.querySelector(`.${ddt}.description textarea`).value;
-  const price = Number(document.querySelector(`.${ddt}.price input`).value);
-  const stock = Number(document.querySelector(`.${ddt}.stock input`).value);
-  const thumbnail = document.querySelector(`#dorayaki-photo`).src;
+	const name = document.querySelector(`.${ddt}.recipe_id`).value;
+	const description = document.querySelector(
+		`.${ddt}.description textarea`
+	).value;
+	const price = Number(document.querySelector(`.${ddt}.price input`).value);
+	const stock = Number(document.querySelector(`.${ddt}.stock input`).value);
+	const thumbnail = document.querySelector(`#dorayaki-photo`).src;
 
-  const payload = { name, description, price, stock, thumbnail };
-  console.log("CREATING DORAYAKI...", payload);
+	const payload = {name, description, price, stock, thumbnail};
 
-  const url = `/dorayaki/create`;
+	const url = `/dorayaki/create`;
 
-  try {
-    const res = await axois.post(url, payload);
-    ShowAlert(
-      "success",
-      "Dorayaki has been successfully created!",
-      "",
-      "beforeBegin",
-      "dorayaki-details"
-    );
-    return res;
-  } catch (err) {
-    console.log(err);
-    ShowAlert("error", err.response, "", "beforeBegin", "dorayaki-details");
-  }
+	try {
+		const res = await axois.post(url, payload);
+		ShowAlert(
+			"success",
+			"Dorayaki has been successfully created!",
+			"",
+			"beforeBegin",
+			"dorayaki-details"
+		);
+		return res;
+	} catch (err) {
+		console.log(err);
+		ShowAlert("error", err.response, "", "beforeBegin", "dorayaki-details");
+	}
 
-  return null;
+	return null;
+};
+
+const getAllDorayaki = async () => {
+	try {
+		const url = "/dorayaki/get-all-dorayaki";
+		const res = await axois.get(url);
+		return JSON.parse(res);
+	} catch (err) {
+		console.log(err);
+		ShowAlert("error", err.response, "", "beforeBegin", "dorayaki-details");
+	}
+};
+
+const getRecipes = async () => {
+	try {
+		const url = "/dorayaki/get-recipe";
+		const res = await axois.get(url);
+		return JSON.parse(res);
+	} catch (err) {}
 };

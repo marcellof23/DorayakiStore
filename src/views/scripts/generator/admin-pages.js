@@ -230,10 +230,25 @@ const DorayakiAddPage = async () => {
 
 	const modal = new Modal("confirm-delete", false, "Dorayaki berhasil dibuat!");
 
-	onSubmit = `createDorayaki(); ${modal.open()}; redirect("/admin/dorayaki",1000)`;
+  const onSubmit = `async function start() {
+    const res = await createDorayaki();
+    if (res) {
+      ${modal.open()}
+      redirect("/admin/dorayaki",1000);
+    }
+  }
+  start();
+  `;
 	onCancel = `redirect("/admin/dorayaki")`;
 
 	const ddt = "dorayaki-details-text";
+	const recipes_factory = await getRecipes();
+	const all_recipes = await getAllDorayaki();
+	const all_recipe_names = all_recipes.map((row) => row.name);
+
+	const available = recipes_factory.filter(
+		(recipe) => !all_recipe_names.includes(recipe.name)
+	);
 
 	const components = `
 		${generateNavbarAdmin()}
@@ -247,7 +262,13 @@ const DorayakiAddPage = async () => {
 					"dorayaki-photo"
 				)}
         <form class="dorayaki-details-main">
-          ${Dropdown("Available Recipe", "recipe_id", [{name: "Original Dorayaki", id: 1}], false, "text", `${ddt} recipe_id`)}
+          ${Dropdown(
+						"Available Recipe",
+						"recipe_id",
+						available,
+						false,
+						`${ddt} recipe_id`
+					)}
           ${LabText("Price", "price", "", false, "number", `${ddt} price`)}
           ${LabText("Stock", "stock", "", false, "number", `${ddt} stock`)}
           ${LabText(
