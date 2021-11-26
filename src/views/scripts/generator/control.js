@@ -92,6 +92,22 @@ const LabText = (
     </div>
   `;
 
+const Dropdown = (
+  label,
+  name,
+  value,
+  isDisabled = false,
+  classname
+) => 
+  `
+    <div class="labtext ${isDisabled ? "disabled" : ""} ${classname}">
+      <label>${label}</label>
+      <select name=${name}>
+      ${value.map(val => `<option value=${val.id}>${val.name}</option>`).join('')}
+      </select>
+    </div>
+  `;
+
 const Button = (text, isPrimary = true, onclick, isSubmit = false) =>
   isSubmit
     ? `<input type="submit"  class="btn btn-${

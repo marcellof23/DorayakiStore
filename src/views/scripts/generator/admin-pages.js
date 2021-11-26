@@ -247,7 +247,7 @@ const DorayakiAddPage = async () => {
 					"dorayaki-photo"
 				)}
         <form class="dorayaki-details-main">
-          ${LabText("Name", "name", "", false, "text", `${ddt} name`)}
+          ${Dropdown("Available Recipe", "recipe_id", [{name: "Original Dorayaki", id: 1}], false, "text", `${ddt} recipe_id`)}
           ${LabText("Price", "price", "", false, "number", `${ddt} price`)}
           ${LabText("Stock", "stock", "", false, "number", `${ddt} stock`)}
           ${LabText(
