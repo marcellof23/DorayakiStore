@@ -181,20 +181,6 @@ class DorayakiController
         echo json_encode($res);
     }
 
-    public function getAllDorayaki()
-    {
-
-        $dorayakiData = $this->dorayakiModel->getAllDorayaki();
-
-        if (!$dorayakiData) {
-            http_response_code(404);
-            echo 'Current dorayaki page is not found';
-            return;
-        }
-
-        echo json_encode($dorayakiData);
-    }
-
     public function getDorayakiPopularVariant()
     {
 
@@ -470,6 +456,40 @@ class DorayakiController
                 echo $msg;
             }
         }
+    }
+
+    public function updateStock()
+    {
+        if (!$_POST) {
+            return;
+        }
+
+        if (
+            $_POST["name"] == '' ||
+            $_POST["stock"] == ''
+        ) {
+            http_response_code(400);
+            echo 'Incomplete data';
+            return;
+        }
+        
+        $data = $this->dorayakiModel->getDorayakiByName($_POST["name"]);
+        if (!$data) {
+            http_response_code(404);
+            echo 'Dorayaki not found';
+            return;
+        }
+        $data["stock"] = $data["stock"] + $_POST["stock"];
+
+        $dorayakiData = $this->dorayakiModel->updateDorayaki($data);
+
+        if (!$dorayakiData) {
+            http_response_code(404);
+            echo 'Dorayaki is not found';
+            return;
+        }
+
+        echo 'Dorayaki is successfully updated';
     }
 
     public function deleteDorayaki()
